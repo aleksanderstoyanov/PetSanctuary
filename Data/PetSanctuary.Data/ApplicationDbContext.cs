@@ -26,6 +26,16 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<City> Cities { get; set; }
+
+        public DbSet<Address> Addresses { get; set; }
+
+        public DbSet<Pet> Pets { get; set; }
+
+        public DbSet<Blog> Blogs { get; set; }
+
+        public DbSet<UserPet> UserPets { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

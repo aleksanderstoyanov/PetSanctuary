@@ -28,6 +28,8 @@
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+            appUser.HasMany(e => e.Blogs)
+                .WithOne(e => e.Author);
         }
     }
 }

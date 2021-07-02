@@ -16,6 +16,8 @@ namespace PetSanctuary.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+            this.Blogs = new HashSet<Blog>();
+            this.UserPets = new HashSet<UserPet>();
         }
 
         // Audit info
@@ -33,5 +35,10 @@ namespace PetSanctuary.Data.Models
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+
+        public virtual ICollection<Blog> Blogs { get; set; }
+
+        public virtual ICollection<UserPet> UserPets { get; set; }
+
     }
 }
