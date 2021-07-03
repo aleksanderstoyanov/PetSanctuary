@@ -1,9 +1,11 @@
-﻿<div class="col-md-4" style="padding-top:20px">
+﻿@using PetSanctuary.Web.ViewModels.Catalog 
+@model CatalogViewModel
+<div class="col-md-4" style="padding-top:20px">
     <div class="col-md-12">
         <div class="card bg-dark">
-            <img class="card-img-top" src="https://www.purelypetsinsurance.co.uk/media/1493/stray-dog.jpg" alt="Card image cap">
+            <img class="card-img-top" src="@Model.Image" alt="Card image cap">
             <div class="card-body">
-                <h5 class="card-title" style="color:white">Veny</h5>
+                <h5 class="card-title" style="color:white">@Model.Name</h5>
                 <button type="button" class="btn btn-danger">Details</button>
             </div>
             <div class="card-footer">

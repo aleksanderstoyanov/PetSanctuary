@@ -16,15 +16,29 @@ namespace PetSanctuary.Web.Controllers
         {
             this.catalogService = catalogService;
         }
+
         public IActionResult Dogs()
         {
-           
-            return this.View();
+            var dogs = this.catalogService.GetAllDogs()
+                .Select(x => new CatalogViewModel
+                {
+                    Name = x.Name,
+                    Image = x.Image
+
+                }).ToList();
+            return this.View(dogs);
         }
 
         public IActionResult Cats()
         {
-            return this.View();
+            var cats = this.catalogService.GetAllCats()
+               .Select(x => new CatalogViewModel
+               {
+                   Name = x.Name,
+                   Image = x.Image
+
+               }).ToList();
+            return this.View(cats);
         }
 
         public IActionResult Create()
@@ -33,9 +47,9 @@ namespace PetSanctuary.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CatalogFormCreateViewModel model)
+        public async Task<IActionResult> Create(CatalogFormCreateViewModel model)
         {
-
+            await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.City, model.Address, model.IsVaccinated);
             return this.Redirect("/Catalog/Dogs");
         }
     }

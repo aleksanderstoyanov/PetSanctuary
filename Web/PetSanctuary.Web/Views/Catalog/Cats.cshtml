@@ -1,5 +1,9 @@
-﻿
+﻿@using PetSanctuary.Web.ViewModels.Catalog
+@model List<CatalogViewModel>
 <div class="row">
-  <partial name="_PetPartial"/>   
+    @foreach (var cat in Model)
+    {
+        <partial name="_PetPartial" model="cat" />
+    }
 
 </div>
