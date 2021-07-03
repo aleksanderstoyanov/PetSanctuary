@@ -1,6 +1,8 @@
 ﻿using PetSanctuary.Data.Common.Repositories;
 using PetSanctuary.Data.Models;
 using PetSanctuary.Data.Models.Enums;
+using PetSanctuary.Services.Data.Addresses;
+using PetSanctuary.Services.Data.Cities;
 using PetSanctuary.Services.Mapping;
 using System;
 using System.Collections.Generic;
@@ -12,26 +14,55 @@ namespace PetSanctuary.Services.Data.Catalogs
 {
     public class CatalogService : ICatalogService
     {
-        private readonly IRepository<Pet> petsRepository;
+        private readonly IDeletableEntityRepository<Pet> petsRepository;
+        private readonly ICityService cityService;
+        private readonly IAddressService addressService;
 
-        public CatalogService(IRepository<Pet> petsRepository)
+        public CatalogService(IDeletableEntityRepository<Pet> petsRepository, ICityService cityService, IAddressService addressService)
         {
             this.petsRepository = petsRepository;
+            this.cityService = cityService;
+            this.addressService = addressService;
         }
 
-        public Task Create(string name, int age, string image, string type, string city, string address, string isVaccinated)
+        public async Task Create(string name, int age, string image, string type, string cityName, string addressName, string isVaccinated)
         {
-            throw new NotImplementedException();
+            var city = this.cityService.GetCityByName(cityName);
+            var address = this.addressService.GetAddressByName(cityName);
+            if (city == null)
+            {
+                await this.cityService.Create(cityName);
+                city = this.cityService.GetCityByName(cityName);
+            }
+
+            if (address == null)
+            {
+                await this.addressService.Create(addressName, city.Id);
+                address = this.addressService.GetAddressByName(addressName);
+            }
+
+            await this.petsRepository.AddAsync(new Pet
+            {
+                Name = name,
+                Age = age,
+                Image = image,
+                CityId = city.Id,
+                AddressId = address.Id,
+                CreatedOn = DateTime.UtcNow,
+                Type = (PetType)Enum.Parse(typeof(PetType), type),
+                IsVaccinated = isVaccinated == "No" ? false : true,
+            });
+            await this.petsRepository.SaveChangesAsync();
         }
 
         public ICollection<Pet> GetAllCats()
         {
-            return this.petsRepository.All().Where(x => x.Type.ToString() == "Cats").ToList();
+            return this.petsRepository.All().Where(x => x.Type.Equals(PetType.Cat)).ToList();
         }
 
         public ICollection<Pet> GetAllDogs()
         {
-            return this.petsRepository.All().Where(x => x.Type.ToString() == "Dogs").ToList();
+            return this.petsRepository.All().Where(x => x.Type.Equals(PetType.Dog)).ToList();
         }
     }
 }
