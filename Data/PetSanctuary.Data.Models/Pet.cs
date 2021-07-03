@@ -22,6 +22,8 @@ namespace PetSanctuary.Data.Models
 
         public int? Age { get; set; }
 
+        public string Image { get; set; }
+
         [Required]
         public bool IsVaccinated { get; set; }
 
