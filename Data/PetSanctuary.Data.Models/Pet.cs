@@ -1,4 +1,5 @@
-﻿using PetSanctuary.Data.Models.Enums;
+﻿using PetSanctuary.Data.Common.Models;
+using PetSanctuary.Data.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,15 +7,13 @@ using System.Text;
 
 namespace PetSanctuary.Data.Models
 {
-    public class Pet
+    public class Pet : BaseDeletableModel<string>
     {
         public Pet()
         {
             this.Id = Guid.NewGuid().ToString();
             this.UserPets = new HashSet<UserPet>();
         }
-
-        public string Id { get; set; }
 
         [Required]
         [MaxLength(30)]

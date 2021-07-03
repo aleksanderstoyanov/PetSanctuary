@@ -1,16 +1,16 @@
-﻿using System;
+﻿using PetSanctuary.Data.Common.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PetSanctuary.Data.Models
 {
-    public class Blog
+    public class Blog:BaseDeletableModel<string>
     {
         public Blog()
         {
             this.Id = Guid.NewGuid().ToString();
         }
-        public string Id { get; set; }
 
         public string Title { get; set; }
 
