@@ -1,42 +1,44 @@
-﻿<div class="container d-flex justify-content-center">
+﻿@using PetSanctuary.Web.ViewModels.Catalog
+@model CatalogFormCreateViewModel
+<div class="container d-flex justify-content-center">
     <form class="col-3 col-md-9 bg-dark" method="post">
         <div class="d-flex justify-content-center"><i class="fas fa-paw" style="padding-top:15px; font-size:100px; color:red"></i></div>
 
         <div class="form-group">
-            <label style="color:white;">Name</label>
-            <input type="text" class="form-control">
+            <label asp-for="Name" style="color:white;">Name</label>
+            <input asp-for="Name" type="text" class="form-control">
         </div>
         <div class="form-group">
-            <label style="color:white;">Age</label>
-            <input type="number" class="form-control">
+            <label asp-for="Age" style="color:white;">Age</label>
+            <input asp-for="Age" type="number" class="form-control">
         </div>
         <div class="form-group">
-            <label style="color:white;">Image URL</label>
-            <input type="text" class="form-control">
+            <label asp-for="Image" style="color:white;">Image URL</label>
+            <input asp-for="Image" type="text" class="form-control">
         </div>
         <div class="form-group">
-            <label style="color:white;">Type</label>
-            <select class="form-control">
+            <label asp-for="Type" style="color:white;">Type</label>
+            <select asp-for="Type" class="form-control">
                 <option value="Dog">Dog</option>
                 <option value="Cat">Cat</option>
 
             </select>
         </div>
         <div class="form-group">
-            <label style="color:white;">IsVaccinated</label>
-            <select class="form-control">
+            <label asp-for="IsVaccinated" style="color:white;">IsVaccinated</label>
+            <select asp-for="IsVaccinated" class="form-control">
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
 
             </select>
         </div>
         <div class="form-group">
-            <label style="color:white;">City</label>
-            <input type="text" class="form-control">
+            <label asp-for="City" style="color:white;">City</label>
+            <input asp-for="City" type="text" class="form-control">
         </div>
         <div class="form-group">
-            <label style="color:white;">Address</label>
-            <input type="text" class="form-control">
+            <label asp-for="Address" style="color:white;">Address</label>
+            <input asp-for="Address" type="text" class="form-control">
         </div>
 
         <button type="submit" class="btn btn-block btn-primary bg-danger">Create</button>
