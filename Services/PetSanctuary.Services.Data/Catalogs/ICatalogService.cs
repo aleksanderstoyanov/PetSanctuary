@@ -13,5 +13,7 @@ namespace PetSanctuary.Services.Data.Catalogs
         ICollection<Pet> GetAllDogs();
 
         ICollection<Pet> GetAllCats();
+
+        Pet GetPetById(string id);
     }
 }

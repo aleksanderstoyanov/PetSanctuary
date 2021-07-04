@@ -28,7 +28,7 @@ namespace PetSanctuary.Services.Data.Catalogs
         public async Task Create(string name, int age, string image, string type, string cityName, string addressName, string isVaccinated)
         {
             var city = this.cityService.GetCityByName(cityName);
-            var address = this.addressService.GetAddressByName(cityName);
+            var address = this.addressService.GetAddressByName(addressName);
             if (city == null)
             {
                 await this.cityService.Create(cityName);
@@ -47,7 +47,9 @@ namespace PetSanctuary.Services.Data.Catalogs
                 Age = age,
                 Image = image,
                 CityId = city.Id,
+                City = city,
                 AddressId = address.Id,
+                Address = address,
                 CreatedOn = DateTime.UtcNow,
                 Type = (PetType)Enum.Parse(typeof(PetType), type),
                 IsVaccinated = isVaccinated == "No" ? false : true,
@@ -63,6 +65,11 @@ namespace PetSanctuary.Services.Data.Catalogs
         public ICollection<Pet> GetAllDogs()
         {
             return this.petsRepository.All().Where(x => x.Type.Equals(PetType.Dog)).ToList();
+        }
+
+        public Pet GetPetById(string id)
+        {
+            return this.petsRepository.All().Where(x => x.Id == id).FirstOrDefault();
         }
     }
 }

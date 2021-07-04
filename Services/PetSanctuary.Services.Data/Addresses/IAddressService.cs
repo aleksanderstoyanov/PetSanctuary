@@ -9,6 +9,7 @@ namespace PetSanctuary.Services.Data.Addresses
     public interface IAddressService
     {
         Address GetAddressByName(string name);
+        Address GetAddressById(int id);
 
         Task Create(string name, int cityId);
     }

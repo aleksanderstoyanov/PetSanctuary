@@ -30,6 +30,11 @@ namespace PetSanctuary.Services.Data.Cities
             await this.citiesRepository.SaveChangesAsync();
         }
 
+        public City GetCityById(int id)
+        {
+            return this.citiesRepository.All().Where(x => x.Id == id).FirstOrDefault();
+        }
+
         public City GetCityByName(string name)
         {
             return this.citiesRepository.All().Where(x => x.Name == name).FirstOrDefault();

@@ -30,6 +30,11 @@ namespace PetSanctuary.Services.Data.Addresses
             await this.addressRepository.SaveChangesAsync();
         }
 
+        public Address GetAddressById(int id)
+        {
+            return this.addressRepository.All().Where(x => x.Id == id).FirstOrDefault();
+        }
+
         public Address GetAddressByName(string name)
         {
             return this.addressRepository.All().Where(x => x.Name == name).FirstOrDefault();
