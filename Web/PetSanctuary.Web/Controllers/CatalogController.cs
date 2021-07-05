@@ -60,9 +60,10 @@ namespace PetSanctuary.Web.Controllers
             await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.City, model.Address, model.IsVaccinated);
             return this.Redirect("/Catalog/Dogs");
         }
-        public IActionResult Details(string modelId)
+      
+        public IActionResult Details(string id)
         {
-            var pet = this.catalogService.GetPetById(modelId);
+            var pet = this.catalogService.GetPetById(id);
             var model = new CatalogDetailsViewModel
             {
                 Id = pet.Id,

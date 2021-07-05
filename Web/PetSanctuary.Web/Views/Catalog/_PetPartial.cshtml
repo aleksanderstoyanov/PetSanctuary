@@ -6,7 +6,7 @@
             <img class="card-img-top" src="@Model.Image" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title" style="color:white">@Model.Name</h5>
-                <a href="/Catalog/Details?modelId=@Model.Id"  type="button" class="btn btn-danger">Details</a>
+                <a asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-id="@Model.Id"  type="button" class="btn btn-danger">Details</a>
             </div>
             <div class="card-footer">
                 <small class="text-muted">Last updated 3 mins ago</small>
