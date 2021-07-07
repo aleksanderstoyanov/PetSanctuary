@@ -1,4 +1,6 @@
-﻿<div class="container">
+﻿@using PetSanctuary.Web.ViewModels.User
+@model List<PetPostViewModel>
+<div class="container">
     <div class="table-responsive">
         <div class="table-wrapper">
             <div class="table-title">
@@ -18,51 +20,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mickey</td>
-                        <td>Sofia, Geo Milev</td>
-                        <td>Male</td>
-                        <td>Yes</td>
-                        <td>0882763896</td>
-                        <td>Dog</td>
-                        <td>
-                            <a href="#"><i class="fas fa-pencil-alt bg mr-3 " style="color:orange"></i></a>
-                            <a href="#"><i class="fas fa-trash" style="color:red"></i></a>
+                    @foreach (var post in Model)
+                    {
+                        <partial name="_PostsPartial" model="post"/>
+                    }
 
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Chubby</td>
-                        <td>Sofia, Geo Milev</td>
-                        <td>Female</td>
-                        <td>Yes</td>
-                        <td>0882351205</td>
-                        <td>Dog</td>
-                        <td>
-                            <a href="#"><i class="fas fa-pencil-alt bg mr-3" style="color:orange"></i></a>
-                            <a href="#"><i class="fas fa-trash" style="color:red"></i></a>
-
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Mina</td>
-                        <td>Blagoevgrad, Levski 11</td>
-                        <td>Female</td>
-                        <td>No</td>
-                        <td>088231234</td>
-                        <td>Cat</td>
-                        <td>
-                            <a href="#"><i class="fas fa-pencil-alt bg mr-3" style="color:orange"></i></a>
-                            <a href="#"><i class="fas fa-trash" style="color:red"></i></a>
-
-                        </td>
-
-                    </tr>
                 </tbody>
             </table>
         </div>

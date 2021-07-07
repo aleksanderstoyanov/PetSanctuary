@@ -19,8 +19,10 @@ namespace PetSanctuary.Data.Models
         [MaxLength(30)]
         public string Name { get; set; }
 
-        public int? Age { get; set; }
+        public int Age { get; set; }
 
+        [Required]
+        public GenderType Gender { get; set; }
         public string Image { get; set; }
 
         [Required]

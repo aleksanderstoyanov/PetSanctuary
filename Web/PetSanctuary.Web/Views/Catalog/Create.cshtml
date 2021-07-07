@@ -7,20 +7,33 @@
         <div class="form-group">
             <label asp-for="Name" style="color:white;">Name</label>
             <input asp-for="Name" type="text" class="form-control">
+            <span asp-validation-for="Name" style="color:red"></span>
         </div>
         <div class="form-group">
             <label asp-for="Age" style="color:white;">Age</label>
-            <input asp-for="Age" type="number" class="form-control">
+            <input asp-for="Age" asp-validation-for="Age" type="number" class="form-control">
+            <span asp-validation-for="Age" style="color:red"></span>
         </div>
         <div class="form-group">
             <label asp-for="Image" style="color:white;">Image URL</label>
             <input asp-for="Image" type="text" class="form-control">
+            <span asp-validation-for="Image" style="color:red"></span>
         </div>
         <div class="form-group">
             <label asp-for="Type" style="color:white;">Type</label>
             <select asp-for="Type" class="form-control">
+
                 <option value="Dog">Dog</option>
                 <option value="Cat">Cat</option>
+
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Gender" style="color:white;">Gender</label>
+            <select asp-for="Gender" class="form-control">
+
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
 
             </select>
         </div>
@@ -35,10 +48,12 @@
         <div class="form-group">
             <label asp-for="City" style="color:white;">City</label>
             <input asp-for="City" type="text" class="form-control">
+            <span asp-validation-for="City" style="color:red"></span>
         </div>
         <div class="form-group">
             <label asp-for="Address" style="color:white;">Address</label>
             <input asp-for="Address" type="text" class="form-control">
+            <span asp-validation-for="Address" style="color:red"></span>
         </div>
 
         <button type="submit" class="btn btn-block btn-primary bg-danger">Create</button>

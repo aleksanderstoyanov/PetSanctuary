@@ -24,6 +24,7 @@
     using PetSanctuary.Services.Data.Catalogs;
     using PetSanctuary.Services.Data.Cities;
     using PetSanctuary.Services.Data.Addresses;
+    using PetSanctuary.Services.Data.Users;
 
     public class Startup
     {
@@ -71,6 +72,7 @@
             services.AddTransient<ICatalogService, CatalogService>();
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<IAddressService, AddressService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

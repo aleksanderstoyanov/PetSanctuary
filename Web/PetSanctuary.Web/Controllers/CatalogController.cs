@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PetSanctuary.Web.Controllers
 {
-    public class CatalogController : Controller
+    public class CatalogController : BaseController
     {
         private readonly ICatalogService catalogService;
         private readonly ICityService cityService;
@@ -57,10 +57,10 @@ namespace PetSanctuary.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CatalogFormCreateViewModel model)
         {
-            await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.City, model.Address, model.IsVaccinated);
+            await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.Gender, model.City, model.Address, model.IsVaccinated, this.User.Identity.Name);
             return this.Redirect("/Catalog/Dogs");
         }
-      
+
         public IActionResult Details(string id)
         {
             var pet = this.catalogService.GetPetById(id);
@@ -70,6 +70,7 @@ namespace PetSanctuary.Web.Controllers
                 Name = pet.Name,
                 Image = pet.Image,
                 Address = this.addressService.GetAddressById(pet.AddressId).Name,
+                Gender=pet.Gender.ToString(),
                 City = this.cityService.GetCityById(pet.CityId).Name,
                 CreatedOn = pet.CreatedOn.ToString(),
                 IsVaccinated = pet.IsVaccinated ? "Yes" : "No",

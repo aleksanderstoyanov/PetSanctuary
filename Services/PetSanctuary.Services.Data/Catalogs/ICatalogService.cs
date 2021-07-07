@@ -8,12 +8,15 @@ namespace PetSanctuary.Services.Data.Catalogs
 {
     public interface ICatalogService
     {
-        Task Create(string name, int age, string image, string type, string cityName, string addressName, string isVaccinated);
+        Task Create(string name, int age, string image, string type, string gender, string cityName, string addressName, string isVaccinated, string username);
 
         ICollection<Pet> GetAllDogs();
 
         ICollection<Pet> GetAllCats();
 
+        ICollection<Pet> GetAllUserPets(string id);
+
         Pet GetPetById(string id);
+        Task DeletePetById(string id);
     }
 }
