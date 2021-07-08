@@ -1,0 +1,27 @@
+﻿@using PetSanctuary.Web.ViewModels.Blogs;
+@model BlogFormCreateViewModel
+<div class="container d-flex justify-content-center">
+    <form class="col-3 col-md-9 bg-dark" method="post" style="height:455px;border-radius:60px;">
+        <div class="d-flex justify-content-center"><i class="far fa-newspaper" style="padding-top:15px; font-size:100px; color:dodgerblue;"></i></div>
+
+        <div class="form-group">
+            <label asp-for="Title" style="color:white;">Title</label>
+            <input asp-for="Title" type="text" class="form-control">
+            <span asp-validation-for="Title" style="color:red"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Image" style="color:white;">Image</label>
+            <input asp-for="Image" type="text" class="form-control">
+            <span asp-validation-for="Image" style="color:red"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" style="color:white;">Content</label>
+            <input asp-for="Description" type="text" class="form-control">
+            <span asp-validation-for="Description" style="color:red"></span>
+        </div>
+       
+
+
+        <button type="submit" class="btn btn-block btn-primary bg-primary">Create</button>
+    </form>
+</div>
