@@ -57,6 +57,11 @@ namespace PetSanctuary.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CatalogFormCreateViewModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.Gender, model.City, model.Address, model.IsVaccinated, this.User.Identity.Name);
             return this.Redirect("/Catalog/Dogs");
         }
@@ -70,7 +75,7 @@ namespace PetSanctuary.Web.Controllers
                 Name = pet.Name,
                 Image = pet.Image,
                 Address = this.addressService.GetAddressById(pet.AddressId).Name,
-                Gender=pet.Gender.ToString(),
+                Gender = pet.Gender.ToString(),
                 City = this.cityService.GetCityById(pet.CityId).Name,
                 CreatedOn = pet.CreatedOn.ToString(),
                 IsVaccinated = pet.IsVaccinated ? "Yes" : "No",

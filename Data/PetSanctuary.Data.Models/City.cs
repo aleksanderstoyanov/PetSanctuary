@@ -1,4 +1,5 @@
-﻿using PetSanctuary.Data.Common.Models;
+﻿using PetSanctuary.Common;
+using PetSanctuary.Data.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +15,7 @@ namespace PetSanctuary.Data.Models
         }
 
         [Required]
+        [MaxLength(GlobalConstants.MaxCityLength)]
         public string Name { get; set; }
 
         public ICollection<Address> Addresses { get; set; }

@@ -1,4 +1,5 @@
-﻿using PetSanctuary.Data.Common.Models;
+﻿using PetSanctuary.Common;
+using PetSanctuary.Data.Common.Models;
 using PetSanctuary.Data.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,10 @@ namespace PetSanctuary.Data.Models
         }
 
         [Required]
-        [MaxLength(30)]
+        [MaxLength(GlobalConstants.MaxPetNameLength)]
         public string Name { get; set; }
 
+        
         public int Age { get; set; }
 
         [Required]

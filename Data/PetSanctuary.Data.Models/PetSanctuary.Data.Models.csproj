@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\PetSanctuary.Common\PetSanctuary.Common.csproj" />
     <ProjectReference Include="..\PetSanctuary.Data.Common\PetSanctuary.Data.Common.csproj" />
   </ItemGroup>
   
