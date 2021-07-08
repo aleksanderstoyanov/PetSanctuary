@@ -34,14 +34,12 @@ namespace PetSanctuary.Services.Data.Catalogs
             var address = this.addressService.GetAddressByName(addressName);
             if (city == null)
             {
-                await this.cityService.Create(cityName);
-                city = this.cityService.GetCityByName(cityName);
+                city = await EnsureCityCreated(cityName);
             }
 
             if (address == null)
             {
-                await this.addressService.Create(addressName, city.Id);
-                address = this.addressService.GetAddressByName(addressName);
+                address = await EnsureAddressCreated(addressName, city.Id);
             }
 
             await this.petsRepository.AddAsync(new Pet
@@ -70,6 +68,34 @@ namespace PetSanctuary.Services.Data.Catalogs
             await this.petsRepository.SaveChangesAsync();
         }
 
+        public async Task EditPetById(string id, string name, int age, string image, string type, string gender, string isVaccinated, string cityName, string addressName)
+        {
+            var city = this.cityService.GetCityByName(cityName);
+            var address = this.addressService.GetAddressByName(addressName);
+            if (city == null)
+            {
+                city = await EnsureCityCreated(cityName);
+            }
+
+            if (address == null)
+            {
+                address = await EnsureAddressCreated(addressName, city.Id);
+            }
+
+            var pet = this.GetPetById(id);
+            pet.ModifiedOn = DateTime.UtcNow;
+            pet.Name = name;
+            pet.Age = age;
+            pet.Image = image;
+            pet.Type = (PetType)Enum.Parse(typeof(PetType), type);
+            pet.Gender = (GenderType)Enum.Parse(typeof(GenderType), gender);
+            pet.IsVaccinated = isVaccinated == "No" ? false : true;
+            pet.CityId = city.Id;
+            pet.AddressId = address.Id;
+
+            await this.petsRepository.SaveChangesAsync();
+        }
+
         public ICollection<Pet> GetAllCats()
         {
             return this.petsRepository.All().Where(x => x.Type.Equals(PetType.Cat) && x.IsDeleted == false).ToList();
@@ -89,5 +115,19 @@ namespace PetSanctuary.Services.Data.Catalogs
         {
             return this.petsRepository.All().Where(x => x.Id == id).FirstOrDefault();
         }
+
+        private async Task<Address> EnsureAddressCreated(string addressName, int cityId)
+        {
+
+            await this.addressService.Create(addressName, cityId);
+            return this.addressService.GetAddressByName(addressName);
+        }
+        private async Task<City> EnsureCityCreated(string cityName)
+        {
+
+            await this.cityService.Create(cityName);
+            return this.cityService.GetCityByName(cityName);
+        }
     }
 }
+

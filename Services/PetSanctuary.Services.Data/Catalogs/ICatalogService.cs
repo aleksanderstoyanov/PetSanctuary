@@ -18,5 +18,6 @@ namespace PetSanctuary.Services.Data.Catalogs
 
         Pet GetPetById(string id);
         Task DeletePetById(string id);
+        Task EditPetById(string id, string name, int age, string image, string type, string gender, string isVaccinated, string cityName, string addressName);
     }
 }

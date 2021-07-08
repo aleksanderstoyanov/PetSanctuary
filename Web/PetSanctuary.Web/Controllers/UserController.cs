@@ -25,10 +25,12 @@ namespace PetSanctuary.Web.Controllers
             this.cityService = cityService;
             this.addressService = addressService;
         }
+
         public IActionResult Profile()
         {
             return this.View();
         }
+
         public IActionResult Posts()
         {
             var user = this.userService.GetUserByName(this.User.Identity.Name);
@@ -47,15 +49,18 @@ namespace PetSanctuary.Web.Controllers
                 }).ToList();
             return this.View(posts);
         }
+
         [HttpPost]
-        public IActionResult Posts(PetPostViewModel model)
+
+        public async Task<IActionResult> Posts(string id, PetPostViewModel model)
         {
+            await this.catalogService.EditPetById(id, model.Name, model.Age, model.Image, model.Type, model.Gender, model.IsVaccinated, model.City, model.Address);
             return this.Redirect("/User/Posts");
         }
-       
+
         public async Task<IActionResult> Delete(string id)
         {
-           await this.catalogService.DeletePetById(id);
+            await this.catalogService.DeletePetById(id);
             return this.Redirect("/User/Posts");
         }
 
