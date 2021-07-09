@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetSanctuary.Services.Data.Addresses;
+using PetSanctuary.Services.Data.Blogs;
 using PetSanctuary.Services.Data.Catalogs;
 using PetSanctuary.Services.Data.Cities;
 using PetSanctuary.Services.Data.Users;
@@ -17,13 +18,15 @@ namespace PetSanctuary.Web.Controllers
         private readonly IUserService userService;
         private readonly ICityService cityService;
         private readonly IAddressService addressService;
+        private readonly IBlogService blogService;
 
-        public UserController(ICatalogService catalogService, IUserService userService, ICityService cityService, IAddressService addressService)
+        public UserController(ICatalogService catalogService, IUserService userService, ICityService cityService, IAddressService addressService, IBlogService blogService)
         {
             this.catalogService = catalogService;
             this.userService = userService;
             this.cityService = cityService;
             this.addressService = addressService;
+            this.blogService = blogService;
         }
 
         public IActionResult Profile()
@@ -50,8 +53,8 @@ namespace PetSanctuary.Web.Controllers
             return this.View(posts);
         }
 
-        [HttpPost]
 
+        [HttpPost]
         public async Task<IActionResult> Posts(string id, PetPostViewModel model)
         {
             await this.catalogService.EditPetById(id, model.Name, model.Age, model.Image, model.Type, model.Gender, model.IsVaccinated, model.City, model.Address);
@@ -63,6 +66,33 @@ namespace PetSanctuary.Web.Controllers
             await this.catalogService.DeletePetById(id);
             return this.Redirect("/User/Posts");
         }
+        public IActionResult Blogs()
+        {
+            var user = this.userService.GetUserByName(this.User.Identity.Name);
+            var blogs = this.blogService.GetAllUserBlogs(user.Id)
+                .Select(x => new BlogPostViewModel
+                {
+                    Id = x.Id,
+                    Image = x.Image,
+                    Title = x.Title,
+                    Description = x.Description
 
+                }).ToList();
+            return this.View(blogs);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Blogs(string id, BlogPostViewModel model)
+        {
+           
+            await this.blogService.EditBlogById(id, model.Title, model.Image, model.Description);
+            return this.Redirect("/User/Blogs");
+        }
+
+        [HttpGet("User/Blogs/{id}")]
+        public async Task<IActionResult> Blogs(string id)
+        {
+            await this.blogService.DeleteBlogById(id);
+            return this.Redirect("/User/Blogs");
+        }
     }
 }

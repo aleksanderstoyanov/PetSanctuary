@@ -2,13 +2,6 @@
 @model IList<BlogViewModel>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container mb80">
-    <div class="row">
-        @foreach (var blog in Model)
-        {
-            <partial name="_BlogsPartial" model="blog" />
-        }
-
-
     <div class="float-right card" style="width:300px">
         <div class="input-group">
             <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
@@ -36,6 +29,11 @@
         </div>
 
     </div>
+        @foreach (var blog in Model)
+        {
+            <partial name="_BlogsPartial" model="blog" />
+        }
 
 </div>
+
 

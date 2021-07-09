@@ -11,7 +11,8 @@ namespace PetSanctuary.Services.Data.Blogs
         ICollection<Blog> GetAllBlogs();
         Task Create(string title, string image, string description, string authorName);
 
-        Blog GetBlogByName(string name);
+        ICollection<Blog> GetAllUserBlogs(string id);
+        Blog GetBlogByTitle(string title);
 
         Blog GetBlogById(string id);
 

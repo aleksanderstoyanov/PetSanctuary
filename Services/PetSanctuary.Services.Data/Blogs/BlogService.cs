@@ -34,29 +34,43 @@ namespace PetSanctuary.Services.Data.Blogs
             await this.blogRepository.SaveChangesAsync();
         }
 
-        public Task DeleteBlogById(string id)
+        public async Task DeleteBlogById(string id)
         {
-            throw new NotImplementedException();
+            var blog = this.GetBlogById(id);
+            blog.IsDeleted = true;
+            blog.DeletedOn = DateTime.UtcNow;
+            await this.blogRepository.SaveChangesAsync();
         }
 
-        public Task EditBlogById(string id, string title, string image, string description)
+        public async Task EditBlogById(string id, string title, string image, string description)
         {
-            throw new NotImplementedException();
+            var blog = this.GetBlogById(id);
+            blog.Title = title;
+            blog.Image = image;
+            blog.Description = description;
+
+            await this.blogRepository.SaveChangesAsync();
+
         }
 
         public ICollection<Blog> GetAllBlogs()
         {
-            return this.blogRepository.All().ToList();
+            return this.blogRepository.All().Where(x => x.IsDeleted == false).ToList();
+        }
+
+        public ICollection<Blog> GetAllUserBlogs(string id)
+        {
+            return this.blogRepository.All().Where(x => x.AuthorId == id && x.IsDeleted == false).ToList();
         }
 
         public Blog GetBlogById(string id)
         {
-            throw new NotImplementedException();
+            return this.blogRepository.All().FirstOrDefault(x => x.Id == id);
         }
 
-        public Blog GetBlogByName(string name)
+        public Blog GetBlogByTitle(string title)
         {
-            throw new NotImplementedException();
+            return this.blogRepository.All().FirstOrDefault(x => x.Title == title);
         }
     }
 }

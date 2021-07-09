@@ -1,0 +1,30 @@
+﻿@using PetSanctuary.Web.ViewModels.User
+@model ICollection<BlogPostViewModel> 
+<div class="container">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <h2>Manage my blogs</h2>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col"><i class="far fa-newspaper"></i></th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Actions</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var blog in Model)
+                    {
+                        <partial name="_BlogsPartial" model="blog" />
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

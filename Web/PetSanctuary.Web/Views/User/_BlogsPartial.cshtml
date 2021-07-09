@@ -1,0 +1,43 @@
+﻿@using PetSanctuary.Web.ViewModels.User 
+@model BlogPostViewModel
+<tr>
+    <th scope="row"><img style="max-width:100px;border-radius:85px"  src="@Model.Image" alt="Alternate Text" /></th>
+    <td>@Model.Title</td>
+    <td>@Model.Description</td>
+
+    <td>
+        <a data-toggle="modal" data-target="#exampleModal">
+            <i class="fas fa-pencil-alt bg mr-3 " style="color:orange; cursor:pointer"></i>
+        </a>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form method="post">
+                        <div class="form-group">
+                            <label asp-for="Image" style="color:white;">Image</label>
+                            <input asp-for="Image" type="text" class="form-control" value="" placeholder="Image">
+                            <span asp-validation-for="Image" style="color:red"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Title" style="color:white;">Title</label>
+                            <input asp-for="Title" type="text" class="form-control" value="" placeholder="Title">
+                            <span asp-validation-for="Title" style="color:red"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description" style="color:white;">Description</label>
+                            <input asp-for="Description" type="text" value="" class="form-control" placeholder="Description">
+                            <span asp-validation-for="Description" style="color:red"></span>
+                        </div>
+
+                        <button asp-area="" asp-controller="User" asp-action="Blogs" asp-route-id="@Model.Id" type="submit" class="btn btn-block btn-primary bg-warning" style="color:black;">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <a method="delete" asp-area="" asp-controller="User" asp-action="Blogs" asp-route-id="@Model.Id"><i class="fas fa-trash" style="color:red"></i></a>
+    </td>
+
+</tr>

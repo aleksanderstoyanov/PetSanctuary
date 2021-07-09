@@ -74,12 +74,12 @@ namespace PetSanctuary.Services.Data.Catalogs
             var address = this.addressService.GetAddressByName(addressName);
             if (city == null)
             {
-                city = await EnsureCityCreated(cityName);
+                city = await this.EnsureCityCreated(cityName);
             }
 
             if (address == null)
             {
-                address = await EnsureAddressCreated(addressName, city.Id);
+                address = await this.EnsureAddressCreated(addressName, city.Id);
             }
 
             var pet = this.GetPetById(id);
