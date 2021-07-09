@@ -20,6 +20,7 @@ namespace PetSanctuary.Web.ViewModels.Blogs
         [Url]
         public string Image { get; set; }
         [Required]
+        [MinLength(GlobalConstants.MinBlogDescriptionLength)]
         [MaxLength(GlobalConstants.MaxBlogDescriptionLength)]
         public string Description { get; set; }
 

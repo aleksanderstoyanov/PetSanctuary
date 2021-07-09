@@ -8,5 +8,6 @@ namespace PetSanctuary.Services.Data.Users
     public interface IUserService
     {
         ApplicationUser GetUserByName(string name);
+        ApplicationUser GetUserById(string id);
     }
 }

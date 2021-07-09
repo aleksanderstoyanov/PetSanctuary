@@ -16,6 +16,11 @@ namespace PetSanctuary.Services.Data.Users
             this.userRepository = userRepository;
         }
 
+        public ApplicationUser GetUserById(string id)
+        {
+            return this.userRepository.All().Where(x => x.Id == id).FirstOrDefault();
+        }
+
         public ApplicationUser GetUserByName(string name)
         {
             return this.userRepository.All().Where(x => x.UserName == name).FirstOrDefault();

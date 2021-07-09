@@ -1,9 +1,41 @@
-﻿<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+﻿@using PetSanctuary.Web.ViewModels.Blogs
+@model IList<BlogViewModel>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container mb80">
-    <div>
-        @for (int i = 0; i < 3; i++)
+    <div class="row">
+        @foreach (var blog in Model)
         {
-            <partial name="_BlogsPartial"/>
+            <partial name="_BlogsPartial" model="blog" />
         }
+
+
+    <div class="float-right card" style="width:300px">
+        <div class="input-group">
+            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                   aria-describedby="search-addon" />
+            <button type="button" class="btn btn-outline-primary">search</button>
+        </div>
+        <h4>Recent posts</h4>
+        <div class="media">
+            <div class="media-left">
+                <a href="#">
+                    <img src="https://nbc-2.com/wp-content/uploads/2021/02/rescued-dog.jpg" ;class="media-object" alt="64x64" style="width: 64px; height: 64px;" data-holder-rendered="true">
+                </a>
+            </div> <div class="media-body">
+                <p class="media-heading">Mika is 6 months hapy</p>
+            </div>
+        </div>
+        <div class="media" style="padding-top:20px;">
+            <div class="media-left">
+                <a href="#">
+                    <img src="https://www.hsi.org/wp-content/uploads/975x-for-press-releases/dog-meat/JC_HAEMI-FARM-17_OCTOBER_123_527362-scaled-e1603487734214.jpg" ;class="media-object" alt="64x64" style="width: 64px; height: 64px;" data-holder-rendered="true">
+                </a>
+            </div> <div class="media-body">
+                <p class="media-heading">Mickey's rescue</p>
+            </div>
+        </div>
+
     </div>
+
 </div>
+

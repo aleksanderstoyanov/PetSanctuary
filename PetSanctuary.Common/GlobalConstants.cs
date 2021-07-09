@@ -15,6 +15,7 @@
         public const int MaxCommentContentLength = 90;
         public const int MinBlogTitleLength = 3;
         public const int MaxBlogTitleLength = 20;
+        public const int MinBlogDescriptionLength = 10;
         public const int MaxBlogDescriptionLength = 200;
        
     }

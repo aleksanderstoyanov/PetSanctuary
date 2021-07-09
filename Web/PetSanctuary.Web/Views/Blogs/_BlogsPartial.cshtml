@@ -1,15 +1,16 @@
-﻿
-<div class="vtimeline-point">
+﻿@using PetSanctuary.Web.ViewModels.Blogs
+@model BlogViewModel
+<div class="vtimeline-point col-6">
     <div class="vtimeline-block">
 
-        <a href="#"><img style="height:400px; width:700px;" src="https://happydogskohchang.org/wp-content/uploads/revslider/Homev2/Namtan-1910-1160x773-1160x773.jpg" alt="" class="img-fluid mb20"></a>
-        <a href="#"><h3>Standard post title</h3></a>
+        <a href="#"><img style="height:400px; width:700px;" src="@Model.Image" alt="" class="img-fluid mb20"></a>
+        <a href="#"><h3>@Model.Title</h3></a>
         <ul class="post-meta list-inline">
             <li class="list-inline-item">
-                <i class="fas fa-pencil-alt mr-2"></i>John Doe
+                <i class="fas fa-pencil-alt mr-2"></i>@Model.Author
             </li>
             <li class="list-inline-item">
-                <i class="fa fa-calendar-o mr-2"></i>29 June 2017
+                <i class="fa fa-calendar-o mr-2"></i>@Model.CreatedOn
             </li>
             <li class="list-inline-item">
                 <a asp-area="" asp-controller="Blogs" asp-action="Comments">
@@ -19,9 +20,8 @@
 
         </ul>
         <p>
-            Mickey is having a great time with his new owners for the 6 months he has been in...
+          @Model.Description
         </p>
-        <p style="display:none">He has learned to sit on command to roll and has received multiple vaccines in order to improve his health state</p>
         <button class="btn btn-outline-secondary btn-sm">Read More</button>
 
     </div>
