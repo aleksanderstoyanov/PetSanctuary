@@ -9,7 +9,9 @@
             <div>
                 @foreach (var comment in Model)
                 {
+                    <hr>
                     <partial name="_CommentsPartial" model="comment" />
+                    <hr>
                 }
             </div> <!-- Card -->
         </div>

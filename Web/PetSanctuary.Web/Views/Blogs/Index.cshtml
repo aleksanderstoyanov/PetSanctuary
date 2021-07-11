@@ -6,33 +6,27 @@
         <div class="input-group">
             <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                    aria-describedby="search-addon" />
-            <button type="button" class="btn btn-outline-primary">search</button>
+            <button type="button" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
         </div>
         <h4>Recent posts</h4>
-        <div class="media">
-            <div class="media-left">
-                <a href="#">
-                    <img src="https://nbc-2.com/wp-content/uploads/2021/02/rescued-dog.jpg" ;class="media-object" alt="64x64" style="width: 64px; height: 64px;" data-holder-rendered="true">
-                </a>
-            </div> <div class="media-body">
-                <p class="media-heading">Mika is 6 months hapy</p>
+        @foreach (var post in Model.OrderByDescending(x => x.CreatedOn).Take(3))
+        {
+            <div class="media" style="padding-top:15px">
+                <div class="media-left">
+                    <a href="#">
+                        <img src="@post.Image" ;class="media-object" alt="64x64" style="width: 64px; height: 64px; border-radius:50px" data-holder-rendered="true">
+                    </a>
+                </div> <div class="media-body">
+                    <a class="media-heading">@post.Title</a>
+                </div>
             </div>
-        </div>
-        <div class="media" style="padding-top:20px;">
-            <div class="media-left">
-                <a href="#">
-                    <img src="https://www.hsi.org/wp-content/uploads/975x-for-press-releases/dog-meat/JC_HAEMI-FARM-17_OCTOBER_123_527362-scaled-e1603487734214.jpg" ;class="media-object" alt="64x64" style="width: 64px; height: 64px;" data-holder-rendered="true">
-                </a>
-            </div> <div class="media-body">
-                <p class="media-heading">Mickey's rescue</p>
-            </div>
-        </div>
+        }
 
     </div>
-        @foreach (var blog in Model)
-        {
-            <partial name="_BlogsPartial" model="blog" />
-        }
+    @foreach (var blog in Model)
+    {
+        <partial name="_BlogsPartial" model="blog" />
+    }
 
 </div>
 
