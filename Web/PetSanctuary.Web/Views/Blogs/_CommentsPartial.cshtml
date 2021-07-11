@@ -1,0 +1,12 @@
+﻿@using PetSanctuary.Web.ViewModels.Comments
+@model CommentViewModel 
+<div class="d-flex flex-row comment-row m-t-0">
+    <div class="p-2"><img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" alt="user" width="50" class="rounded-circle"></div>
+    <div class="comment-text w-100">
+        <h6 class="font-medium">@Model.Publisher</h6> <span class="m-b-15 d-block">@Model.Content</span>
+        <div class="comment-footer"> <span class="text-muted float-right">@Model.PublishedOn</span> 
+        <button type="button" class="btn btn-cyan btn-sm">Edit</button> 
+        <button type="button" class="btn btn-success btn-sm">Publish</button>
+        <button type="button" class="btn btn-danger btn-sm">Delete</button> </div>
+    </div>
+</div> <!-- Comment Row -->
