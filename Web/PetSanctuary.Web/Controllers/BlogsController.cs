@@ -47,6 +47,7 @@ namespace PetSanctuary.Web.Controllers
             var comments = this.commentService.GetAllBlogComments(id)
                 .Select(x => new CommentViewModel
                 {
+                    Id = x.Id,
                     Content = x.Content,
                     PublishedOn = x.CreatedOn.ToString(),
                     Publisher = this.userService.GetUserById(x.PublisherId).UserName
@@ -77,6 +78,21 @@ namespace PetSanctuary.Web.Controllers
             await this.blogService.Create(model.Title, model.Image, model.Description, this.User.Identity.Name);
 
             return this.Redirect("/Blogs");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditComment(int id, string content)
+        {
+            var blogId = this.commentService.GetCommentById(id).BlogId;
+            await this.commentService.Edit(id, content);
+            return this.Redirect($"/Blogs/Comments/{blogId}");
+        }
+
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            var blogId = this.commentService.GetCommentById(id).BlogId;
+            await this.commentService.Delete(id);
+            return this.Redirect($"/Blogs/Comments/{blogId}");
         }
 
     }

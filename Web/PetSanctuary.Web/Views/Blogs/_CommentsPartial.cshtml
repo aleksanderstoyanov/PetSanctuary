@@ -1,11 +1,33 @@
 ﻿@using PetSanctuary.Web.ViewModels.Comments
-@model CommentViewModel 
+@model CommentViewModel
 <div class="d-flex flex-row comment-row m-t-0">
     <div class="p-2"><img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" alt="user" width="50" class="rounded-circle"></div>
     <div class="comment-text w-100">
         <h6 class="font-medium">@Model.Publisher</h6> <span class="m-b-15 d-block">@Model.Content</span>
-        <div class="comment-footer"> <span class="text-muted float-right">@Model.PublishedOn</span> 
-        <button type="button" class="btn btn-warning btn-sm">Edit <i class="fas fa-pencil-alt mr-3"></i></button> 
-        <button type="button" class="btn btn-danger btn-sm">Delete <i class="fas fa-trash-alt mr-2"></i></button> </div>
+        <div class="comment-footer">
+            <span class="text-muted float-right">@Model.PublishedOn</span>
+            <a data-toggle="modal" data-target="#commentModal" class="btn btn-warning btn-sm">Edit <i class="fas fa-pencil-alt mr-3"></i></a>
+            <a asp-area="" asp-controller="Blogs" asp-action="DeleteComment" asp-route-id="@Model.Id" class="btn btn-danger btn-sm">Delete <i class="fas fa-trash-alt mr-2"></i></a>
+            
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <h4 class="text-center">Edit comment</h4>
+                        <form method="post">
+                            <div class="form-group">
+                                <label style="color:white;">Content</label>
+                                <input name="Content" type="text" class="form-control" value="" placeholder="Content">
+                                <span style="color:red"></span>
+                            </div>
+
+                            <button asp-area="" asp-controller="Blogs" asp-action="EditComment" asp-route-id="@Model.Id" type="submit" class="btn btn-block btn-warning" style="color:black;">Save changes <i class="far fa-save"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div> <!-- Comment Row -->

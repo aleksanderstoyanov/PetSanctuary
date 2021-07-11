@@ -8,6 +8,8 @@ namespace PetSanctuary.Web.ViewModels.Comments
 {
     public class CommentViewModel
     {
+        public int Id { get; set; }
+
         [MinLength(GlobalConstants.MinCommentContentLength)]
         [MaxLength(GlobalConstants.MaxCommentContentLength)]
         [Required]
