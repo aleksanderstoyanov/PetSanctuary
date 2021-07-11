@@ -6,6 +6,7 @@ namespace PetSanctuary.Web.ViewModels.Blogs
 {
     public class BlogViewModel
     {
+        public string Id { get; set; }
         public string Title { get; set; }
 
         public string Image { get; set; }

@@ -52,6 +52,18 @@ namespace PetSanctuary.Services.Data.Blogs
             await this.blogRepository.SaveChangesAsync();
 
         }
+        public async Task AddCommentToBlog(string id, string content, string username)
+        {
+            var blog = this.GetBlogById(id);
+            blog.Comments.Add(new Comment
+            {
+                BlogId = id,
+                Content = content,
+                CreatedOn = DateTime.UtcNow,
+                PublisherId = this.userService.GetUserByName(username).Id
+            });
+            await this.blogRepository.SaveChangesAsync();
+        }
 
         public ICollection<Blog> GetAllBlogs()
         {
