@@ -1,0 +1,12 @@
+﻿@using PetSanctuary.Web.ViewModels.Comments
+@model CommentFormCreateViewModel
+<h2 class="text-center">Edit comment <i class="far fa-comment"></i></h2>
+<form method="post">
+    <div class="form-group">
+        <label style="color:white;">Content</label>
+        <input name="Content" type="text" class="form-control" value="@Model.Content" placeholder="Content">
+        <span style="color:red"></span>
+    </div>
+
+    <button type="submit" class="btn btn-block btn-warning" style="color:black;">Save changes <i class="far fa-save"></i></button>
+</form>

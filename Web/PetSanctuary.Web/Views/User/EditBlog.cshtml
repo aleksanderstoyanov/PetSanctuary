@@ -1,0 +1,22 @@
+﻿@using PetSanctuary.Web.ViewModels.User
+@model BlogPostViewModel
+    <h2 class="text-center">Edit <i class="far fa-newspaper"></i></h2>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Image" style="color:white;">Image</label>
+        <input asp-for="Image" type="text" class="form-control" value="@Model.Image" placeholder="Image">
+        <span asp-validation-for="Image" style="color:red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Title" style="color:white;">Title</label>
+        <input asp-for="Title" type="text" class="form-control" value="@Model.Title" placeholder="Title">
+        <span asp-validation-for="Title" style="color:red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" style="color:white;">Description</label>
+        <input asp-for="Description" type="text" value="@Model.Description" class="form-control" placeholder="Description">
+        <span asp-validation-for="Description" style="color:red"></span>
+    </div>
+
+    <button type="submit" class="btn btn-block btn-primary bg-warning" style="color:black;">Save changes <i class="far fa-save"></i></button>
+</form>

@@ -53,19 +53,39 @@ namespace PetSanctuary.Web.Controllers
             return this.View(posts);
         }
 
+        public IActionResult EditPost(string id)
+        {
+            var pet = this.catalogService.GetPetById(id);
+            var model = new PetPostViewModel
+            {
+                Name = pet.Name,
+                Age = pet.Age,
+                Image = pet.Image,
+                Address = this.addressService.GetAddressById(pet.AddressId).Name,
+                City = this.cityService.GetCityById(pet.CityId).Name,
+                Gender = pet.Gender.ToString(),
+                Type = pet.Type.ToString()
+
+            };
+
+
+
+            return this.View(model);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Posts(string id, PetPostViewModel model)
+        public async Task<IActionResult> EditPost(string id, PetPostViewModel model)
         {
             await this.catalogService.EditPetById(id, model.Name, model.Age, model.Image, model.Type, model.Gender, model.IsVaccinated, model.City, model.Address);
             return this.Redirect("/User/Posts");
         }
 
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> DeletePost(string id)
         {
             await this.catalogService.DeletePetById(id);
             return this.Redirect("/User/Posts");
         }
+
         public IActionResult Blogs()
         {
             var user = this.userService.GetUserByName(this.User.Identity.Name);
@@ -83,7 +103,27 @@ namespace PetSanctuary.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Blogs(string id, BlogPostViewModel model)
         {
-           
+
+            await this.blogService.EditBlogById(id, model.Title, model.Image, model.Description);
+            return this.Redirect("/User/Blogs");
+        }
+
+        public IActionResult EditBlog(string id)
+        {
+            var blog = this.blogService.GetBlogById(id);
+            var model = new BlogPostViewModel
+            {
+                Title = blog.Title,
+                Image = blog.Image,
+                Description = blog.Description
+
+            };
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditBlog(string id, BlogPostViewModel model)
+        {
             await this.blogService.EditBlogById(id, model.Title, model.Image, model.Description);
             return this.Redirect("/User/Blogs");
         }

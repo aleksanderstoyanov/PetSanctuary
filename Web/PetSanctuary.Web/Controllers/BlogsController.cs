@@ -80,11 +80,22 @@ namespace PetSanctuary.Web.Controllers
             return this.Redirect("/Blogs");
         }
 
+        public IActionResult EditComment(int id)
+        {
+            var comment = this.commentService.GetCommentById(id);
+            var model = new CommentFormCreateViewModel
+            {
+                Content = comment.Content
+            };
+
+            return this.View(model);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> EditComment(int id, string content)
+        public async Task<IActionResult> EditComment(int id, CommentFormCreateViewModel model)
         {
             var blogId = this.commentService.GetCommentById(id).BlogId;
-            await this.commentService.Edit(id, content);
+            await this.commentService.Edit(id, model.Content);
             return this.Redirect($"/Blogs/Comments/{blogId}");
         }
 
