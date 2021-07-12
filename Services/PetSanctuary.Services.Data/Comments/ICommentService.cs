@@ -9,7 +9,7 @@ namespace PetSanctuary.Services.Data.Comments
     public interface ICommentService
     {
         Comment GetCommentById(int id);
-        Task Create();
+        Task Create(string blogId,string content,string publisherId);
 
         Task Edit(int id, string content);
 

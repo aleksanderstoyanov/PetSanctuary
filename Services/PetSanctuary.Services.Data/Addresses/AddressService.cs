@@ -32,7 +32,7 @@ namespace PetSanctuary.Services.Data.Addresses
 
         public Address GetAddressById(int id)
         {
-            return this.addressRepository.All().Where(x => x.Id == id).FirstOrDefault();
+            return this.addressRepository.AllAsNoTracking().Where(x => x.Id == id).FirstOrDefault();
         }
 
         public Address GetAddressByName(string name)

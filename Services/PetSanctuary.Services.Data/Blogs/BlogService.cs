@@ -1,5 +1,6 @@
 ﻿using PetSanctuary.Data.Common.Repositories;
 using PetSanctuary.Data.Models;
+using PetSanctuary.Services.Data.Comments;
 using PetSanctuary.Services.Data.Users;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,13 @@ namespace PetSanctuary.Services.Data.Blogs
     {
         private readonly IDeletableEntityRepository<Blog> blogRepository;
         private readonly IUserService userService;
+        private readonly ICommentService commentService;
 
-        public BlogService(IDeletableEntityRepository<Blog> blogRepository, IUserService userService)
+        public BlogService(IDeletableEntityRepository<Blog> blogRepository, IUserService userService, ICommentService commentService)
         {
             this.blogRepository = blogRepository;
             this.userService = userService;
+            this.commentService = commentService;
         }
         public async Task Create(string title, string image, string description, string authorName)
         {
@@ -37,8 +40,7 @@ namespace PetSanctuary.Services.Data.Blogs
         public async Task DeleteBlogById(string id)
         {
             var blog = this.GetBlogById(id);
-            blog.IsDeleted = true;
-            blog.DeletedOn = DateTime.UtcNow;
+            this.blogRepository.Delete(blog);
             await this.blogRepository.SaveChangesAsync();
         }
 
@@ -52,27 +54,20 @@ namespace PetSanctuary.Services.Data.Blogs
             await this.blogRepository.SaveChangesAsync();
 
         }
-        public async Task AddCommentToBlog(string id, string content, string username)
+        public async Task AddCommentToBlog(string blogId, string content, string username)
         {
-            var blog = this.GetBlogById(id);
-            blog.Comments.Add(new Comment
-            {
-                BlogId = id,
-                Content = content,
-                CreatedOn = DateTime.UtcNow,
-                PublisherId = this.userService.GetUserByName(username).Id
-            });
+            await this.EnsureCommentCreated(blogId, content, this.userService.GetUserByName(username).Id);
             await this.blogRepository.SaveChangesAsync();
         }
 
         public ICollection<Blog> GetAllBlogs()
         {
-            return this.blogRepository.All().Where(x => x.IsDeleted == false).ToList();
+            return this.blogRepository.AllAsNoTracking().ToList();
         }
 
         public ICollection<Blog> GetAllUserBlogs(string id)
         {
-            return this.blogRepository.All().Where(x => x.AuthorId == id && x.IsDeleted == false).ToList();
+            return this.blogRepository.AllAsNoTracking().Where(x => x.AuthorId == id).ToList();
         }
 
         public Blog GetBlogById(string id)
@@ -82,7 +77,11 @@ namespace PetSanctuary.Services.Data.Blogs
 
         public Blog GetBlogByTitle(string title)
         {
-            return this.blogRepository.All().FirstOrDefault(x => x.Title == title);
+            return this.blogRepository.AllAsNoTracking().FirstOrDefault(x => x.Title == title);
+        }
+        private async Task EnsureCommentCreated(string blogId, string content, string publisherId)
+        {
+            await this.commentService.Create(blogId, content, publisherId);
         }
     }
 }

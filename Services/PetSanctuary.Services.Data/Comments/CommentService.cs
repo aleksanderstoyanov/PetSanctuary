@@ -17,16 +17,25 @@ namespace PetSanctuary.Services.Data.Comments
             this.commentRepository = commentRepository;
         }
 
-        public Task Create()
+
+
+        public async Task Create(string blogId, string content, string publisherId)
         {
-            throw new NotImplementedException();
+            await this.commentRepository.AddAsync(new Comment
+            {
+                BlogId = blogId,
+                Content = content,
+                PublishedOn = DateTime.UtcNow,
+                PublisherId = publisherId
+
+            });
+            await this.commentRepository.SaveChangesAsync();
         }
 
         public async Task Delete(int id)
         {
             var comment = this.GetCommentById(id);
-            comment.IsDeleted = true;
-            comment.DeletedOn = DateTime.UtcNow;
+            this.commentRepository.Delete(comment);
             await this.commentRepository.SaveChangesAsync();
         }
 
@@ -39,7 +48,7 @@ namespace PetSanctuary.Services.Data.Comments
 
         public ICollection<Comment> GetAllBlogComments(string id)
         {
-            return this.commentRepository.All().Where(x => x.IsDeleted == false && x.BlogId == id).ToList();
+            return this.commentRepository.AllAsNoTracking().Where(x => x.BlogId == id).ToList();
         }
 
         public Comment GetCommentById(int id)

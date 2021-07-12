@@ -63,8 +63,7 @@ namespace PetSanctuary.Services.Data.Catalogs
         public async Task DeletePetById(string id)
         {
             var pet = this.GetPetById(id);
-            pet.IsDeleted = true;
-            pet.DeletedOn = DateTime.UtcNow;
+            this.petsRepository.Delete(pet);
             await this.petsRepository.SaveChangesAsync();
         }
 
@@ -98,17 +97,17 @@ namespace PetSanctuary.Services.Data.Catalogs
 
         public ICollection<Pet> GetAllCats()
         {
-            return this.petsRepository.All().Where(x => x.Type.Equals(PetType.Cat) && x.IsDeleted == false).ToList();
+            return this.petsRepository.AllAsNoTracking().Where(x => x.Type.Equals(PetType.Cat)).ToList();
         }
 
         public ICollection<Pet> GetAllDogs()
         {
-            return this.petsRepository.All().Where(x => x.Type.Equals(PetType.Dog) && x.IsDeleted == false).ToList();
+            return this.petsRepository.AllAsNoTracking().Where(x => x.Type.Equals(PetType.Dog)).ToList();
         }
 
         public ICollection<Pet> GetAllUserPets(string id)
         {
-            return this.petsRepository.All().Where(x => x.OwnerId == id && x.IsDeleted == false).ToList();
+            return this.petsRepository.All().Where(x => x.OwnerId == id).ToList();
         }
 
         public Pet GetPetById(string id)

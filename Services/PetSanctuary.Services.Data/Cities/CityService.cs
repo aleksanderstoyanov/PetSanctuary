@@ -32,7 +32,7 @@ namespace PetSanctuary.Services.Data.Cities
 
         public City GetCityById(int id)
         {
-            return this.citiesRepository.All().Where(x => x.Id == id).FirstOrDefault();
+            return this.citiesRepository.AllAsNoTracking().Where(x => x.Id == id).FirstOrDefault();
         }
 
         public City GetCityByName(string name)
