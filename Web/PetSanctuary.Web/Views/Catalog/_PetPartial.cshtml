@@ -1,4 +1,4 @@
-﻿@using PetSanctuary.Web.ViewModels.Catalog 
+﻿
 @model CatalogViewModel
 <div class="col-md-4" style="padding-top:20px">
     <div class="col-md-12">
@@ -6,7 +6,7 @@
             <img class="card-img-top" style="height:270px;width:318px" src="@Model.Image" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title" style="color:white">@Model.Name</h5>
-                <a asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-id="@Model.Id"  type="button" class="btn btn-danger">Details</a>
+                <a asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-id="@Model.Id"  type="button" class="btn btn-danger">Details <i class="fas fa-info-circle"></i></a>
             </div>
             <div class="card-footer">
                 <small class="text-muted">Last updated 3 mins ago</small>
