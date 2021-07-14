@@ -25,5 +25,10 @@ namespace PetSanctuary.Services.Data.Users
         {
             return this.userRepository.All().Where(x => x.UserName == name).FirstOrDefault();
         }
+
+        public string GetUserPhoneNumber(string name)
+        {
+            return this.userRepository.AllAsNoTracking().Where(x => x.UserName == name).FirstOrDefault().PhoneNumber;
+        }
     }
 }

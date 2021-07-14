@@ -1,4 +1,4 @@
-﻿
+﻿@model ProfileViewModel 
 <div class="container">
     <div class="row d-flex justify-content-lg-center">
         <div class="col-7">
@@ -10,7 +10,7 @@
                             <i class="fas fa-user-circle" style="font-size:100px;color:white;"></i>
                             <div class="mt-3">
                                 <h4 style="color:white">John Doe</h4>
-                                
+
                                 <a class="btn btn-success" asp-area="" asp-controller="User" asp-action="Posts">View Posts <i class="fas fa-paw"></i></a>
                                 <a class="btn btn-primary" asp-area="" asp-controller="User" asp-action="Blogs">View Blogs <i class="far fa-newspaper"></i></a>
                             </div>
@@ -18,31 +18,39 @@
                         <hr>
                         <div class="row" style="color:white">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Email</h6>
+                                <h6 class="mb-0">Email <i class="fas fa-at"></i></h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                fip@jukmuh.al
+                                @Model.Email
                             </div>
                         </div>
                         <hr>
                         <div class="row" style="color:white">
                             <div class="col-sm-3">
-                                <h6 class="mb-0" style="color:white">Phone</h6>
+                                <h6 class="mb-0" style="color:white">Phone <i class="fas fa-phone"></i></h6>
                             </div>
                             <div class="col-sm-9 text-secondary" style="color:white">
-                                (239) 816-9029
+                                @Model.PhoneNumber
                             </div>
                         </div>
                         <hr>
                         <div class="row" style="color:white">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Address</h6>
+                                <h6 class="mb-0">Number of posts <i class="fas fa-paw"></i></h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                Bay Area, San Francisco, CA
+                                @Model.NumberOfPosts
                             </div>
                         </div>
                         <hr>
+                        <div class="row" style="color:white">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Number of blogs <i class="far fa-newspaper"></i></h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @Model.NumberOfBlogs
+                            </div>
+                        </div>
                     </div>
                    
                 </div>

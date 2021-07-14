@@ -2,6 +2,7 @@
 using PetSanctuary.Services.Data.Addresses;
 using PetSanctuary.Services.Data.Catalogs;
 using PetSanctuary.Services.Data.Cities;
+using PetSanctuary.Services.Data.Users;
 using PetSanctuary.Web.ViewModels.Catalog;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,14 @@ namespace PetSanctuary.Web.Controllers
         private readonly ICatalogService catalogService;
         private readonly ICityService cityService;
         private readonly IAddressService addressService;
+        private readonly IUserService userService;
 
-        public CatalogController(ICatalogService catalogService, ICityService cityService, IAddressService addressService)
+        public CatalogController(ICatalogService catalogService, ICityService cityService, IAddressService addressService, IUserService userService)
         {
             this.catalogService = catalogService;
             this.cityService = cityService;
             this.addressService = addressService;
+            this.userService = userService;
         }
 
         public IActionResult Dogs()
@@ -91,9 +94,10 @@ namespace PetSanctuary.Web.Controllers
                 City = this.cityService.GetCityById(pet.CityId).Name,
                 CreatedOn = pet.CreatedOn.ToString(),
                 IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
+                PhoneNumber = this.userService.GetUserPhoneNumber(this.User.Identity.Name)
 
-            };
+        };
             return this.View(model);
-        }
     }
+}
 }

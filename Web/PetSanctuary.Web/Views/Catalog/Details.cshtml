@@ -12,7 +12,15 @@
                         <i class="fas fa-calendar-alt mr-2"></i>@Model.CreatedOn
                     </time>
                 </li>
-                <li><i class="fas fa-phone-alt"></i> - 08824512395</li>
+                @if (Model.PhoneNumber != null)
+                {
+                    <li><i class="fas fa-phone-alt"></i> - @Model.PhoneNumber</li>
+                }
+                @if (Model.PhoneNumber == null)
+                {
+                    <li><i class="fas fa-phone-alt"></i> - No phone number</li>
+                }
+
                 <li>Gender - @Model.Gender</li>
                 <li>Address <i class="fas fa-map-marker-alt mr-2"></i>- @Model.City @Model.Address</li>
                 <li>Is vaccinated <i class="fas fa-syringe mr-2"></i>- @Model.IsVaccinated</li>

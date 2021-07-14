@@ -31,7 +31,16 @@ namespace PetSanctuary.Web.Controllers
 
         public IActionResult Profile()
         {
-            return this.View();
+            var user = this.userService.GetUserByName(this.User.Identity.Name);
+            var model = new ProfileViewModel
+            {
+
+                Email = this.User.Identity.Name,
+                NumberOfPosts = this.catalogService.GetAllUserPets(user.Id).Count,
+                PhoneNumber = this.userService.GetUserPhoneNumber(user.UserName),
+                NumberOfBlogs = this.blogService.GetAllUserBlogs(user.Id).Count
+            };
+            return this.View(model);
         }
 
         public IActionResult Posts()
@@ -48,7 +57,9 @@ namespace PetSanctuary.Web.Controllers
                     IsVaccinated = x.IsVaccinated ? "Yes" : "No",
                     Type = x.Type.ToString(),
                     Gender = x.Gender.ToString(),
-                    Image = x.Image
+                    Image = x.Image,
+                    PhoneNumber = this.userService.GetUserPhoneNumber(this.User.Identity.Name)
+
                 }).ToList();
             return this.View(posts);
         }
