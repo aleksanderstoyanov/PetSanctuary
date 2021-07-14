@@ -8,5 +8,6 @@ namespace PetSanctuary.Data.Models.Enums
     {
         Dog,
         Cat,
+        Other
     }
 }

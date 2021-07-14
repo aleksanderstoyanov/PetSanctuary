@@ -1,0 +1,9 @@
+﻿
+@model List<CatalogViewModel>
+<div class="row">
+    @foreach (var pet in Model)
+    {
+        <partial name="_PetPartial" model="pet" />
+    }
+
+</div>

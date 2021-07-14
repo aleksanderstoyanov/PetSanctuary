@@ -49,6 +49,18 @@ namespace PetSanctuary.Web.Controllers
             return this.View(cats);
         }
 
+        public IActionResult Other()
+        {
+            var others = this.catalogService.GetAllOthers()
+                .Select(x => new CatalogViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Image = x.Image
+                }).ToList();
+            return this.View(others);
+        }
+
         public IActionResult Create()
         {
             return this.View();

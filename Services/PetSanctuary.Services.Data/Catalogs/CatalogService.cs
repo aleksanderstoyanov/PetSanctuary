@@ -105,6 +105,16 @@ namespace PetSanctuary.Services.Data.Catalogs
             return this.petsRepository.AllAsNoTracking().Where(x => x.Type.Equals(PetType.Dog)).ToList();
         }
 
+        public ICollection<Pet> GetAllOthers()
+        {
+            return this.petsRepository.AllAsNoTracking().Where(x => x.Type.Equals(PetType.Other)).ToList();
+        }
+
+        public ICollection<Pet> GetAllPets()
+        {
+            return this.petsRepository.AllAsNoTracking().ToList();
+        }
+
         public ICollection<Pet> GetAllUserPets(string id)
         {
             return this.petsRepository.All().Where(x => x.OwnerId == id).ToList();
