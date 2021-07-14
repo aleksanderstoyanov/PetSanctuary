@@ -34,15 +34,15 @@ namespace PetSanctuary.Services.Data.Catalogs
             var address = this.addressService.GetAddressByName(addressName);
             if (city == null)
             {
-                city = await EnsureCityCreated(cityName);
+                city = await this.EnsureCityCreated(cityName);
             }
 
             if (address == null)
             {
-                address = await EnsureAddressCreated(addressName, city.Id);
+                address = await this.EnsureAddressCreated(addressName, city.Id);
             }
 
-            await this.petsRepository.AddAsync(new Pet
+            var pet = new Pet
             {
                 Name = name,
                 Age = age,
@@ -56,7 +56,15 @@ namespace PetSanctuary.Services.Data.Catalogs
                 Type = (PetType)Enum.Parse(typeof(PetType), type),
                 Gender = (GenderType)Enum.Parse(typeof(GenderType), gender),
                 IsVaccinated = isVaccinated == "No" ? false : true,
+            };
+
+            pet.UserPets.Add(new UserPet
+            {
+                User = this.userService.GetUserByName(username),
+                Pet = pet
             });
+            await this.petsRepository.AddAsync(pet);
+
             await this.petsRepository.SaveChangesAsync();
         }
 
@@ -131,6 +139,7 @@ namespace PetSanctuary.Services.Data.Catalogs
             await this.addressService.Create(addressName, cityId);
             return this.addressService.GetAddressByName(addressName);
         }
+
         private async Task<City> EnsureCityCreated(string cityName)
         {
 
