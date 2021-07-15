@@ -27,7 +27,8 @@
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
-                              new ClinicsSeeder()
+                              new ClinicsSeeder(),
+                              new VetsSeeder()
                           };
 
             foreach (var seeder in seeders)
