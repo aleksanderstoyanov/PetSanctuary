@@ -17,6 +17,8 @@
         public const int MaxBlogTitleLength = 20;
         public const int MinBlogDescriptionLength = 10;
         public const int MaxBlogDescriptionLength = 200;
-
+        public const int MaxClinicNameLength = 30;
+        public const int MaxVetFirstNameLength = 30;
+        public const int MaxVetSurnameLength = 30;
     }
 }

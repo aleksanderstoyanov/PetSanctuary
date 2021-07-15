@@ -35,7 +35,12 @@
         public DbSet<Blog> Blogs { get; set; }
 
         public DbSet<UserPet> UserPets { get; set; }
+
         public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Clinic> Clinics { get; set; }
+
+        public DbSet<Vet> Vets { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

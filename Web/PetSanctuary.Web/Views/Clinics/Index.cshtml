@@ -1,0 +1,10 @@
+﻿@model List<ClinicsAllViewModel>
+<div class="container mx-auto mt-4">
+
+    <div class="row">
+        @foreach (var clinic in Model)
+        {
+            <partial name="_ClinicPartial" model="clinic"/>
+        }
+    </div>
+</div>
