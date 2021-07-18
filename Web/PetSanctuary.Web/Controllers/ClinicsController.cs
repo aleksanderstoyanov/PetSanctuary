@@ -48,9 +48,25 @@ namespace PetSanctuary.Web.Controllers
                 {
                     Id = x.Id,
                     FirstName = x.FirstName,
-                    Surname = x.Surname
+                    Surname = x.Surname,
+                    Likes = x.Likes == null ? 0 : x.Likes,
+                    Dislikes = x.Dislikes == null ? 0 : x.Dislikes
                 }).ToList();
             return this.View(model);
+        }
+
+        public async Task<IActionResult> Like(string vetId)
+        {
+            var vet = this.vetService.GetVetById(vetId);
+            await this.vetService.UpdateLikes(vetId);
+            return this.Redirect($"/Clinics/Vets/{vet.ClinicId}");
+        }
+
+        public async Task<IActionResult> Dislike(string vetId)
+        {
+            var vet = this.vetService.GetVetById(vetId);
+            await this.vetService.UpdateDislikes(vetId);
+            return this.Redirect($"/Clinics/Vets/{vet.ClinicId}");
         }
 
         public IActionResult Description(string id)

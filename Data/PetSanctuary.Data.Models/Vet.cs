@@ -32,5 +32,9 @@ namespace PetSanctuary.Data.Models
 
         public Clinic Clinic { get; set; }
 
+        public int Likes { get; set; }
+
+        public int Dislikes { get; set; }
+
     }
 }

@@ -11,5 +11,9 @@ namespace PetSanctuary.Web.ViewModels.Vets
         public string FirstName { get; set; }
 
         public string Surname { get; set; }
+
+        public int Likes { get; set; }
+
+        public int Dislikes { get; set; }
     }
 }

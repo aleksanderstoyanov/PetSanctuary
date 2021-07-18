@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PetSanctuary.Services.Data.Vets
 {
@@ -24,6 +25,22 @@ namespace PetSanctuary.Services.Data.Vets
         public ICollection<Vet> GetVetsById(int clinicId)
         {
             return this.vetsRepository.AllAsNoTracking().Where(x => x.ClinicId == clinicId).ToList();
+        }
+
+        public async Task UpdateDislikes(string vetId)
+        {
+            var vet = this.GetVetById(vetId);
+            vet.Dislikes += 1;
+            this.vetsRepository.Update(vet);
+            await this.vetsRepository.SaveChangesAsync();
+        }
+
+        public async Task UpdateLikes(string vetId)
+        {
+            var vet = this.GetVetById(vetId);
+            vet.Likes += 1;
+            this.vetsRepository.Update(vet);
+            await this.vetsRepository.SaveChangesAsync();
         }
     }
 }
