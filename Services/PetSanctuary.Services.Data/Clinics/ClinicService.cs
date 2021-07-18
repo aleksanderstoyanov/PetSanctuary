@@ -20,5 +20,10 @@ namespace PetSanctuary.Services.Data.Clinics
         {
             return this.clinicsRepository.AllAsNoTracking().ToList();
         }
+
+        public Clinic GetClinicByName(string name)
+        {
+            return this.clinicsRepository.All().FirstOrDefault(x => x.Name == name);
+        }
     }
 }

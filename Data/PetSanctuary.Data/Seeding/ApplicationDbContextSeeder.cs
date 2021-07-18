@@ -27,6 +27,8 @@
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
+                              new CitiesSeeder(),
+                              new AddressesSeeder(),
                               new ClinicsSeeder(),
                               new VetsSeeder()
                           };
