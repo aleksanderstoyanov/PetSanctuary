@@ -49,6 +49,7 @@ namespace PetSanctuary.Data.Seeding
                 City = cityService.GetCityByName("Sofia"),
                 Name = "zhk Nadejda bl.172"
             });
+
         }
     }
 }

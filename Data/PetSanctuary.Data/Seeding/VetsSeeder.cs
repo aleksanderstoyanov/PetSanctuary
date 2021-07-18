@@ -113,6 +113,7 @@ He started his internship at the Blue Cross Veterinary Clinic in 2006."
                 Description = "Dr. Simeon Pachev was born in Plovdiv where he completed his primary and secondary education. In 1986 he graduated as a veterinarian at VIZVM - Stara Zagora."
 
             });
+
             await dbContext.Vets.AddAsync(new Vet
             {
                 FirstName = "Nikolay",
