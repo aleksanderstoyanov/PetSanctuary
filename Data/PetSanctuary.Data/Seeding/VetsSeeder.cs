@@ -104,7 +104,83 @@ He started his internship at the Blue Cross Veterinary Clinic in 2006."
                 Description = @"Born in 1985 in the town of Svishtov. In 2004 he graduated from the Technical School of Veterinary Medicine - Lovech. He received his higher education at the Faculty of Veterinary Medicine of the Thracian University - Stara Zagora in 2009."
 
             });
+            await dbContext.Vets.AddAsync(new Vet
+            {
+                FirstName = "Simeon",
+                Surname = "Pachev",
+                ClinicId = clinicService.GetClinicByName("Provet Clinic").Id,
+                Qualification = "Stomach surgeon",
+                Description = "Dr. Simeon Pachev was born in Plovdiv where he completed his primary and secondary education. In 1986 he graduated as a veterinarian at VIZVM - Stara Zagora."
 
+            });
+            await dbContext.Vets.AddAsync(new Vet
+            {
+                FirstName = "Nikolay",
+                Surname = "Marinkov",
+                ClinicId = clinicService.GetClinicByName("Provet Clinic").Id,
+                Qualification = "Surgeon",
+                Description = @"
+Dr.Nikolay Marinkov was born on March 31,
+                1971 in Plovdiv.He graduated from the Veterinary College in Stara Zagora and the Thracian University in Stara Zagora.He graduated in 1998 with a master's degree in veterinary medicine."
+
+            });
+            await dbContext.Vets.AddAsync(new Vet
+            {
+                FirstName = "Stoyanka",
+                Surname = "Karpacheva",
+                ClinicId = clinicService.GetClinicByName("Provet Clinic").Id,
+                Qualification = "Surgeon",
+                Description = @"Dr. Stoyanka Karpacheva was born on October 7, 1963. in the city of Plovdiv. He completed his secondary education at a language high school teaching German Bertolt Brecht in Pazardzhik, and in 1987 he graduated as a veterinarian at VIZVM - Stara Zagora."
+            });
+            await dbContext.Vets.AddAsync(new Vet
+            {
+                FirstName = "Ivelina",
+                Surname = "Nedkova",
+                ClinicId = clinicService.GetClinicByName("Vita Vet").Id,
+                Qualification = "Surgeon",
+                Description = @"Dr. Ivelina Nedkova was born in 1984. He completed his secondary education at the Technical School of Veterinary Medicine in Dobrich. He graduated from the Thracian University, Stara Zagora."
+            });
+            await dbContext.Vets.AddAsync(new Vet
+            {
+                FirstName = "Genadi",
+                Surname = "Stoichkov",
+                ClinicId = clinicService.GetClinicByName("Vita Vet").Id,
+                Qualification = "Surgeon",
+                Description = @"Dr. Gennady Stoichkov was born in 1983. He graduated from the College of Veterinary Medicine in Kostinbrod in 2001. In 2007 he graduated from the Thracian University in Stara Zagora."
+            });
+            await dbContext.Vets.AddAsync(new Vet
+            {
+                FirstName = "Violeta",
+                Surname = "Dimitrova",
+                ClinicId = clinicService.GetClinicByName("Vita Vet").Id,
+                Qualification = "Surgeon",
+                Description = @"Violeta Dimitrova was born in 1994. He graduated from the College of Veterinary Medicine in Kostinbrod in 2013. He continues his studies in the specialty at the Thracian University in Stara Zagora.
+"
+            });
+            await dbContext.Vets.AddAsync(new Vet
+            {
+                FirstName = "Yanitsa",
+                Surname = "Dencheva",
+                ClinicId = clinicService.GetClinicByName("Central Veterinary Clinic").Id,
+                Qualification = "Surgeon",
+                Description = @"Dr. Yanitsa Dencheva was born on August 20, 1974. In the team of the clinic since its inception,"
+            });
+            await dbContext.Vets.AddAsync(new Vet
+            {
+                FirstName = "Vladislav",
+                Surname = "Zlatinov",
+                ClinicId = clinicService.GetClinicByName("Central Veterinary Clinic").Id,
+                Qualification = "Surgeon",
+                Description = "He graduated from the National High School of Natural Sciences and Mathematics in Sofia in 1999. majoring in Biology and the University of Forestry - Sofia in 2005 as a veterinarian.,"
+            });
+            await dbContext.Vets.AddAsync(new Vet
+            {
+                FirstName = "Stoyan",
+                Surname = "Nikolov",
+                ClinicId = clinicService.GetClinicByName("Central Veterinary Clinic").Id,
+                Qualification = "Surgeon",
+                Description = "For the period 2000 - 2015 Dr. Nikolov has been to numerous internships, specializations and seminars in the Czech Republic, USA and Italy with a main focus on Anesthesiology, Cardiology, Surgery and Internal Medicine in Dogs and Cats, Diseases and Therapy in Exotic Animals, Nutrition, Breeding, etc."
+            });
         }
     }
 }

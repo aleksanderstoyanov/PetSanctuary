@@ -34,6 +34,21 @@ namespace PetSanctuary.Data.Seeding
                 CityId = cityService.GetCityByName("Varna").Id,
                 Name = "19 Moryashka Street, 9003"
             });
+            await dbContext.Addresses.AddAsync(new Address
+            {
+                City = cityService.GetCityByName("Sofia"),
+                Name = "Simeonovsko Shosse Blvd."
+            });
+            await dbContext.Addresses.AddAsync(new Address
+            {
+                City = cityService.GetCityByName("Plovdiv"),
+                Name = "zhk Trakia."
+            });
+            await dbContext.Addresses.AddAsync(new Address
+            {
+                City = cityService.GetCityByName("Sofia"),
+                Name = "zhk Nadejda bl.172"
+            });
         }
     }
 }
