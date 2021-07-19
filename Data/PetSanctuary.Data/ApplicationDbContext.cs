@@ -24,8 +24,6 @@
         {
         }
 
-        public DbSet<Setting> Settings { get; set; }
-
         public DbSet<City> Cities { get; set; }
 
         public DbSet<Address> Addresses { get; set; }
