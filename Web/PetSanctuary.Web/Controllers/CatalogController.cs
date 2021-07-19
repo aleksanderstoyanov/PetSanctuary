@@ -94,8 +94,7 @@ namespace PetSanctuary.Web.Controllers
                 City = this.cityService.GetCityById(pet.CityId).Name,
                 CreatedOn = pet.CreatedOn.ToString(),
                 IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
-                PhoneNumber = this.userService.GetUserPhoneNumber(this.User.Identity.Name)
-
+                PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
         };
             return this.View(model);
     }
