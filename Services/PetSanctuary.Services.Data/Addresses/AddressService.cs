@@ -1,5 +1,6 @@
 ﻿using PetSanctuary.Data.Common.Repositories;
 using PetSanctuary.Data.Models;
+using PetSanctuary.Services.Data.Cities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace PetSanctuary.Services.Data.Addresses
     public class AddressService : IAddressService
     {
         private readonly IDeletableEntityRepository<Address> addressRepository;
+        private readonly ICityService cityService;
 
-        public AddressService(IDeletableEntityRepository<Address> addressRepository)
+        public AddressService(IDeletableEntityRepository<Address> addressRepository, ICityService cityService)
         {
             this.addressRepository = addressRepository;
+            this.cityService = cityService;
         }
 
         public async Task Create(string name, int cityId)
@@ -30,14 +33,32 @@ namespace PetSanctuary.Services.Data.Addresses
             await this.addressRepository.SaveChangesAsync();
         }
 
-        public Address GetAddressById(int id)
+        public AddressServiceModel GetAddressById(int id)
         {
-            return this.addressRepository.AllAsNoTracking().Where(x => x.Id == id).FirstOrDefault();
+            return this.addressRepository
+                .AllAsNoTracking()
+                .Where(address => address.Id == id)
+                .Select(address => new AddressServiceModel
+                {
+                    Id = address.Id,
+                    Name = address.Name,
+                    City = this.cityService.GetCityById(address.CityId).Name
+                })
+                .FirstOrDefault();
         }
 
-        public Address GetAddressByName(string name)
+        public AddressServiceModel GetAddressByName(string name)
         {
-            return this.addressRepository.All().Where(x => x.Name == name).FirstOrDefault();
+            return this.addressRepository
+                 .AllAsNoTracking()
+                 .Where(address => address.Name == name)
+                 .Select(address => new AddressServiceModel
+                 {
+                     Id = address.Id,
+                     Name = address.Name,
+                     City = this.cityService.GetCityById(address.CityId).Name
+                 })
+                 .FirstOrDefault();
         }
     }
 }

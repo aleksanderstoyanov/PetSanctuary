@@ -36,7 +36,7 @@ namespace PetSanctuary.Web.Controllers
             {
 
                 Email = this.User.Identity.Name,
-                NumberOfPosts = this.catalogService.GetAllUserPets(user.Id).Count,
+                NumberOfPosts = this.catalogService.GetAllUserPets(user.Id).Count(),
                 PhoneNumber = this.userService.GetUserPhoneNumber(user.UserName),
                 NumberOfBlogs = this.blogService.GetAllUserBlogs(user.Id).Count
             };
@@ -52,9 +52,9 @@ namespace PetSanctuary.Web.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Age = x.Age,
-                    Address = this.addressService.GetAddressById(x.AddressId).Name,
-                    City = this.cityService.GetCityById(x.CityId).Name,
-                    IsVaccinated = x.IsVaccinated ? "Yes" : "No",
+                    Address = x.Address,
+                    City = x.City,
+                    IsVaccinated = x.IsVaccinated,
                     Type = x.Type.ToString(),
                     Gender = x.Gender.ToString(),
                     Image = x.Image,
@@ -72,8 +72,8 @@ namespace PetSanctuary.Web.Controllers
                 Name = pet.Name,
                 Age = pet.Age,
                 Image = pet.Image,
-                Address = this.addressService.GetAddressById(pet.AddressId).Name,
-                City = this.cityService.GetCityById(pet.CityId).Name,
+                Address = pet.Name,
+                City = pet.City,
                 Gender = pet.Gender.ToString(),
                 Type = pet.Type.ToString()
 

@@ -8,8 +8,10 @@ namespace PetSanctuary.Services.Data.Cities
 {
     public interface ICityService
     {
-        City GetCityByName(string name);
-        City GetCityById(int id);
+        CityServiceModel GetCityByName(string name);
+
+        CityServiceModel GetCityById(int id);
+
         Task Create(string name);
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-@model CatalogDetailsViewModel
+@model CatalogServiceModel
 <div class="container d-flex justify-content-center">
 
     <div class="card bg-dark" style="width:700px;color:white">
@@ -20,8 +20,9 @@
                 {
                     <li><i class="fas fa-phone-alt"></i> - No phone number</li>
                 }
-
+                <li>Age - @Model.Age</li>
                 <li>Gender - @Model.Gender</li>
+                <li>Type - @Model.Address</li>
                 <li>Address <i class="fas fa-map-marker-alt mr-2"></i>- @Model.City @Model.Address</li>
                 <li>Is vaccinated <i class="fas fa-syringe mr-2"></i>- @Model.IsVaccinated</li>
 

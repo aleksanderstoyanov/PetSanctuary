@@ -14,16 +14,10 @@ namespace PetSanctuary.Web.Controllers
     public class CatalogController : BaseController
     {
         private readonly ICatalogService catalogService;
-        private readonly ICityService cityService;
-        private readonly IAddressService addressService;
-        private readonly IUserService userService;
 
-        public CatalogController(ICatalogService catalogService, ICityService cityService, IAddressService addressService, IUserService userService)
+        public CatalogController(ICatalogService catalogService)
         {
             this.catalogService = catalogService;
-            this.cityService = cityService;
-            this.addressService = addressService;
-            this.userService = userService;
         }
 
         public IActionResult Dogs()
@@ -34,7 +28,6 @@ namespace PetSanctuary.Web.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Image = x.Image
-
                 }).ToList();
             return this.View(dogs);
         }
@@ -47,7 +40,6 @@ namespace PetSanctuary.Web.Controllers
                    Id = x.Id,
                    Name = x.Name,
                    Image = x.Image
-
                }).ToList();
             return this.View(cats);
         }
@@ -83,20 +75,8 @@ namespace PetSanctuary.Web.Controllers
 
         public IActionResult Details(string id)
         {
-            var pet = this.catalogService.GetPetById(id);
-            var model = new CatalogDetailsViewModel
-            {
-                Id = pet.Id,
-                Name = pet.Name,
-                Image = pet.Image,
-                Address = this.addressService.GetAddressById(pet.AddressId).Name,
-                Gender = pet.Gender.ToString(),
-                City = this.cityService.GetCityById(pet.CityId).Name,
-                CreatedOn = pet.CreatedOn.ToString(),
-                IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
-                PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
-        };
+            var model = this.catalogService.GetPetById(id);
             return this.View(model);
+        }
     }
-}
 }

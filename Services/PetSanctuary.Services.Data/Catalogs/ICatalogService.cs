@@ -10,17 +10,17 @@ namespace PetSanctuary.Services.Data.Catalogs
     {
         Task Create(string name, int age, string image, string type, string gender, string cityName, string addressName, string isVaccinated, string username);
 
-        ICollection<Pet> GetAllPets();
+        IEnumerable<CatalogServiceModel> GetAllPets();
 
-        ICollection<Pet> GetAllDogs();
+        IEnumerable<CatalogServiceModel> GetAllDogs();
 
-        ICollection<Pet> GetAllCats();
+        IEnumerable<CatalogServiceModel> GetAllCats();
 
-        ICollection<Pet> GetAllOthers();
+        IEnumerable<CatalogServiceModel> GetAllOthers();
 
-        ICollection<Pet> GetAllUserPets(string id);
+        IEnumerable<CatalogServiceModel> GetAllUserPets(string id);
 
-        Pet GetPetById(string id);
+        CatalogServiceModel GetPetById(string id);
 
         Task DeletePetById(string id);
 

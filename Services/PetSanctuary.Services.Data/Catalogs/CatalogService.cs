@@ -48,9 +48,7 @@ namespace PetSanctuary.Services.Data.Catalogs
                 Age = age,
                 Image = image,
                 CityId = city.Id,
-                City = city,
                 AddressId = address.Id,
-                Address = address,
                 OwnerId = this.userService.GetUserByName(username).Id,
                 CreatedOn = DateTime.UtcNow,
                 Type = (PetType)Enum.Parse(typeof(PetType), type),
@@ -70,7 +68,7 @@ namespace PetSanctuary.Services.Data.Catalogs
 
         public async Task DeletePetById(string id)
         {
-            var pet = this.GetPetById(id);
+            var pet = this.petsRepository.All().FirstOrDefault(pet => pet.Id == id);
             this.petsRepository.Delete(pet);
             await this.petsRepository.SaveChangesAsync();
         }
@@ -89,7 +87,7 @@ namespace PetSanctuary.Services.Data.Catalogs
                 address = await this.EnsureAddressCreated(addressName, city.Id);
             }
 
-            var pet = this.GetPetById(id);
+            var pet = this.petsRepository.All().FirstOrDefault(pet => pet.Id == id);
             pet.ModifiedOn = DateTime.UtcNow;
             pet.Name = name;
             pet.Age = age;
@@ -103,49 +101,147 @@ namespace PetSanctuary.Services.Data.Catalogs
             await this.petsRepository.SaveChangesAsync();
         }
 
-        public ICollection<Pet> GetAllCats()
+        public IEnumerable<CatalogServiceModel> GetAllCats()
         {
-            return this.petsRepository.AllAsNoTracking().Where(x => x.Type.Equals(PetType.Cat)).ToList();
+            return this.petsRepository
+              .AllAsNoTracking()
+              .Where(pet => pet.Type.Equals(PetType.Cat))
+              .Select(pet => new CatalogServiceModel
+              {
+                  Id = pet.Id,
+                  Name = pet.Name,
+                  Image = pet.Image,
+                  Age = pet.Age,
+                  Address = this.addressService.GetAddressById(pet.AddressId).Name,
+                  Gender = pet.Gender.ToString(),
+                  City = this.cityService.GetCityById(pet.CityId).Name,
+                  CreatedOn = pet.CreatedOn.ToString("ddd d MMM"),
+                  IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
+                  Type = pet.Type.ToString(),
+                  PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
+              })
+              .ToList();
         }
 
-        public ICollection<Pet> GetAllDogs()
+        public IEnumerable<CatalogServiceModel> GetAllDogs()
         {
-            return this.petsRepository.AllAsNoTracking().Where(x => x.Type.Equals(PetType.Dog)).ToList();
+            return this.petsRepository
+                .AllAsNoTracking()
+                .Where(pet => pet.Type.Equals(PetType.Dog))
+                .Select(pet => new CatalogServiceModel
+                {
+                    Id = pet.Id,
+                    Name = pet.Name,
+                    Image = pet.Image,
+                    Age = pet.Age,
+                    Address = this.addressService.GetAddressById(pet.AddressId).Name,
+                    Gender = pet.Gender.ToString(),
+                    City = this.cityService.GetCityById(pet.CityId).Name,
+                    CreatedOn = pet.CreatedOn.ToString("ddd d MMM"),
+                    IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
+                    Type = pet.Type.ToString(),
+                    PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
+                })
+                .ToList();
         }
 
-        public ICollection<Pet> GetAllOthers()
+        public IEnumerable<CatalogServiceModel> GetAllOthers()
         {
-            return this.petsRepository.AllAsNoTracking().Where(x => x.Type.Equals(PetType.Other)).ToList();
+            return this.petsRepository
+              .AllAsNoTracking()
+              .Where(pet => pet.Type.Equals(PetType.Other))
+              .Select(pet => new CatalogServiceModel
+              {
+                  Id = pet.Id,
+                  Name = pet.Name,
+                  Image = pet.Image,
+                  Age = pet.Age,
+                  Address = this.addressService.GetAddressById(pet.AddressId).Name,
+                  Gender = pet.Gender.ToString(),
+                  City = this.cityService.GetCityById(pet.CityId).Name,
+                  CreatedOn = pet.CreatedOn.ToString("ddd d MMM"),
+                  IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
+                  Type = pet.Type.ToString(),
+                  PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
+              })
+              .ToList();
         }
 
-        public ICollection<Pet> GetAllPets()
+        public IEnumerable<CatalogServiceModel> GetAllPets()
         {
-            return this.petsRepository.AllAsNoTracking().ToList();
+            return this.petsRepository
+              .AllAsNoTracking()
+              .Select(pet => new CatalogServiceModel
+              {
+                  Id = pet.Id,
+                  Name = pet.Name,
+                  Image = pet.Image,
+                  Age = pet.Age,
+                  Address = this.addressService.GetAddressById(pet.AddressId).Name,
+                  Gender = pet.Gender.ToString(),
+                  City = this.cityService.GetCityById(pet.CityId).Name,
+                  CreatedOn = pet.CreatedOn.ToString("ddd d MMM"),
+                  IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
+                  Type = pet.Type.ToString(),
+                  PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
+              })
+              .ToList();
         }
 
-        public ICollection<Pet> GetAllUserPets(string id)
+        public IEnumerable<CatalogServiceModel> GetAllUserPets(string id)
         {
-            return this.petsRepository.All().Where(x => x.OwnerId == id).ToList();
+            return this.petsRepository
+                 .AllAsNoTracking()
+                 .Where(pet => pet.OwnerId == id)
+                 .Select(pet => new CatalogServiceModel
+                 {
+                     Id = pet.Id,
+                     Name = pet.Name,
+                     Age = pet.Age,
+                     Image = pet.Image,
+                     Address = this.addressService.GetAddressById(pet.AddressId).Name,
+                     Gender = pet.Gender.ToString(),
+                     City = this.cityService.GetCityById(pet.CityId).Name,
+                     CreatedOn = pet.CreatedOn.ToString("ddd d MMM"),
+                     IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
+                     Type = pet.Type.ToString(),
+                     PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
+                 })
+                 .ToList();
         }
 
-        public Pet GetPetById(string id)
+        public CatalogServiceModel GetPetById(string id)
         {
-            return this.petsRepository.All().Where(x => x.Id == id).FirstOrDefault();
+            return this.petsRepository
+              .All()
+              .Where(pet => pet.Id == id)
+               .Select(pet => new CatalogServiceModel
+               {
+                   Id = pet.Id,
+                   Name = pet.Name,
+                   Age = pet.Age,
+                   Image = pet.Image,
+                   Address = this.addressService.GetAddressById(pet.AddressId).Name,
+                   Gender = pet.Gender.ToString(),
+                   City = this.cityService.GetCityById(pet.CityId).Name,
+                   CreatedOn = pet.CreatedOn.ToString("ddd d MMM"),
+                   IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
+                   Type = pet.Type.ToString(),
+                   PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
+               })
+              .FirstOrDefault();
         }
 
-        private async Task<Address> EnsureAddressCreated(string addressName, int cityId)
+        private async Task<AddressServiceModel> EnsureAddressCreated(string addressName, int cityId)
         {
-
             await this.addressService.Create(addressName, cityId);
             return this.addressService.GetAddressByName(addressName);
         }
 
-        private async Task<City> EnsureCityCreated(string cityName)
+        private async Task<CityServiceModel> EnsureCityCreated(string cityName)
         {
-
             await this.cityService.Create(cityName);
             return this.cityService.GetCityByName(cityName);
         }
     }
 }
-

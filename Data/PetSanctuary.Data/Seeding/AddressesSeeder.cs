@@ -36,17 +36,17 @@ namespace PetSanctuary.Data.Seeding
             });
             await dbContext.Addresses.AddAsync(new Address
             {
-                City = cityService.GetCityByName("Sofia"),
+                CityId = cityService.GetCityByName("Sofia").Id,
                 Name = "Simeonovsko Shosse Blvd."
             });
             await dbContext.Addresses.AddAsync(new Address
             {
-                City = cityService.GetCityByName("Plovdiv"),
+                CityId = cityService.GetCityByName("Plovdiv").Id,
                 Name = "zhk Trakia."
             });
             await dbContext.Addresses.AddAsync(new Address
             {
-                City = cityService.GetCityByName("Sofia"),
+                CityId = cityService.GetCityByName("Sofia").Id,
                 Name = "zhk Nadejda bl.172"
             });
 
