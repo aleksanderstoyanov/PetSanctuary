@@ -14,44 +14,24 @@ namespace PetSanctuary.Web.Controllers
     public class BlogsController : BaseController
     {
         private readonly IBlogService blogService;
-        private readonly IUserService userService;
         private readonly ICommentService commentService;
 
-        public BlogsController(IBlogService blogService, IUserService userService, ICommentService commentService)
+        public BlogsController(IBlogService blogService, ICommentService commentService)
         {
 
             this.blogService = blogService;
-            this.userService = userService;
             this.commentService = commentService;
         }
 
         public IActionResult Index()
         {
-            var model = this.blogService
-                .GetAllBlogs()
-                .Select(x => new BlogViewModel
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    Image = x.Image,
-                    Description = x.Description,
-                    Author = this.userService.GetUserById(x.AuthorId).UserName,
-                    CreatedOn = x.CreatedOn.ToString(),
-
-                }).ToList();
+            var model = this.blogService.GetAllBlogs();
             return this.View(model);
         }
 
         public IActionResult Comments(string id)
         {
-            var comments = this.commentService.GetAllBlogComments(id)
-                .Select(x => new CommentViewModel
-                {
-                    Id = x.Id,
-                    Content = x.Content,
-                    PublishedOn = x.CreatedOn.ToString(),
-                    Publisher = this.userService.GetUserById(x.PublisherId).UserName
-                }).ToList();
+            var comments = this.commentService.GetAllBlogComments(id);
             return this.View(comments);
         }
 

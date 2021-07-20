@@ -38,7 +38,7 @@ namespace PetSanctuary.Web.Controllers
                 Email = this.User.Identity.Name,
                 NumberOfPosts = this.catalogService.GetAllUserPets(user.Id).Count(),
                 PhoneNumber = this.userService.GetUserPhoneNumber(user.UserName),
-                NumberOfBlogs = this.blogService.GetAllUserBlogs(user.Id).Count
+                NumberOfBlogs = this.blogService.GetAllUserBlogs(user.Id).Count()
             };
             return this.View(model);
         }

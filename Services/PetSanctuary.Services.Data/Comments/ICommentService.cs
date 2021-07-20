@@ -8,14 +8,15 @@ namespace PetSanctuary.Services.Data.Comments
 {
     public interface ICommentService
     {
-        Comment GetCommentById(int id);
-        Task Create(string blogId,string content,string publisherId);
+        CommentServiceModel GetCommentById(int id);
+
+        Task Create(string blogId, string content, string publisherId);
 
         Task Edit(int id, string content);
 
         Task Delete(int id);
 
-        ICollection<Comment> GetAllBlogComments(string id);
+        IEnumerable<CommentServiceModel> GetAllBlogComments(string id);
 
     }
 }

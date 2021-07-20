@@ -8,16 +8,20 @@ namespace PetSanctuary.Services.Data.Blogs
 {
     public interface IBlogService
     {
-        ICollection<Blog> GetAllBlogs();
+        IEnumerable<BlogServiceModel> GetAllBlogs();
+
         Task Create(string title, string image, string description, string authorName);
 
-        ICollection<Blog> GetAllUserBlogs(string id);
-        Blog GetBlogByTitle(string title);
+        IEnumerable<BlogServiceModel> GetAllUserBlogs(string id);
 
-        Blog GetBlogById(string id);
+        BlogServiceModel GetBlogByTitle(string title);
+
+        BlogServiceModel GetBlogById(string id);
 
         Task EditBlogById(string id, string title, string image, string description);
+
         Task DeleteBlogById(string id);
+
         Task AddCommentToBlog(string id, string content, string username);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using PetSanctuary.Data.Common.Repositories;
 using PetSanctuary.Data.Models;
+using PetSanctuary.Services.Data.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,13 @@ namespace PetSanctuary.Services.Data.Comments
     public class CommentService : ICommentService
     {
         private readonly IDeletableEntityRepository<Comment> commentRepository;
+        private readonly IUserService userService;
 
-        public CommentService(IDeletableEntityRepository<Comment> commentRepository)
+        public CommentService(IDeletableEntityRepository<Comment> commentRepository, IUserService userService)
         {
             this.commentRepository = commentRepository;
+            this.userService = userService;
         }
-
-
 
         public async Task Create(string blogId, string content, string publisherId)
         {
@@ -34,26 +35,48 @@ namespace PetSanctuary.Services.Data.Comments
 
         public async Task Delete(int id)
         {
-            var comment = this.GetCommentById(id);
+            var comment = this.commentRepository.All().FirstOrDefault(comment => comment.Id == id);
             this.commentRepository.Delete(comment);
             await this.commentRepository.SaveChangesAsync();
         }
 
         public async Task Edit(int id, string content)
         {
-            var comment = this.GetCommentById(id);
+            var comment = this.commentRepository.All().FirstOrDefault(comment => comment.Id == id);
             comment.Content = content;
             await this.commentRepository.SaveChangesAsync();
         }
 
-        public ICollection<Comment> GetAllBlogComments(string id)
+        public IEnumerable<CommentServiceModel> GetAllBlogComments(string id)
         {
-            return this.commentRepository.AllAsNoTracking().Where(x => x.BlogId == id).ToList();
+            return this.commentRepository.
+                AllAsNoTracking()
+                .Where(comment => comment.BlogId == id)
+                .Select(comment => new CommentServiceModel
+                {
+                    Id = comment.Id,
+                    Content = comment.Content,
+                    BlogId = comment.BlogId,
+                    PublishedOn = comment.CreatedOn.ToString("ddd d MMM"),
+                    Publisher = this.userService.GetUserById(comment.PublisherId).UserName
+                })
+                .ToList();
         }
 
-        public Comment GetCommentById(int id)
+        public CommentServiceModel GetCommentById(int id)
         {
-            return this.commentRepository.All().Where(x => x.Id == id).FirstOrDefault();
+            return this.commentRepository
+                .All()
+                .Where(comment => comment.Id == id)
+                .Select(comment => new CommentServiceModel
+                {
+                    Id = comment.Id,
+                    Content = comment.Content,
+                    BlogId = comment.BlogId,
+                    PublishedOn = comment.CreatedOn.ToString("ddd d MMM"),
+                    Publisher = this.userService.GetUserById(comment.PublisherId).UserName
+                })
+                .FirstOrDefault();
         }
     }
 }
