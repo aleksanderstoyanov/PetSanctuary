@@ -17,19 +17,48 @@ namespace PetSanctuary.Services.Data.Vets
             this.vetsRepository = vetsRepository;
         }
 
-        public Vet GetVetById(string id)
+        public VetServiceModel GetVetById(string id)
         {
-            return this.vetsRepository.AllAsNoTracking().Where(x => x.Id == id).FirstOrDefault();
+            return this.vetsRepository
+                .AllAsNoTracking()
+                .Where(vet => vet.Id == id)
+                .Select(vet => new VetServiceModel
+                {
+                    Id = vet.Id,
+                    FirstName = vet.FirstName,
+                    Surname = vet.Surname,
+                    Description = vet.Description,
+                    ClinicId = vet.ClinicId,
+                    Likes = vet.Likes,
+                    Dislikes = vet.Dislikes
+                })
+                .FirstOrDefault();
         }
 
-        public ICollection<Vet> GetVetsById(int clinicId)
+        public IEnumerable<VetServiceModel> GetVetsById(int clinicId)
         {
-            return this.vetsRepository.AllAsNoTracking().Where(x => x.ClinicId == clinicId).ToList();
+            return this.vetsRepository
+                .AllAsNoTracking()
+                .Where(vet => vet.ClinicId == clinicId)
+                .Select(vet => new VetServiceModel
+                {
+                    Id = vet.Id,
+                    FirstName = vet.FirstName,
+                    Surname = vet.Surname,
+                    ClinicId = vet.ClinicId,
+                    Description = vet.Description,
+                    Likes = vet.Likes,
+                    Dislikes = vet.Dislikes
+                })
+                .ToList();
         }
 
         public async Task UpdateDislikes(string vetId)
         {
-            var vet = this.GetVetById(vetId);
+            var vet = this.vetsRepository
+                .All()
+                .FirstOrDefault(vet => vet.Id == vetId);
+
             vet.Dislikes += 1;
             this.vetsRepository.Update(vet);
             await this.vetsRepository.SaveChangesAsync();
@@ -37,7 +66,10 @@ namespace PetSanctuary.Services.Data.Vets
 
         public async Task UpdateLikes(string vetId)
         {
-            var vet = this.GetVetById(vetId);
+            var vet = this.vetsRepository
+               .All()
+               .FirstOrDefault(vet => vet.Id == vetId);
+
             vet.Likes += 1;
             this.vetsRepository.Update(vet);
             await this.vetsRepository.SaveChangesAsync();

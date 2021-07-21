@@ -7,8 +7,8 @@ namespace PetSanctuary.Services.Data.Clinics
 {
     public interface IClinicService
     {
-        ICollection<Clinic> GetAllClinics();
+        IEnumerable<ClinicServiceModel> GetAllClinics();
 
-        Clinic GetClinicByName(string name);
+        ClinicServiceModel GetClinicByName(string name);
     }
 }

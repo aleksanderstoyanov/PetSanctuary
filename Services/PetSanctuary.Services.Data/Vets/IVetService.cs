@@ -8,12 +8,12 @@ namespace PetSanctuary.Services.Data.Vets
 {
     public interface IVetService
     {
-        ICollection<Vet> GetVetsById(int clinicId);
+        IEnumerable<VetServiceModel> GetVetsById(int clinicId);
 
         Task UpdateLikes(string vetId);
 
         Task UpdateDislikes(string vetId);
 
-        Vet GetVetById(string id);
+        VetServiceModel GetVetById(string id);
     }
 }

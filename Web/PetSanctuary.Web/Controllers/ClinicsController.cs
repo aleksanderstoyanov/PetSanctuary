@@ -3,7 +3,6 @@ using PetSanctuary.Services.Data.Addresses;
 using PetSanctuary.Services.Data.Cities;
 using PetSanctuary.Services.Data.Clinics;
 using PetSanctuary.Services.Data.Vets;
-using PetSanctuary.Web.ViewModels.Clinics;
 using PetSanctuary.Web.ViewModels.Vets;
 using System;
 using System.Collections.Generic;
@@ -29,15 +28,7 @@ namespace PetSanctuary.Web.Controllers
 
         public IActionResult Index()
         {
-            var model = this.clinicService.GetAllClinics()
-                .Select(x => new ClinicsAllViewModel
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Image = x.Image,
-                    City = this.cityService.GetCityById(x.CityId).Name,
-                    Address = this.addressService.GetAddressById(x.AddressId).Name
-                }).ToList();
+            var model = this.clinicService.GetAllClinics().ToList();
             return this.View(model);
         }
 

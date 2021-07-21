@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PetSanctuary.Web.ViewModels.Clinics
+namespace PetSanctuary.Services.Data.Clinics
 {
-    public class ClinicsAllViewModel
+    public class ClinicServiceModel
     {
         public int Id { get; set; }
 
