@@ -10,8 +10,8 @@ namespace PetSanctuary.Services.Data.Users
     {
         string GetUserPhoneNumber(string id);
 
-        Task<ApplicationUser> GetUserByName(string name);
+        ApplicationUser GetUserByName(string name);
 
-        Task<ApplicationUser> GetUserById(string id);
+        ApplicationUser GetUserById(string id);
     }
 }

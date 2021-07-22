@@ -18,7 +18,7 @@
 
         public IActionResult Index()
         {
-            var dogs = this.catalogService.GetAllPets()
+            var dogs = this.catalogService.GetAllDogs()
                 .Select(x => new AllDogsHomeViewModel
                 {
                     Id = x.Id,

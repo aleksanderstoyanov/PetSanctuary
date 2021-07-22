@@ -31,7 +31,7 @@ namespace PetSanctuary.Services.Data.Blogs
                 Title = title,
                 Image = image,
                 Description = description,
-                AuthorId = author.Result.Id,
+                AuthorId = author.Id,
                 CreatedOn = DateTime.UtcNow
 
             });
@@ -57,7 +57,7 @@ namespace PetSanctuary.Services.Data.Blogs
 
         public async Task AddCommentToBlog(string blogId, string content, string username)
         {
-            await this.EnsureCommentCreated(blogId, content, this.userService.GetUserByName(username).Result.Id);
+            await this.EnsureCommentCreated(blogId, content, this.userService.GetUserByName(username).Id);
             await this.blogRepository.SaveChangesAsync();
         }
 
@@ -71,7 +71,7 @@ namespace PetSanctuary.Services.Data.Blogs
                     Title = blog.Title,
                     Image = blog.Image,
                     Description = blog.Description,
-                    Author = this.userService.GetUserById(blog.AuthorId).Result.UserName,
+                    Author = this.userService.GetUserById(blog.AuthorId).UserName,
                     CreatedOn = blog.CreatedOn.ToString("ddd d MMM")
                 })
                 .ToList();
@@ -88,7 +88,7 @@ namespace PetSanctuary.Services.Data.Blogs
                    Title = blog.Title,
                    Image = blog.Image,
                    Description = blog.Description,
-                   Author = this.userService.GetUserById(blog.AuthorId).Result.UserName,
+                   Author = this.userService.GetUserById(blog.AuthorId).UserName,
                    CreatedOn = blog.CreatedOn.ToString("ddd d MMM")
                })
                .ToList();
@@ -103,7 +103,7 @@ namespace PetSanctuary.Services.Data.Blogs
                     Title = blog.Title,
                     Image = blog.Image,
                     Description = blog.Description,
-                    Author = this.userService.GetUserById(blog.AuthorId).Result.UserName,
+                    Author = this.userService.GetUserById(blog.AuthorId).UserName,
                     CreatedOn = blog.CreatedOn.ToString("ddd d MMM")
                 })
                 .FirstOrDefault(blog => blog.Id == id);
@@ -118,7 +118,7 @@ namespace PetSanctuary.Services.Data.Blogs
                    Title = blog.Title,
                    Image = blog.Image,
                    Description = blog.Description,
-                   Author = this.userService.GetUserById(blog.AuthorId).Result.UserName,
+                   Author = this.userService.GetUserById(blog.AuthorId).UserName,
                    CreatedOn = blog.CreatedOn.ToString("ddd d MMM")
                })
                .FirstOrDefault(blog => blog.Title == title);

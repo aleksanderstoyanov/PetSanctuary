@@ -49,7 +49,7 @@ namespace PetSanctuary.Services.Data.Catalogs
                 Image = image,
                 CityId = city.Id,
                 AddressId = address.Id,
-                OwnerId = this.userService.GetUserByName(username).Result.Id,
+                OwnerId = this.userService.GetUserByName(username).Id,
                 CreatedOn = DateTime.UtcNow,
                 Type = (PetType)Enum.Parse(typeof(PetType), type),
                 Gender = (GenderType)Enum.Parse(typeof(GenderType), gender),
@@ -58,7 +58,7 @@ namespace PetSanctuary.Services.Data.Catalogs
 
             pet.UserPets.Add(new UserPet
             {
-                User = this.userService.GetUserByName(username).Result,
+                User = this.userService.GetUserByName(username),
                 Pet = pet
             });
             await this.petsRepository.AddAsync(pet);
@@ -118,7 +118,7 @@ namespace PetSanctuary.Services.Data.Catalogs
                   CreatedOn = pet.CreatedOn.ToString("ddd d MMM"),
                   IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
                   Type = pet.Type.ToString(),
-                  PhoneNumber = this.userService.GetUserById(pet.OwnerId).Result.PhoneNumber
+                  PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
               })
               .ToList();
         }
@@ -140,7 +140,7 @@ namespace PetSanctuary.Services.Data.Catalogs
                     CreatedOn = pet.CreatedOn.ToString("ddd d MMM"),
                     IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
                     Type = pet.Type.ToString(),
-                    PhoneNumber = this.userService.GetUserById(pet.OwnerId).Result.PhoneNumber
+                    PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
                 })
                 .ToList();
         }
@@ -162,7 +162,7 @@ namespace PetSanctuary.Services.Data.Catalogs
                   CreatedOn = pet.CreatedOn.ToString("ddd d MMM"),
                   IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
                   Type = pet.Type.ToString(),
-                  PhoneNumber = this.userService.GetUserById(pet.OwnerId).Result.PhoneNumber
+                  PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
               })
               .ToList();
         }
@@ -183,7 +183,7 @@ namespace PetSanctuary.Services.Data.Catalogs
                   CreatedOn = pet.CreatedOn.ToString("ddd d MMM"),
                   IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
                   Type = pet.Type.ToString(),
-                  PhoneNumber = this.userService.GetUserById(pet.OwnerId).Result.PhoneNumber
+                  PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
               })
               .ToList();
         }
@@ -205,7 +205,7 @@ namespace PetSanctuary.Services.Data.Catalogs
                      CreatedOn = pet.CreatedOn.ToString("ddd d MMM"),
                      IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
                      Type = pet.Type.ToString(),
-                     PhoneNumber = this.userService.GetUserById(pet.OwnerId).Result.PhoneNumber
+                     PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
                  })
                  .ToList();
         }
@@ -227,7 +227,7 @@ namespace PetSanctuary.Services.Data.Catalogs
                    CreatedOn = pet.CreatedOn.ToString("ddd d MMM"),
                    IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
                    Type = pet.Type.ToString(),
-                   PhoneNumber = this.userService.GetUserById(pet.OwnerId).Result.PhoneNumber
+                   PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber
                })
               .FirstOrDefault();
         }

@@ -12,28 +12,36 @@ namespace PetSanctuary.Services.Data.Users
     public class UserService : IUserService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
-        private readonly UserManager<ApplicationUser> userManager;
 
-        public UserService(IDeletableEntityRepository<ApplicationUser> userRepository,UserManager<ApplicationUser> userManager)
+        public UserService(IDeletableEntityRepository<ApplicationUser> userRepository)
         {
             this.userRepository = userRepository;
-            this.userManager = userManager;
+
         }
 
-        public async Task<ApplicationUser> GetUserById(string id)
+        public ApplicationUser GetUserById(string id)
         {
-           return await this.userManager.FindByIdAsync(id);
+            return this
+                 .userRepository
+                 .All()
+                 .FirstOrDefault(user => user.Id == id);
         }
 
-        public async Task<ApplicationUser> GetUserByName(string name)
+        public ApplicationUser GetUserByName(string name)
         {
-            return await this.userManager.FindByNameAsync(name);
+            return this
+                .userRepository
+                .All()
+                .FirstOrDefault(user => user.UserName == name);
         }
 
         public string GetUserPhoneNumber(string id)
         {
-            var user = this.userManager.FindByIdAsync(id);
-            return user.Result.PhoneNumber;
+            return this
+                .userRepository
+                .All()
+                .FirstOrDefault(user => user.Id == id)
+                .PhoneNumber;
         }
     }
 }
