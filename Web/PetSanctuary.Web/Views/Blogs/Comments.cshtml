@@ -18,23 +18,25 @@
 
 </div>
 
+@if (User.Identity.IsAuthenticated)
+{
+    <button data-toggle="modal" data-target="#exampleModal" class="btn btn-info float-right">Add comment</button>
 
-<button data-toggle="modal" data-target="#exampleModal" class="btn btn-info float-right">Add comment</button>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="post">
+                    <div class="form-group">
+                        <label style="color:white;">Content</label>
+                        <input name="Content" type="text" class="form-control" value="" placeholder="Content">
+                        <span style="color:red"></span>
+                    </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form method="post">
-                <div class="form-group">
-                    <label  style="color:white;">Content</label>
-                    <input name="Content" type="text" class="form-control" value="" placeholder="Content">
-                    <span style="color:red"></span>
-                </div>
-
-                <button type="submit" class="btn btn-block btn-primary bg-success" style="color:white;">Publish</button>
-            </form>
+                    <button type="submit" class="btn btn-block btn-primary bg-success" style="color:white;">Publish</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+}

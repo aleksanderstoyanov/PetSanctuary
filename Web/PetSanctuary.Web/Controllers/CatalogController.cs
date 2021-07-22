@@ -66,6 +66,21 @@ namespace PetSanctuary.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Create(CatalogFormCreateViewModel model)
         {
+            if (model.Type != "Dog" && model.Type != "Cat" && model.Type != "Other")
+            {
+                this.ModelState.AddModelError(nameof(model.Type), "Pet type is invalid");
+            }
+
+            if (model.Gender != "Male" && model.Type != "Female")
+            {
+                this.ModelState.AddModelError(nameof(model.Gender), "Pet gender is invalid");
+            }
+
+            if (model.IsVaccinated != "Yes" && model.IsVaccinated != "No")
+            {
+                this.ModelState.AddModelError(nameof(model.IsVaccinated), "Pet's vaccination is invalid");
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.View(model);

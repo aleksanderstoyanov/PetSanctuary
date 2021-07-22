@@ -56,7 +56,7 @@ namespace PetSanctuary.Web.Controllers
                     Type = pet.Type.ToString(),
                     Gender = pet.Gender.ToString(),
                     Image = pet.Image,
-                    PhoneNumber = this.userService.GetUserPhoneNumber(userId)
+                    PhoneNumber = this.userService.GetUserPhoneNumber(userId),
 
                 }).ToList();
             return this.View(posts);
@@ -73,19 +73,33 @@ namespace PetSanctuary.Web.Controllers
                 Address = pet.Address,
                 City = pet.City,
                 Gender = pet.Gender.ToString(),
-                Type = pet.Type.ToString()
-
+                Type = pet.Type.ToString(),
             };
 
             return this.View(model);
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> EditPost(string id, PetPostViewModel model)
         {
+            if (model.Type != "Dog" && model.Type != "Cat" && model.Type != "Other")
+            {
+                this.ModelState.AddModelError(nameof(model.Type), "Pet type is invalid");
+            }
+
+            if (model.Gender != "Male" && model.Type != "Female")
+            {
+                this.ModelState.AddModelError(nameof(model.Gender), "Pet gender is invalid");
+            }
+
+            if (model.IsVaccinated != "Yes" && model.Type != "No")
+            {
+                this.ModelState.AddModelError(nameof(model.IsVaccinated), "Pet's vaccination type is invalid");
+            }
+
             if (!this.ModelState.IsValid)
             {
-
                 return this.View(model);
             }
 
@@ -127,6 +141,7 @@ namespace PetSanctuary.Web.Controllers
             return this.Redirect("/User/Blogs");
         }
 
+        [Authorize]
         public IActionResult EditBlog(string id)
         {
             var blog = this.blogService.GetBlogById(id);

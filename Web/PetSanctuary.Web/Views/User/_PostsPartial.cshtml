@@ -15,12 +15,16 @@
         <td>No phone number</td>
     }
     <td>@Model.Type</td>
-    <td>
-        <a asp-area="" asp-controller="User" asp-action="EditPost" asp-route-id="@Model.Id">
-            <i class="fas fa-pencil-alt bg mr-3 " style="color:orange; cursor:pointer"></i>
-        </a>
-        <a asp-area="" asp-controller="User" asp-action="DeletePost" asp-route-id="@Model.Id"><i class="fas fa-trash" style="color:red"></i></a>
-    </td>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <td>
+            <a asp-area="" asp-controller="User" asp-action="EditPost" asp-route-id="@Model.Id">
+                <i class="fas fa-pencil-alt bg mr-3 " style="color:orange; cursor:pointer"></i>
+            </a>
+            <a asp-area="" asp-controller="User" asp-action="DeletePost" asp-route-id="@Model.Id"><i class="fas fa-trash" style="color:red"></i></a>
+        </td>
+    }
+
 
 </tr>
 
