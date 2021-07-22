@@ -44,7 +44,6 @@ namespace PetSanctuary.Web.ViewModels.User
         [Required]
         public string IsVaccinated { get; set; }
 
-        [Required]
         public string PhoneNumber { get; set; }
     }
 }

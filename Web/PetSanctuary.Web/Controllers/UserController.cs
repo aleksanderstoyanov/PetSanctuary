@@ -8,6 +8,7 @@ using PetSanctuary.Web.ViewModels.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PetSanctuary.Web.Controllers
@@ -16,49 +17,45 @@ namespace PetSanctuary.Web.Controllers
     {
         private readonly ICatalogService catalogService;
         private readonly IUserService userService;
-        private readonly ICityService cityService;
-        private readonly IAddressService addressService;
         private readonly IBlogService blogService;
 
-        public UserController(ICatalogService catalogService, IUserService userService, ICityService cityService, IAddressService addressService, IBlogService blogService)
+        public UserController(ICatalogService catalogService, IUserService userService, IBlogService blogService)
         {
             this.catalogService = catalogService;
             this.userService = userService;
-            this.cityService = cityService;
-            this.addressService = addressService;
             this.blogService = blogService;
         }
 
         public IActionResult Profile()
         {
-            var user = this.userService.GetUserByName(this.User.Identity.Name);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var model = new ProfileViewModel
             {
 
                 Email = this.User.Identity.Name,
-                NumberOfPosts = this.catalogService.GetAllUserPets(user.Id).Count(),
-                PhoneNumber = this.userService.GetUserPhoneNumber(user.UserName),
-                NumberOfBlogs = this.blogService.GetAllUserBlogs(user.Id).Count()
+                NumberOfPosts = this.catalogService.GetAllUserPets(userId).Count(),
+                PhoneNumber = this.userService.GetUserPhoneNumber(userId),
+                NumberOfBlogs = this.blogService.GetAllUserBlogs(userId).Count()
             };
             return this.View(model);
         }
 
         public IActionResult Posts()
         {
-            var user = this.userService.GetUserByName(this.User.Identity.Name);
-            var posts = this.catalogService.GetAllUserPets(user.Id)
-                .Select(x => new PetPostViewModel
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var posts = this.catalogService.GetAllUserPets(userId)
+                .Select(pet => new PetPostViewModel
                 {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Age = x.Age,
-                    Address = x.Address,
-                    City = x.City,
-                    IsVaccinated = x.IsVaccinated,
-                    Type = x.Type.ToString(),
-                    Gender = x.Gender.ToString(),
-                    Image = x.Image,
-                    PhoneNumber = this.userService.GetUserPhoneNumber(this.User.Identity.Name)
+                    Id = pet.Id,
+                    Name = pet.Name,
+                    Age = pet.Age,
+                    Address = pet.Address,
+                    City = pet.City,
+                    IsVaccinated = pet.IsVaccinated,
+                    Type = pet.Type.ToString(),
+                    Gender = pet.Gender.ToString(),
+                    Image = pet.Image,
+                    PhoneNumber = this.userService.GetUserPhoneNumber(userId)
 
                 }).ToList();
             return this.View(posts);
@@ -72,14 +69,12 @@ namespace PetSanctuary.Web.Controllers
                 Name = pet.Name,
                 Age = pet.Age,
                 Image = pet.Image,
-                Address = pet.Name,
+                Address = pet.Address,
                 City = pet.City,
                 Gender = pet.Gender.ToString(),
                 Type = pet.Type.ToString()
 
             };
-
-
 
             return this.View(model);
         }
@@ -87,6 +82,12 @@ namespace PetSanctuary.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> EditPost(string id, PetPostViewModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+
+                return this.View(model);
+            }
+
             await this.catalogService.EditPetById(id, model.Name, model.Age, model.Image, model.Type, model.Gender, model.IsVaccinated, model.City, model.Address);
             return this.Redirect("/User/Posts");
         }
@@ -99,8 +100,8 @@ namespace PetSanctuary.Web.Controllers
 
         public IActionResult Blogs()
         {
-            var user = this.userService.GetUserByName(this.User.Identity.Name);
-            var blogs = this.blogService.GetAllUserBlogs(user.Id)
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var blogs = this.blogService.GetAllUserBlogs(userId)
                 .Select(x => new BlogPostViewModel
                 {
                     Id = x.Id,
@@ -111,9 +112,14 @@ namespace PetSanctuary.Web.Controllers
                 }).ToList();
             return this.View(blogs);
         }
+
         [HttpPost]
         public async Task<IActionResult> Blogs(string id, BlogPostViewModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
 
             await this.blogService.EditBlogById(id, model.Title, model.Image, model.Description);
             return this.Redirect("/User/Blogs");
@@ -135,6 +141,11 @@ namespace PetSanctuary.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> EditBlog(string id, BlogPostViewModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             await this.blogService.EditBlogById(id, model.Title, model.Image, model.Description);
             return this.Redirect("/User/Blogs");
         }

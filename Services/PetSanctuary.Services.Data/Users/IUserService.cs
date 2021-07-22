@@ -2,15 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PetSanctuary.Services.Data.Users
 {
     public interface IUserService
     {
-        string GetUserPhoneNumber(string name);
+        string GetUserPhoneNumber(string id);
 
-        ApplicationUser GetUserByName(string name);
+        Task<ApplicationUser> GetUserByName(string name);
 
-        ApplicationUser GetUserById(string id);
+        Task<ApplicationUser> GetUserById(string id);
     }
 }

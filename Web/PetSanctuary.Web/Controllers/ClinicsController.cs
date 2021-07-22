@@ -14,15 +14,11 @@ namespace PetSanctuary.Web.Controllers
     public class ClinicsController : BaseController
     {
         private readonly IClinicService clinicService;
-        private readonly ICityService cityService;
-        private readonly IAddressService addressService;
         private readonly IVetService vetService;
 
-        public ClinicsController(IClinicService clinicService, ICityService cityService, IAddressService addressService, IVetService vetService)
+        public ClinicsController(IClinicService clinicService, IVetService vetService)
         {
             this.clinicService = clinicService;
-            this.cityService = cityService;
-            this.addressService = addressService;
             this.vetService = vetService;
         }
 

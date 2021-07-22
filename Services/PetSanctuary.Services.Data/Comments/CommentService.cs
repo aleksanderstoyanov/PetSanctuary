@@ -58,7 +58,7 @@ namespace PetSanctuary.Services.Data.Comments
                     Content = comment.Content,
                     BlogId = comment.BlogId,
                     PublishedOn = comment.CreatedOn.ToString("ddd d MMM"),
-                    Publisher = this.userService.GetUserById(comment.PublisherId).UserName
+                    Publisher = this.userService.GetUserById(comment.PublisherId).Result.UserName
                 })
                 .ToList();
         }
@@ -74,7 +74,7 @@ namespace PetSanctuary.Services.Data.Comments
                     Content = comment.Content,
                     BlogId = comment.BlogId,
                     PublishedOn = comment.CreatedOn.ToString("ddd d MMM"),
-                    Publisher = this.userService.GetUserById(comment.PublisherId).UserName
+                    Publisher = this.userService.GetUserById(comment.PublisherId).Result.UserName
                 })
                 .FirstOrDefault();
         }
