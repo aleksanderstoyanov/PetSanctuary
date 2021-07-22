@@ -1,12 +1,14 @@
-﻿using PetSanctuary.Common;
-using PetSanctuary.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace PetSanctuary.Data.Models
+﻿namespace PetSanctuary.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
+    using PetSanctuary.Data.Common.Models;
+
+    using static PetSanctuary.Common.GlobalConstants.Pet;
+
     public class City : BaseDeletableModel<int>
     {
         public City()
@@ -15,7 +17,7 @@ namespace PetSanctuary.Data.Models
         }
 
         [Required]
-        [MaxLength(GlobalConstants.MaxCityLength)]
+        [MaxLength(MaxCityLength)]
         public string Name { get; set; }
 
         public ICollection<Address> Addresses { get; set; }

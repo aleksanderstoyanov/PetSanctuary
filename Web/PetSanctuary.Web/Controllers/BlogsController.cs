@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PetSanctuary.Services.Data.Blogs;
 using PetSanctuary.Services.Data.Comments;
 using PetSanctuary.Services.Data.Users;
@@ -59,7 +60,6 @@ namespace PetSanctuary.Web.Controllers
 
             return this.Redirect("/Blogs");
         }
-
         public IActionResult EditComment(int id)
         {
             var comment = this.commentService.GetCommentById(id);
@@ -72,6 +72,7 @@ namespace PetSanctuary.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> EditComment(int id, CommentFormCreateViewModel model)
         {
             var blogId = this.commentService.GetCommentById(id).BlogId;
@@ -79,6 +80,7 @@ namespace PetSanctuary.Web.Controllers
             return this.Redirect($"/Blogs/Comments/{blogId}");
         }
 
+        [Authorize]
         public async Task<IActionResult> DeleteComment(int id)
         {
             var blogId = this.commentService.GetCommentById(id).BlogId;

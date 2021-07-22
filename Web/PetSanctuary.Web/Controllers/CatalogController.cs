@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PetSanctuary.Services.Data.Addresses;
 using PetSanctuary.Services.Data.Catalogs;
 using PetSanctuary.Services.Data.Cities;
@@ -62,6 +63,7 @@ namespace PetSanctuary.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(CatalogFormCreateViewModel model)
         {
             if (!this.ModelState.IsValid)

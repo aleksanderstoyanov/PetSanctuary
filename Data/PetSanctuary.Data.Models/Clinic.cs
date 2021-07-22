@@ -1,12 +1,14 @@
-﻿using PetSanctuary.Common;
-using PetSanctuary.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace PetSanctuary.Data.Models
+﻿namespace PetSanctuary.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
+    using PetSanctuary.Data.Common.Models;
+
+    using static PetSanctuary.Common.GlobalConstants.Clinic;
+
     public class Clinic : BaseDeletableModel<int>
     {
         public Clinic()
@@ -15,7 +17,7 @@ namespace PetSanctuary.Data.Models
         }
 
         [Required]
-        [MaxLength(GlobalConstants.MaxClinicNameLength)]
+        [MaxLength(MaxClinicNameLength)]
         public string Name { get; set; }
 
         [Required]
@@ -30,7 +32,5 @@ namespace PetSanctuary.Data.Models
         public string Image { get; set; }
 
         public ICollection<Vet> Vets { get; set; }
-
-
     }
 }

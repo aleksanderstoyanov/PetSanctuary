@@ -1,12 +1,14 @@
-﻿using PetSanctuary.Common;
-using PetSanctuary.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace PetSanctuary.Data.Models
+﻿namespace PetSanctuary.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
+    using PetSanctuary.Data.Common.Models;
+
+    using static PetSanctuary.Common.GlobalConstants.Vet;
+
     public class Vet : BaseDeletableModel<string>
     {
         public Vet()
@@ -14,11 +16,11 @@ namespace PetSanctuary.Data.Models
             this.Id = Guid.NewGuid().ToString();
         }
 
-        [MaxLength(GlobalConstants.MaxVetFirstNameLength)]
+        [MaxLength(MaxVetFirstNameLength)]
         public string FirstName { get; set; }
 
         [Required]
-        [MaxLength(GlobalConstants.MaxVetSurnameLength)]
+        [MaxLength(MaxVetSurnameLength)]
         public string Surname { get; set; }
 
         [Required]

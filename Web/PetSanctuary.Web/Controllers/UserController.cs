@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PetSanctuary.Services.Data.Addresses;
 using PetSanctuary.Services.Data.Blogs;
 using PetSanctuary.Services.Data.Catalogs;
@@ -114,6 +115,7 @@ namespace PetSanctuary.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Blogs(string id, BlogPostViewModel model)
         {
             if (!this.ModelState.IsValid)
@@ -139,6 +141,7 @@ namespace PetSanctuary.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> EditBlog(string id, BlogPostViewModel model)
         {
             if (!this.ModelState.IsValid)

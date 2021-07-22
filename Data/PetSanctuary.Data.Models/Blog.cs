@@ -1,12 +1,14 @@
-﻿using PetSanctuary.Common;
-using PetSanctuary.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace PetSanctuary.Data.Models
+﻿namespace PetSanctuary.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
+    using PetSanctuary.Data.Common.Models;
+
+    using static PetSanctuary.Common.GlobalConstants.Blog;
+
     public class Blog : BaseDeletableModel<string>
     {
         public Blog()
@@ -16,18 +18,20 @@ namespace PetSanctuary.Data.Models
         }
 
         [Required]
-        [MaxLength(GlobalConstants.MaxBlogTitleLength)]
+        [MaxLength(MaxBlogTitleLength)]
         public string Title { get; set; }
+
         public string Image { get; set; }
 
         [Required]
-        [MaxLength(GlobalConstants.MaxBlogDescriptionLength)]
+        [MaxLength(MaxBlogDescriptionLength)]
         public string Description { get; set; }
 
         [Required]
         public string AuthorId { get; set; }
 
         public ApplicationUser Author { get; set; }
+
         public ICollection<Comment> Comments { get; set; }
 
     }

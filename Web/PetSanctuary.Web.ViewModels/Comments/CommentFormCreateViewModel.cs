@@ -1,16 +1,19 @@
-﻿using PetSanctuary.Common;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace PetSanctuary.Web.ViewModels.Comments
+﻿namespace PetSanctuary.Web.ViewModels.Comments
 {
-   public class CommentFormCreateViewModel
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
+    using static PetSanctuary.Common.GlobalConstants.Blog;
+
+    public class CommentFormCreateViewModel
     {
         [Required]
-        [MinLength(GlobalConstants.MinCommentContentLength)]
-        [MaxLength(GlobalConstants.MaxCommentContentLength)]
+        [StringLength(
+         MaxCommentContentLength,
+         MinimumLength = MinCommentContentLength,
+         ErrorMessage = "Field content should be between 3 and 90")]
         public string Content { get; set; }
     }
 }

@@ -1,13 +1,15 @@
-﻿using PetSanctuary.Common;
-using PetSanctuary.Data.Common.Models;
-using PetSanctuary.Data.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace PetSanctuary.Data.Models
+﻿namespace PetSanctuary.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
+    using PetSanctuary.Data.Common.Models;
+    using PetSanctuary.Data.Models.Enums;
+
+    using static PetSanctuary.Common.GlobalConstants.Pet;
+
     public class Pet : BaseDeletableModel<string>
     {
         public Pet()
@@ -17,14 +19,14 @@ namespace PetSanctuary.Data.Models
         }
 
         [Required]
-        [MaxLength(GlobalConstants.MaxPetNameLength)]
+        [MaxLength(MaxPetNameLength)]
         public string Name { get; set; }
 
-        
         public int Age { get; set; }
 
         [Required]
         public GenderType Gender { get; set; }
+
         public string Image { get; set; }
 
         [Required]

@@ -1,20 +1,23 @@
-﻿using PetSanctuary.Common;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace PetSanctuary.Web.ViewModels.Catalog
+﻿namespace PetSanctuary.Web.ViewModels.Catalog
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
+    using static PetSanctuary.Common.GlobalConstants.Pet;
+
     public class CatalogFormCreateViewModel
     {
         [Required]
-        [MinLength(GlobalConstants.MinPetNameLength)]
-        [MaxLength(GlobalConstants.MaxPetNameLength)]
+        [StringLength(
+         MaxPetNameLength,
+         MinimumLength = MinPetNameLength,
+         ErrorMessage = "Field name should be between 3 and 15")]
         public string Name { get; set; }
 
         [Required]
-        [Range(1, 18)]
+        [Range(1, 18, ErrorMessage = "Age should be between 1 and 18")]
         public int Age { get; set; }
 
         [Required]
@@ -24,17 +27,22 @@ namespace PetSanctuary.Web.ViewModels.Catalog
 
         [Required]
         public string Type { get; set; }
+
         [Required]
         public string Gender { get; set; }
 
         [Required]
-        [MinLength(GlobalConstants.MinCityLength)]
-        [MaxLength(GlobalConstants.MaxCityLength)]
+        [StringLength(
+         MaxCityLength,
+         MinimumLength = MinCityLength,
+         ErrorMessage = "Field city should be between 4 and 20")]
         public string City { get; set; }
 
         [Required]
-        [MinLength(GlobalConstants.MinAddressLength)]
-        [MaxLength(GlobalConstants.MaxAddressLength)]
+        [StringLength(
+         MaxAddressLength,
+         MinimumLength = MinAddressLength,
+         ErrorMessage = "Field should be between 4 and 30")]
         public string Address { get; set; }
 
         [Required]
