@@ -14,13 +14,11 @@ namespace PetSanctuary.Services.Data.Blogs
     {
         private readonly IDeletableEntityRepository<Blog> blogRepository;
         private readonly IUserService userService;
-        private readonly ICommentService commentService;
 
-        public BlogService(IDeletableEntityRepository<Blog> blogRepository, IUserService userService, ICommentService commentService)
+        public BlogService(IDeletableEntityRepository<Blog> blogRepository, IUserService userService)
         {
             this.blogRepository = blogRepository;
             this.userService = userService;
-            this.commentService = commentService;
         }
 
         public async Task Create(string title, string image, string description, string authorName)
@@ -55,11 +53,6 @@ namespace PetSanctuary.Services.Data.Blogs
             await this.blogRepository.SaveChangesAsync();
         }
 
-        public async Task AddCommentToBlog(string blogId, string content, string username)
-        {
-            await this.EnsureCommentCreated(blogId, content, this.userService.GetUserByName(username).Id);
-            await this.blogRepository.SaveChangesAsync();
-        }
 
         public IEnumerable<BlogServiceModel> GetAllBlogs()
         {
@@ -124,9 +117,5 @@ namespace PetSanctuary.Services.Data.Blogs
                .FirstOrDefault(blog => blog.Title == title);
         }
 
-        private async Task EnsureCommentCreated(string blogId, string content, string publisherId)
-        {
-            await this.commentService.Create(blogId, content, publisherId);
-        }
     }
 }

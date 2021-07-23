@@ -8,6 +8,7 @@ using PetSanctuary.Web.ViewModels.Comments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PetSanctuary.Web.Controllers
@@ -39,7 +40,8 @@ namespace PetSanctuary.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Comments(string id, CommentFormCreateViewModel model)
         {
-            await this.blogService.AddCommentToBlog(id, model.Content, this.User.Identity.Name);
+            var publisherId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await this.commentService.CreateBlogComment(id, model.Content, publisherId);
             return this.Redirect($"/Blogs/Comments/{id}");
         }
 
@@ -60,6 +62,7 @@ namespace PetSanctuary.Web.Controllers
 
             return this.Redirect("/Blogs");
         }
+
         public IActionResult EditComment(int id)
         {
             var comment = this.commentService.GetCommentById(id);
@@ -75,7 +78,7 @@ namespace PetSanctuary.Web.Controllers
         [Authorize]
         public async Task<IActionResult> EditComment(int id, CommentFormCreateViewModel model)
         {
-            var blogId = this.commentService.GetCommentById(id).BlogId;
+            var blogId = this.commentService.GetBlogIdByComment(id);
             await this.commentService.Edit(id, model.Content);
             return this.Redirect($"/Blogs/Comments/{blogId}");
         }
@@ -83,7 +86,7 @@ namespace PetSanctuary.Web.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteComment(int id)
         {
-            var blogId = this.commentService.GetCommentById(id).BlogId;
+            var blogId = this.commentService.GetBlogIdByComment(id);
             await this.commentService.Delete(id);
             return this.Redirect($"/Blogs/Comments/{blogId}");
         }

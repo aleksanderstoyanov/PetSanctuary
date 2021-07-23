@@ -10,13 +10,20 @@ namespace PetSanctuary.Services.Data.Comments
     {
         CommentServiceModel GetCommentById(int id);
 
-        Task Create(string blogId, string content, string publisherId);
+        string GetBlogIdByComment(int id);
+
+        string GetVetIdByComment(int id);
+
+        Task CreateBlogComment(string blogId, string content, string publisherId);
+
+        Task CreateVetComment(string vetId, string content, string publisherId);
 
         Task Edit(int id, string content);
 
         Task Delete(int id);
 
-        IEnumerable<CommentServiceModel> GetAllBlogComments(string id);
+        IEnumerable<CommentServiceModel> GetAllBlogComments(string blogId);
 
+        IEnumerable<CommentServiceModel> GetAllVetComments(string vetId);
     }
 }

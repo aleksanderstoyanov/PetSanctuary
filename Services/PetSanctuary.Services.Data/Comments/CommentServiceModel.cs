@@ -10,8 +10,6 @@ namespace PetSanctuary.Services.Data.Comments
 
         public string Content { get; set; }
 
-        public string BlogId { get; set; }
-
         public string PublishedOn { get; set; }
 
         public string Publisher { get; set; }

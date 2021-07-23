@@ -21,7 +21,5 @@ namespace PetSanctuary.Services.Data.Blogs
         Task EditBlogById(string id, string title, string image, string description);
 
         Task DeleteBlogById(string id);
-
-        Task AddCommentToBlog(string id, string content, string username);
     }
 }

@@ -17,8 +17,8 @@
                                 <span class="text-muted float-right">@comment.PublishedOn</span>
                                 @if (User.Identity.IsAuthenticated && User.Identity.Name == comment.Publisher)
                                 {
-                                    <a asp-area="" asp-controller="Blogs" asp-action="EditComment" asp-route-id="@comment.Id" class="btn btn-warning btn-sm">Edit <i class="fas fa-pencil-alt mr-3"></i></a>
-                                    <a asp-area="" asp-controller="Blogs" asp-action="DeleteComment" asp-route-id="@comment.Id" class="btn btn-danger btn-sm">Delete <i class="fas fa-trash-alt mr-2"></i></a>
+                                    <a asp-area="" asp-controller="Clinics" asp-action="EditComment" asp-route-id="@comment.Id" class="btn btn-warning btn-sm">Edit <i class="fas fa-pencil-alt mr-3"></i></a>
+                                    <a asp-area="" asp-controller="Clinics" asp-action="DeleteComment" asp-route-id="@comment.Id" class="btn btn-danger btn-sm">Delete <i class="fas fa-trash-alt mr-2"></i></a>
                                 }
 
                             </div>

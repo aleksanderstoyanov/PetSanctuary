@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PetSanctuary.Services.Data.Addresses;
 using PetSanctuary.Services.Data.Cities;
 using PetSanctuary.Services.Data.Clinics;
+using PetSanctuary.Services.Data.Comments;
 using PetSanctuary.Services.Data.Vets;
+using PetSanctuary.Web.ViewModels.Comments;
 using PetSanctuary.Web.ViewModels.Vets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PetSanctuary.Web.Controllers
@@ -15,11 +19,13 @@ namespace PetSanctuary.Web.Controllers
     {
         private readonly IClinicService clinicService;
         private readonly IVetService vetService;
+        private readonly ICommentService commentService;
 
-        public ClinicsController(IClinicService clinicService, IVetService vetService)
+        public ClinicsController(IClinicService clinicService, IVetService vetService, ICommentService commentService)
         {
             this.clinicService = clinicService;
             this.vetService = vetService;
+            this.commentService = commentService;
         }
 
         public IActionResult Index()
@@ -67,6 +73,48 @@ namespace PetSanctuary.Web.Controllers
             };
 
             return this.View(model);
+        }
+
+        public IActionResult VetComments(string id)
+        {
+            var comments = this.commentService.GetAllVetComments(id);
+            return this.View(comments);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> VetComments(string id, CommentFormCreateViewModel model)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await this.commentService.CreateVetComment(id, model.Content, userId);
+            return this.Redirect($"/Clinics/VetComments/{id}");
+        }
+
+        public IActionResult EditComment(int id)
+        {
+            var comment = this.commentService.GetCommentById(id);
+            var model = new CommentFormCreateViewModel
+            {
+                Content = comment.Content
+            };
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> EditComment(int id, CommentFormCreateViewModel model)
+        {
+            var vetId = this.commentService.GetVetIdByComment(id);
+            await this.commentService.Edit(id, model.Content);
+            return this.Redirect($"/Clinics/VetComments/{vetId}");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            var vetId = this.commentService.GetVetIdByComment(id);
+            await this.commentService.Delete(id);
+            return this.Redirect($"/Clinics/VetComments/{vetId}");
         }
     }
 }

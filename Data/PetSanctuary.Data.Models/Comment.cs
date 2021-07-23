@@ -11,6 +11,11 @@
 
     public class Comment : BaseDeletableModel<int>
     {
+        public Comment()
+        {
+            this.BlogComments = new HashSet<BlogComment>();
+            this.VetComments = new HashSet<VetComment>();
+        }
 
         [MaxLength(MaxCommentContentLength)]
         [Required]
@@ -22,12 +27,10 @@
         public ApplicationUser Publisher { get; set; }
 
         [Required]
-        public string BlogId { get; set; }
-
-        public Blog Blog { get; set; }
-
-        [Required]
         public DateTime PublishedOn { get; set; }
 
+        public ICollection<BlogComment> BlogComments { get; set; }
+
+        public ICollection<VetComment> VetComments { get; set; }
     }
 }

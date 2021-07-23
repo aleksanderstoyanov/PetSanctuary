@@ -14,6 +14,7 @@
         public Vet()
         {
             this.Id = Guid.NewGuid().ToString();
+            this.VetComments = new HashSet<VetComment>();
         }
 
         [MaxLength(MaxVetFirstNameLength)]
@@ -37,6 +38,8 @@
         public int Likes { get; set; }
 
         public int Dislikes { get; set; }
+
+        public ICollection<VetComment> VetComments { get; set; }
 
     }
 }

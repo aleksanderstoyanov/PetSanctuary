@@ -14,7 +14,7 @@
         public Blog()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.Comments = new HashSet<Comment>();
+            this.BlogComments = new HashSet<BlogComment>();
         }
 
         [Required]
@@ -32,7 +32,7 @@
 
         public ApplicationUser Author { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<BlogComment> BlogComments { get; set; }
 
     }
 }
