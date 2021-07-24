@@ -19,38 +19,14 @@ namespace PetSanctuary.Services.Data.Vets
 
         public VetServiceModel GetVetById(string id)
         {
-            return this.vetsRepository
-                .AllAsNoTracking()
-                .Where(vet => vet.Id == id)
-                .Select(vet => new VetServiceModel
-                {
-                    Id = vet.Id,
-                    FirstName = vet.FirstName,
-                    Surname = vet.Surname,
-                    Description = vet.Description,
-                    ClinicId = vet.ClinicId,
-                    Likes = vet.Likes,
-                    Dislikes = vet.Dislikes
-                })
+            return this.MapVets(this.vetsRepository.AllAsNoTracking().Where(vet => vet.Id == id))
                 .FirstOrDefault();
         }
 
         public IEnumerable<VetServiceModel> GetVetsById(int clinicId)
         {
-            return this.vetsRepository
-                .AllAsNoTracking()
-                .Where(vet => vet.ClinicId == clinicId)
-                .Select(vet => new VetServiceModel
-                {
-                    Id = vet.Id,
-                    FirstName = vet.FirstName,
-                    Surname = vet.Surname,
-                    ClinicId = vet.ClinicId,
-                    Description = vet.Description,
-                    Likes = vet.Likes,
-                    Dislikes = vet.Dislikes
-                })
-                .ToList();
+            return this.MapVets(this.vetsRepository.AllAsNoTracking().Where(vet => vet.ClinicId == clinicId));
+
         }
 
         public async Task UpdateDislikes(string vetId)
@@ -73,6 +49,22 @@ namespace PetSanctuary.Services.Data.Vets
             vet.Likes += 1;
             this.vetsRepository.Update(vet);
             await this.vetsRepository.SaveChangesAsync();
+        }
+
+        private IEnumerable<VetServiceModel> MapVets(IQueryable<Vet> vets)
+        {
+            return vets
+                .Select(vet => new VetServiceModel
+                {
+                    Id = vet.Id,
+                    FirstName = vet.FirstName,
+                    Surname = vet.Surname,
+                    ClinicId = vet.ClinicId,
+                    Description = vet.Description,
+                    Likes = vet.Likes,
+                    Dislikes = vet.Dislikes
+                }).ToList();
+
         }
     }
 }

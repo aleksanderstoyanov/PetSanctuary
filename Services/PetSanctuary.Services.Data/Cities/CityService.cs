@@ -32,28 +32,24 @@ namespace PetSanctuary.Services.Data.Cities
 
         public CityServiceModel GetCityById(int id)
         {
-            return this.citiesRepository
-                .AllAsNoTracking()
-                .Where(city => city.Id == id)
-                .Select(city => new CityServiceModel
-                {
-                    Id = city.Id,
-                    Name = city.Name
-                })
+            return this.MapCities(this.citiesRepository.AllAsNoTracking().Where(city => city.Id == id))
                 .FirstOrDefault();
         }
 
         public CityServiceModel GetCityByName(string name)
         {
-            return this.citiesRepository
-                .All()
-                .Where(city => city.Name == name)
+            return this.MapCities(this.citiesRepository.All().Where(city => city.Name == name))
+                .FirstOrDefault();
+        }
+
+        private IEnumerable<CityServiceModel> MapCities(IQueryable<City> cities)
+        {
+            return cities
                 .Select(city => new CityServiceModel
                 {
                     Id = city.Id,
                     Name = city.Name
-                })
-                .FirstOrDefault();
+                }).ToList();
         }
     }
 }

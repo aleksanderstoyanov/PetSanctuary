@@ -53,68 +53,40 @@ namespace PetSanctuary.Services.Data.Blogs
             await this.blogRepository.SaveChangesAsync();
         }
 
-
         public IEnumerable<BlogServiceModel> GetAllBlogs()
         {
-            return this.blogRepository
-                .AllAsNoTracking()
-                .Select(blog => new BlogServiceModel
-                {
-                    Id = blog.Id,
-                    Title = blog.Title,
-                    Image = blog.Image,
-                    Description = blog.Description,
-                    Author = this.userService.GetUserById(blog.AuthorId).UserName,
-                    CreatedOn = blog.CreatedOn.ToString("ddd d MMM")
-                })
-                .ToList();
+            return this.MapBlogs(this.blogRepository.AllAsNoTracking());
         }
 
         public IEnumerable<BlogServiceModel> GetAllUserBlogs(string id)
         {
-            return this.blogRepository
-               .AllAsNoTracking()
-               .Where(blog => blog.AuthorId == id)
-               .Select(blog => new BlogServiceModel
-               {
-                   Id = blog.Id,
-                   Title = blog.Title,
-                   Image = blog.Image,
-                   Description = blog.Description,
-                   Author = this.userService.GetUserById(blog.AuthorId).UserName,
-                   CreatedOn = blog.CreatedOn.ToString("ddd d MMM")
-               })
-               .ToList();
+            return this.MapBlogs(this.blogRepository.AllAsNoTracking().Where(blog => blog.AuthorId == id));
         }
 
         public BlogServiceModel GetBlogById(string id)
         {
-            return this.blogRepository.All()
-                .Select(blog => new BlogServiceModel
-                {
-                    Id = blog.Id,
-                    Title = blog.Title,
-                    Image = blog.Image,
-                    Description = blog.Description,
-                    Author = this.userService.GetUserById(blog.AuthorId).UserName,
-                    CreatedOn = blog.CreatedOn.ToString("ddd d MMM")
-                })
+            return this.MapBlogs(this.blogRepository.AllAsNoTracking().Where(blog => blog.Id == id))
                 .FirstOrDefault(blog => blog.Id == id);
         }
 
         public BlogServiceModel GetBlogByTitle(string title)
         {
-            return this.blogRepository.All()
-               .Select(blog => new BlogServiceModel
-               {
-                   Id = blog.Id,
-                   Title = blog.Title,
-                   Image = blog.Image,
-                   Description = blog.Description,
-                   Author = this.userService.GetUserById(blog.AuthorId).UserName,
-                   CreatedOn = blog.CreatedOn.ToString("ddd d MMM")
-               })
-               .FirstOrDefault(blog => blog.Title == title);
+            return this.MapBlogs(this.blogRepository.All())
+                .FirstOrDefault(blog => blog.Title == title);
+        }
+
+        private IEnumerable<BlogServiceModel> MapBlogs(IQueryable<Blog> blogs)
+        {
+            return blogs
+                .Select(blog => new BlogServiceModel
+                {
+                    Id = blog.Id,
+                    Title = blog.Title,
+                    Image = blog.Image,
+                    Description = blog.Description,
+                    Author = this.userService.GetUserById(blog.AuthorId).UserName,
+                    CreatedOn = blog.CreatedOn.ToString("ddd d MMM")
+                }).ToList();
         }
 
     }

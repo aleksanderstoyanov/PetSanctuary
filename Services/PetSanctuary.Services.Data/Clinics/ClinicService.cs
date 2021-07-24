@@ -24,23 +24,18 @@ namespace PetSanctuary.Services.Data.Clinics
 
         public IEnumerable<ClinicServiceModel> GetAllClinics()
         {
-            return this.clinicsRepository
-                .AllAsNoTracking()
-                .Select(clinic => new ClinicServiceModel
-                {
-                    Id = clinic.Id,
-                    Name = clinic.Name,
-                    Image = clinic.Image,
-                    Address = this.addressService.GetAddressById(clinic.AddressId).Name,
-                    City = this.cityService.GetCityById(clinic.CityId).Name
-                })
-                .ToList();
+            return this.MapClinics(this.clinicsRepository.AllAsNoTracking());
         }
 
         public ClinicServiceModel GetClinicByName(string name)
         {
-            return this.clinicsRepository
-                .All()
+            return this.MapClinics(this.clinicsRepository.All())
+                .FirstOrDefault(clinic => clinic.Name == name);
+        }
+
+        private IEnumerable<ClinicServiceModel> MapClinics(IQueryable<Clinic> clinics)
+        {
+            return clinics
                 .Select(clinic => new ClinicServiceModel
                 {
                     Id = clinic.Id,
@@ -48,8 +43,7 @@ namespace PetSanctuary.Services.Data.Clinics
                     Image = clinic.Image,
                     Address = this.addressService.GetAddressById(clinic.AddressId).Name,
                     City = this.cityService.GetCityById(clinic.CityId).Name
-                })
-                .FirstOrDefault(clinic => clinic.Name == name);
+                }).ToList();
         }
     }
 }

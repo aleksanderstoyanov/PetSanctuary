@@ -65,68 +65,46 @@ namespace PetSanctuary.Services.Data.Comments
 
         public async Task Delete(int id)
         {
-            var comment = this.commentRepository.All().FirstOrDefault(comment => comment.Id == id);
+            var comment = this.commentRepository.All()
+                .FirstOrDefault(comment => comment.Id == id);
+
             this.commentRepository.Delete(comment);
             await this.commentRepository.SaveChangesAsync();
         }
 
         public async Task Edit(int id, string content)
         {
-            var comment = this.commentRepository.All().FirstOrDefault(comment => comment.Id == id);
+            var comment = this.commentRepository.All()
+                .FirstOrDefault(comment => comment.Id == id);
+
             comment.Content = content;
             await this.commentRepository.SaveChangesAsync();
         }
 
         public IEnumerable<CommentServiceModel> GetAllBlogComments(string blogId)
         {
-            return this.commentRepository
-                 .AllAsNoTracking()
-                 .Where(comment => comment.BlogComments.Any(blogComment => blogComment.BlogId == blogId))
-                 .Select(blogComment => new CommentServiceModel
-                 {
-                     Id = blogComment.Id,
-                     PublishedOn = blogComment.PublishedOn.ToString("ddd d MMM"),
-                     Publisher = this.userService.GetUserById(blogComment.PublisherId).UserName,
-                     Content = blogComment.Content
-                 })
+            return this.MapComments(this.commentRepository.AllAsNoTracking()
+                 .Where(comment => comment.BlogComments.Any(blogComment => blogComment.BlogId == blogId)))
                  .ToList();
         }
 
         public IEnumerable<CommentServiceModel> GetAllVetComments(string vetId)
         {
-            return this.commentRepository
-                 .AllAsNoTracking()
-                 .Where(comment => comment.VetComments.Any(vetComment => vetComment.VetId == vetId))
-                 .Select(vetComment => new CommentServiceModel
-                 {
-                     Id = vetComment.Id,
-                     PublishedOn = vetComment.PublishedOn.ToString("ddd d MMM"),
-                     Publisher = this.userService.GetUserById(vetComment.PublisherId).UserName,
-                     Content = vetComment.Content
-                 })
+            return this.MapComments( this.commentRepository.AllAsNoTracking()
+                 .Where(comment => comment.VetComments.Any(vetComment => vetComment.VetId == vetId)))
                  .ToList();
         }
 
         public string GetBlogIdByComment(int id)
         {
-            return this.blogCommentRepository
-                 .All()
+            return this.blogCommentRepository.All()
                  .FirstOrDefault(blogComment => blogComment.CommentId == id)
                  .BlogId;
         }
 
         public CommentServiceModel GetCommentById(int id)
         {
-            return this.commentRepository
-                .All()
-                .Where(comment => comment.Id == id)
-                .Select(comment => new CommentServiceModel
-                {
-                    Id = comment.Id,
-                    Content = comment.Content,
-                    PublishedOn = comment.CreatedOn.ToString("ddd d MMM"),
-                    Publisher = this.userService.GetUserById(comment.PublisherId).UserName
-                })
+            return this.MapComments(this.commentRepository.All().Where(comment => comment.Id == id))
                 .FirstOrDefault();
         }
 
@@ -136,6 +114,18 @@ namespace PetSanctuary.Services.Data.Comments
                 .All()
                 .FirstOrDefault(blogComment => blogComment.CommentId == id)
                 .VetId;
+        }
+
+        private IEnumerable<CommentServiceModel> MapComments(IQueryable<Comment> comments)
+        {
+            return comments
+                .Select(comment => new CommentServiceModel
+                {
+                    Id = comment.Id,
+                    PublishedOn = comment.PublishedOn.ToString("ddd d MMM"),
+                    Publisher = this.userService.GetUserById(comment.PublisherId).UserName,
+                    Content = comment.Content
+                }).ToList();
         }
     }
 }
