@@ -38,19 +38,23 @@ namespace PetSanctuary.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Comments(string id, CommentFormCreateViewModel model)
         {
             var publisherId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             await this.commentService.CreateBlogComment(id, model.Content, publisherId);
-            return this.Redirect($"/Blogs/Comments/{id}");
+            return this.RedirectToAction(nameof(this.Comments), "Blogs");
         }
 
+        [Authorize]
         public IActionResult Create()
         {
+
             return this.View();
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(BlogFormCreateViewModel model)
         {
             if (!this.ModelState.IsValid)
@@ -60,9 +64,10 @@ namespace PetSanctuary.Web.Controllers
 
             await this.blogService.Create(model.Title, model.Image, model.Description, this.User.Identity.Name);
 
-            return this.Redirect("/Blogs");
+            return this.Redirect($"/Blogs");
         }
 
+        [Authorize]
         public IActionResult EditComment(int id)
         {
             var comment = this.commentService.GetCommentById(id);
@@ -80,7 +85,7 @@ namespace PetSanctuary.Web.Controllers
         {
             var blogId = this.commentService.GetBlogIdByComment(id);
             await this.commentService.Edit(id, model.Content);
-            return this.Redirect($"/Blogs/Comments/{blogId}");
+            return this.RedirectToAction(nameof(this.Comments), "Blogs", new { id = blogId });
         }
 
         [Authorize]
@@ -88,7 +93,7 @@ namespace PetSanctuary.Web.Controllers
         {
             var blogId = this.commentService.GetBlogIdByComment(id);
             await this.commentService.Delete(id);
-            return this.Redirect($"/Blogs/Comments/{blogId}");
+            return this.RedirectToAction(nameof(this.Comments), "Blogs", new { id = blogId });
         }
 
     }

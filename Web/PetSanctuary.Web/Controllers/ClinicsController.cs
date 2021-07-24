@@ -52,14 +52,14 @@ namespace PetSanctuary.Web.Controllers
         {
             var vet = this.vetService.GetVetById(vetId);
             await this.vetService.UpdateLikes(vetId);
-            return this.Redirect($"/Clinics/Vets/{vet.ClinicId}");
+            return this.RedirectToAction(nameof(this.Vets), "Clinics", new { id = vet.ClinicId });
         }
 
         public async Task<IActionResult> Dislike(string vetId)
         {
             var vet = this.vetService.GetVetById(vetId);
             await this.vetService.UpdateDislikes(vetId);
-            return this.Redirect($"/Clinics/Vets/{vet.ClinicId}");
+            return this.RedirectToAction(nameof(this.Vets), "Clinics", new { id = vet.ClinicId });
         }
 
         public IActionResult Description(string id)
@@ -82,13 +82,15 @@ namespace PetSanctuary.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> VetComments(string id, CommentFormCreateViewModel model)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             await this.commentService.CreateVetComment(id, model.Content, userId);
-            return this.Redirect($"/Clinics/VetComments/{id}");
+            return this.RedirectToAction(nameof(this.VetComments), "Clinics", new { id = id });
         }
 
+        [Authorize]
         public IActionResult EditComment(int id)
         {
             var comment = this.commentService.GetCommentById(id);
@@ -106,7 +108,7 @@ namespace PetSanctuary.Web.Controllers
         {
             var vetId = this.commentService.GetVetIdByComment(id);
             await this.commentService.Edit(id, model.Content);
-            return this.Redirect($"/Clinics/VetComments/{vetId}");
+            return this.RedirectToAction(nameof(this.VetComments), "Clinics", new { id = vetId });
         }
 
         [Authorize]
@@ -114,7 +116,7 @@ namespace PetSanctuary.Web.Controllers
         {
             var vetId = this.commentService.GetVetIdByComment(id);
             await this.commentService.Delete(id);
-            return this.Redirect($"/Clinics/VetComments/{vetId}");
+            return this.RedirectToAction(nameof(this.VetComments), "Clinics", new { id = vetId });
         }
     }
 }

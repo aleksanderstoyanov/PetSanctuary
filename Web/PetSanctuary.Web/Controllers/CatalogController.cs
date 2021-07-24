@@ -57,6 +57,7 @@ namespace PetSanctuary.Web.Controllers
             return this.View(others);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             return this.View();
@@ -87,7 +88,7 @@ namespace PetSanctuary.Web.Controllers
             }
 
             await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.Gender, model.City, model.Address, model.IsVaccinated, this.User.Identity.Name);
-            return this.Redirect("/Catalog/Dogs");
+            return this.RedirectToAction(nameof(this.Dogs), "Catalog");
         }
 
         public IActionResult Details(string id)

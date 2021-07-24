@@ -1,5 +1,10 @@
 ﻿@model CommentFormCreateViewModel
-<h2 class="text-center">Edit comment <i class="far fa-comment"></i></h2>
+
+@{ 
+    ViewBag.Title = "Edit comment";
+}
+
+<h2 class="text-center">@ViewBag.Title<i class="far fa-comment"></i></h2>
 <form method="post">
     <div class="form-group">
         <label style="color:white;">Content</label>

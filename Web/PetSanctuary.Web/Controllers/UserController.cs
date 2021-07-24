@@ -27,6 +27,7 @@ namespace PetSanctuary.Web.Controllers
             this.blogService = blogService;
         }
 
+        [Authorize]
         public IActionResult Profile()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -41,6 +42,7 @@ namespace PetSanctuary.Web.Controllers
             return this.View(model);
         }
 
+        [Authorize]
         public IActionResult Posts()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -62,6 +64,7 @@ namespace PetSanctuary.Web.Controllers
             return this.View(posts);
         }
 
+        [Authorize]
         public IActionResult EditPost(string id)
         {
             var pet = this.catalogService.GetPetById(id);
@@ -104,15 +107,18 @@ namespace PetSanctuary.Web.Controllers
             }
 
             await this.catalogService.EditPetById(id, model.Name, model.Age, model.Image, model.Type, model.Gender, model.IsVaccinated, model.City, model.Address);
-            return this.Redirect("/User/Posts");
+            return this.RedirectToAction(nameof(this.Posts), "User");
         }
+
+        [Authorize]
 
         public async Task<IActionResult> DeletePost(string id)
         {
             await this.catalogService.DeletePetById(id);
-            return this.Redirect("/User/Posts");
+            return this.RedirectToAction(nameof(this.Posts), "User");
         }
 
+        [Authorize]
         public IActionResult Blogs()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -138,7 +144,7 @@ namespace PetSanctuary.Web.Controllers
             }
 
             await this.blogService.EditBlogById(id, model.Title, model.Image, model.Description);
-            return this.Redirect("/User/Blogs");
+            return this.RedirectToAction(nameof(this.Blogs), "User");
         }
 
         [Authorize]
@@ -165,14 +171,14 @@ namespace PetSanctuary.Web.Controllers
             }
 
             await this.blogService.EditBlogById(id, model.Title, model.Image, model.Description);
-            return this.Redirect("/User/Blogs");
+            return this.RedirectToAction(nameof(this.Blogs), "User");
         }
 
-        [HttpGet("User/Blogs/{id}")]
-        public async Task<IActionResult> Blogs(string id)
+        [Authorize]
+        public async Task<IActionResult> DeleteBlog(string id)
         {
             await this.blogService.DeleteBlogById(id);
-            return this.Redirect("/User/Blogs");
+            return this.RedirectToAction(nameof(this.Blogs), "User");
         }
     }
 }

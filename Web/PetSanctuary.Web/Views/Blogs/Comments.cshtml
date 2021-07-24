@@ -1,9 +1,13 @@
 ﻿@model IEnumerable<CommentServiceModel>
+
+@{
+    ViewBag.Title = "Latest Comments";
+ }
 <div class="row d-flex justify-content-center mt-100 mb-100">
     <div class="col-lg-6">
         <div class="card">
             <div class="card-body text-center">
-                <h4 class="card-title">Latest Comments</h4>
+                <h4 class="card-title">@ViewBag.Title</h4>
             </div>
             <div>
                 @foreach (var comment in Model)
