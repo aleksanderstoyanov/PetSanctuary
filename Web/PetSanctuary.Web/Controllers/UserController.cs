@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetSanctuary.Common;
 using PetSanctuary.Services.Data.Addresses;
 using PetSanctuary.Services.Data.Blogs;
 using PetSanctuary.Services.Data.Catalogs;
@@ -46,6 +47,7 @@ namespace PetSanctuary.Web.Controllers
         public IActionResult Posts()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var posts = this.catalogService.GetAllUserPets(userId)
                 .Select(pet => new PetPostViewModel
                 {
@@ -59,8 +61,25 @@ namespace PetSanctuary.Web.Controllers
                     Gender = pet.Gender.ToString(),
                     Image = pet.Image,
                     PhoneNumber = this.userService.GetUserPhoneNumber(userId),
-
                 }).ToList();
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                posts = this.catalogService.GetAllPets()
+                .Select(pet => new PetPostViewModel
+                {
+                    Id = pet.Id,
+                    Name = pet.Name,
+                    Age = pet.Age,
+                    Address = pet.Address,
+                    City = pet.City,
+                    IsVaccinated = pet.IsVaccinated,
+                    Type = pet.Type.ToString(),
+                    Gender = pet.Gender.ToString(),
+                    Image = pet.Image,
+                    PhoneNumber = this.userService.GetUserPhoneNumber(userId),
+                }).ToList();
+            }
+
             return this.View(posts);
         }
 
@@ -129,8 +148,21 @@ namespace PetSanctuary.Web.Controllers
                     Image = x.Image,
                     Title = x.Title,
                     Description = x.Description
+                }).ToList();
+
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                blogs = this.blogService.GetAllBlogs()
+                .Select(x => new BlogPostViewModel
+                {
+                    Id = x.Id,
+                    Image = x.Image,
+                    Title = x.Title,
+                    Description = x.Description
 
                 }).ToList();
+            }
+
             return this.View(blogs);
         }
 

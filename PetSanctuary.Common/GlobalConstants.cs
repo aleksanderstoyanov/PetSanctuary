@@ -4,6 +4,7 @@
     {
         public const string SystemName = "PetSanctuary";
         public const string AdministratorRoleName = "Administrator";
+        public const string AdministratorEmail = "admin64836@gmail.com";
 
         public class Pet
         {
