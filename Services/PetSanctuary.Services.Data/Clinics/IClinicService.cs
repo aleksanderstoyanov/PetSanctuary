@@ -9,6 +9,8 @@ namespace PetSanctuary.Services.Data.Clinics
     {
         IEnumerable<ClinicServiceModel> GetAllClinics();
 
+        ClinicServiceModel GetClinicById(int id);
+
         ClinicServiceModel GetClinicByName(string name);
     }
 }

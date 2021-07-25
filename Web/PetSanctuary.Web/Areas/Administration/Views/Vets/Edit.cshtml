@@ -1,0 +1,45 @@
+﻿@model VetInputModel
+@inject IClinicService clinicService 
+
+@{
+    var clinics = clinicService.GetAllClinics();
+    ViewBag.Title = "Edit Vet";
+}
+
+<h2 class="text-center">@ViewBag.Title <i class="fas fa-stethoscope"></i></h2>
+<form method="post">
+
+    <div class="form-group">
+        <label asp-for="FirstName" style="color:white;">FirstName</label>
+        <input asp-for="FirstName" type="text" class="form-control" value="@Model.FirstName" placeholder="FirstName">
+        <span asp-validation-for="FirstName" style="color:red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Surname" style="color:white;">Surname</label>
+        <input asp-for="Surname" asp-validation-for="Age" type="text" value="@Model.Surname" class="form-control" placeholder="Surname">
+        <span asp-validation-for="Surname" style="color:red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" style="color:white;">Description</label>
+        <input asp-for="Description" type="text" value="@Model.Description" class="form-control" placeholder="Url">
+        <span asp-validation-for="Description" style="color:red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Qualification" style="color:white;">Qualification</label>
+        <input asp-for="Qualification" type="text" value="@Model.Qualification" class="form-control" placeholder="Qualification">
+        <span asp-validation-for="Qualification" style="color:red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Clinic" style="color:white;">Clinic</label>
+        <select asp-for="Clinic" class="form-control">
+            @foreach (var clinic in clinics)
+            {
+                <option value="@clinic.Name">@clinic.Name</option>
+
+            }
+
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-block btn-primary bg-warning" style="color:black;">Save changes <i class="far fa-save"></i></button>
+</form>

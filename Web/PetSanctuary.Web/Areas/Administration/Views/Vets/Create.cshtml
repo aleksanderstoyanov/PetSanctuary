@@ -1,0 +1,67 @@
+﻿@model VetInputModel
+@inject IClinicService clinicService
+
+@{ 
+    var clinics = clinicService.GetAllClinics();
+
+}
+<div class="container d-flex justify-content-center">
+    <form class="col-3 col-md-9 bg-dark" method="post">
+        <div class="d-flex justify-content-center"><i class="fas fa-user-md" style="padding-top:15px; font-size:100px; color:lawngreen;"></i></div>
+        <div class="row">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="w-75 form-group">
+                    <label asp-for="FirstName" style="color:white;">FirstName</label>
+                    <input asp-for="FirstName" type="text" class="form-control">
+                    <span asp-validation-for="FirstName" style="color:red"></span>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row">
+
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="w-75 form-group">
+                    <label asp-for="Surname" style="color:white;">Surname</label>
+                    <input asp-for="Surname" type="text" class="form-control">
+                    <span asp-validation-for="Surname" style="color:red"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="w-75 form-group">
+                    <label asp-for="Qualification" style="color:white;">Qualification</label>
+                    <input asp-for="Qualification" type="text" class="form-control">
+                    <span asp-validation-for="Qualification" style="color:red"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="w-75 form-group">
+                    <label asp-for="Clinic" a style="color:white;">Clinic</label>
+                    <select asp-for="Clinic" class="form-control">
+                        @foreach (var clinic in clinics)
+                        {
+                            <option value="@clinic.Name">@clinic.Name</option>
+                        }
+                    </select>
+                </div>
+            </div> 
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="w-75 form-group">
+                    <label asp-for="Description" style="color:white"></label>
+                    <textarea asp-for="Description" rows="4" class="form-control" placeholder="Description..."></textarea>
+                    <span asp-validation-for="Description" class="small text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-block btn-outline-success bg-success" style="color:white">Create</button>
+    </form>
+</div>

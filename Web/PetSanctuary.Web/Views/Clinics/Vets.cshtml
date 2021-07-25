@@ -13,8 +13,14 @@
                 <div class="card-body">
                     <h5 class="card-title" style="color:white">@vet.FirstName  @vet.Surname</h5>
                     <h6 style="color:white"><i class="fas fa-stethoscope"></i> Veterinarian  <a asp-area="" asp-controller="Clinics" asp-action="Like" asp-route-vetId="@vet.Id"><i class="far fa-thumbs-up" style="color:limegreen"></i></a> @vet.Likes  <a asp-area="" asp-controller="Clinics" asp-action="Dislike" asp-route-vetId="@vet.Id"><i class="far fa-thumbs-down" style="color:red"></i></a> @vet.Dislikes</h6>
-                    <a asp-area="" asp-controller="Clinics" asp-action="Description" asp-route-id="@vet.Id" class="btn btn-warning">Details <i class="fas fa-info-circle mr-2"></i></a>
+                    <a asp-area="" asp-controller="Clinics" asp-action="Description" asp-route-id="@vet.Id" class="btn btn-success">Details <i class="fas fa-info-circle mr-2"></i></a>
                     <a asp-area="" asp-controller="Clinics" asp-action="VetComments" asp-route-id="@vet.Id" class="btn btn-primary">Comments <i class="far fa-comment"></i></a>
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+
+                        <a asp-area="Administration" asp-controller="Vets" asp-action="Edit" asp-route-id="@vet.Id" type="button" class="btn btn-warning">Edit <i class="fas fa-pencil-alt"></i></a>
+                        <a asp-area="Administration" asp-controller="Vets" asp-action="Delete" asp-route-id="@vet.Id" type="button" class="btn btn-danger">Delete <i class="fas fa-trash-alt"></i></a>
+                    }
 
                 </div>
             </div>

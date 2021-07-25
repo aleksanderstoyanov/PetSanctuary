@@ -27,6 +27,12 @@ namespace PetSanctuary.Services.Data.Clinics
             return this.MapClinics(this.clinicsRepository.AllAsNoTracking());
         }
 
+        public ClinicServiceModel GetClinicById(int id)
+        {
+            return this.MapClinics(this.clinicsRepository.All())
+                .FirstOrDefault(clinic => clinic.Id == id);
+        }
+
         public ClinicServiceModel GetClinicByName(string name)
         {
             return this.MapClinics(this.clinicsRepository.All())

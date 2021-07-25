@@ -1,5 +1,6 @@
 ﻿using PetSanctuary.Data.Common.Repositories;
 using PetSanctuary.Data.Models;
+using PetSanctuary.Services.Data.Clinics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace PetSanctuary.Services.Data.Vets
     public class VetService : IVetService
     {
         private readonly IDeletableEntityRepository<Vet> vetsRepository;
+        private readonly IClinicService clinicService;
 
-        public VetService(IDeletableEntityRepository<Vet> vetsRepository)
+        public VetService(IDeletableEntityRepository<Vet> vetsRepository, IClinicService clinicService)
         {
             this.vetsRepository = vetsRepository;
+            this.clinicService = clinicService;
         }
 
         public VetServiceModel GetVetById(string id)
@@ -59,6 +62,7 @@ namespace PetSanctuary.Services.Data.Vets
                     Id = vet.Id,
                     FirstName = vet.FirstName,
                     Surname = vet.Surname,
+                    Clinic = this.clinicService.GetClinicById(vet.ClinicId).Name,
                     ClinicId = vet.ClinicId,
                     Description = vet.Description,
                     Likes = vet.Likes,

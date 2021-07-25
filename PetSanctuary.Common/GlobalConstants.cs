@@ -37,7 +37,13 @@
         public class Vet
         {
             public const int MaxVetFirstNameLength = 30;
+            public const int MinVetFirstNameLength = 4;
             public const int MaxVetSurnameLength = 30;
+            public const int MinVetSurnameLength = 5;
+            public const int MaxDescriptionLength = 250;
+            public const int MinDecriptionLength = 5;
+            public const int MaxQualificationLength = 20;
+            public const int MinQualifactionLength = 4;
         }
 
     }

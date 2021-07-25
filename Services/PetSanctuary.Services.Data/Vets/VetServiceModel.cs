@@ -16,6 +16,8 @@ namespace PetSanctuary.Services.Data.Vets
 
         public int ClinicId { get; set; }
 
+        public string Clinic { get; set; }
+
         public int Likes { get; set; }
 
         public int Dislikes { get; set; }
