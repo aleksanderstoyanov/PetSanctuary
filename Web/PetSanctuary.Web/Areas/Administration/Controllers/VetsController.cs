@@ -55,6 +55,11 @@ namespace PetSanctuary.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string id, VetInputModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             await this.adminVetService.Edit(id, model.FirstName, model.Surname, model.Description, model.Qualification, model.Clinic);
             return this.Redirect("/Clinics/Index");
         }

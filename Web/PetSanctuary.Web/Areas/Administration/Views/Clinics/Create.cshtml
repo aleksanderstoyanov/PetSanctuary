@@ -1,0 +1,47 @@
+﻿@model ClinicInputModel
+<div class="container d-flex justify-content-center">
+    <form class="col-3 col-md-9 bg-dark" method="post">
+        <div class="d-flex justify-content-center"><i class="fas fa-clinic-medical" style="padding-top:15px; font-size:100px; color:white;"></i></div>
+        <div class="row">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="w-75 form-group">
+                    <label asp-for="Name"  style="color:white;">Name</label>
+                    <input asp-for="Name" type="text" class="form-control">
+                    <span asp-validation-for="Name" style="color:red"></span>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row">
+
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="w-75 form-group">
+                    <label asp-for="Address" style="color:white;">Address</label>
+                    <input asp-for="Address" type="text" class="form-control">
+                    <span asp-validation-for="Address" style="color:red"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="w-75 form-group">
+                    <label asp-for="City" style="color:white;">City</label>
+                    <input asp-for="City" type="text" class="form-control">
+                    <span asp-validation-for="City" style="color:red"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="w-75 form-group">
+                    <label asp-for="Image"  style="color:white;">Image</label>
+                    <input asp-for="Image" type="text" class="form-control">
+                    <span asp-validation-for="Image" style="color:red"></span>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-block btn-outline-danger bg-muted" style="color:white">Create</button>
+    </form>
+</div>

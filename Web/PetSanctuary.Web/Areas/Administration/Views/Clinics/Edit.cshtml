@@ -1,0 +1,27 @@
+﻿@model ClinicInputModel
+<h2 class="text-center">Edit Clinic <i class="fas fa-clinic-medical"></i></h2>
+<form method="post">
+
+    <div class="form-group">
+        <label asp-for="Name" style="color:white;">Name</label>
+        <input asp-for="Name" type="text" class="form-control" value="@Model.Name" placeholder="Name">
+        <span asp-validation-for="Name" style="color:red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address" style="color:white;">Address</label>
+        <input asp-for="Address" type="text" value="@Model.Address" class="form-control" placeholder="Address">
+        <span asp-validation-for="Address" style="color:red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="City" style="color:white;">City</label>
+        <input asp-for="City" type="text" value="@Model.City" class="form-control" placeholder="City">
+        <span asp-validation-for="City" style="color:red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Image" style="color:white;">ImageUrl</label>
+        <input asp-for="Image" type="text" value="@Model.Image" class="form-control" placeholder="ImageUrl">
+        <span asp-validation-for="Image" style="color:red"></span>
+    </div>
+
+    <button type="submit" class="btn btn-block btn-primary bg-warning" style="color:black;">Save changes <i class="far fa-save"></i></button>
+</form>

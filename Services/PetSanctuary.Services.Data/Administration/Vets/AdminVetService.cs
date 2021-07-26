@@ -14,13 +14,11 @@ namespace PetSanctuary.Services.Data.Administration.Vets
     {
         private readonly IDeletableEntityRepository<Vet> vetRepository;
         private readonly IClinicService clinicService;
-        private readonly IVetService vetService;
 
-        public AdminVetService(IDeletableEntityRepository<Vet> vetRepository, IClinicService clinicService, IVetService vetService)
+        public AdminVetService(IDeletableEntityRepository<Vet> vetRepository, IClinicService clinicService)
         {
             this.vetRepository = vetRepository;
             this.clinicService = clinicService;
-            this.vetService = vetService;
         }
 
         public async Task Create(string firstName, string surname, string description, string qualification, string clinic)

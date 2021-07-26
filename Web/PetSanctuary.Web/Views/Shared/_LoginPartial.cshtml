@@ -30,6 +30,7 @@
                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
                     <a class="dropdown-item" asp-area="Administration" asp-controller="Vets" asp-action="Create">Vet</a>
+                    <a class="dropdown-item" asp-area="Administration" asp-controller="Clinics" asp-action="Create">Clinic</a>
                 }
             </div>
         </li>

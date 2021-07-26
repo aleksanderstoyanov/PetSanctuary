@@ -32,6 +32,7 @@
         public class Clinic
         {
             public const int MaxClinicNameLength = 30;
+            public const int MinClinicNameLength = 3;
         }
 
         public class Vet

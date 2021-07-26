@@ -9,6 +9,13 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Administration\Views\Dashboard\**" />
+    <Content Remove="Areas\Administration\Views\Dashboard\**" />
+    <EmbeddedResource Remove="Areas\Administration\Views\Dashboard\**" />
+    <None Remove="Areas\Administration\Views\Dashboard\**" />
+  </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
@@ -35,9 +42,5 @@
     <ProjectReference Include="..\..\Services\PetSanctuary.Services\PetSanctuary.Services.csproj" />
     <ProjectReference Include="..\PetSanctuary.Web.Infrastructure\PetSanctuary.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\PetSanctuary.Web.ViewModels\PetSanctuary.Web.ViewModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Administration\Views\Dashboard\" />
   </ItemGroup>
 </Project>
