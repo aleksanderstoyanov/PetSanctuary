@@ -60,7 +60,7 @@ namespace PetSanctuary.Web.Controllers
                     Type = pet.Type.ToString(),
                     Gender = pet.Gender.ToString(),
                     Image = pet.Image,
-                    PhoneNumber = this.userService.GetUserPhoneNumber(userId),
+                    PhoneNumber = pet.PhoneNumber,
                 }).ToList();
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
@@ -76,7 +76,7 @@ namespace PetSanctuary.Web.Controllers
                     Type = pet.Type.ToString(),
                     Gender = pet.Gender.ToString(),
                     Image = pet.Image,
-                    PhoneNumber = this.userService.GetUserPhoneNumber(userId),
+                    PhoneNumber = pet.PhoneNumber,
                 }).ToList();
             }
 

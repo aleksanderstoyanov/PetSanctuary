@@ -7,7 +7,7 @@
 
     using static PetSanctuary.Common.GlobalConstants.Blog;
 
-    public class CommentFormCreateViewModel
+    public class CommentInputModel
     {
         [Required]
         [StringLength(

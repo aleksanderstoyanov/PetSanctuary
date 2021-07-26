@@ -75,48 +75,5 @@ namespace PetSanctuary.Web.Controllers
             return this.View(model);
         }
 
-        public IActionResult VetComments(string id)
-        {
-            var comments = this.commentService.GetAllVetComments(id);
-            return this.View(comments);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> VetComments(string id, CommentFormCreateViewModel model)
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await this.commentService.CreateVetComment(id, model.Content, userId);
-            return this.RedirectToAction(nameof(this.VetComments), "Clinics", new { id = id });
-        }
-
-        [Authorize]
-        public IActionResult EditComment(int id)
-        {
-            var comment = this.commentService.GetCommentById(id);
-            var model = new CommentFormCreateViewModel
-            {
-                Content = comment.Content
-            };
-
-            return this.View(model);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> EditComment(int id, CommentFormCreateViewModel model)
-        {
-            var vetId = this.commentService.GetVetIdByComment(id);
-            await this.commentService.Edit(id, model.Content);
-            return this.RedirectToAction(nameof(this.VetComments), "Clinics", new { id = vetId });
-        }
-
-        [Authorize]
-        public async Task<IActionResult> DeleteComment(int id)
-        {
-            var vetId = this.commentService.GetVetIdByComment(id);
-            await this.commentService.Delete(id);
-            return this.RedirectToAction(nameof(this.VetComments), "Clinics", new { id = vetId });
-        }
     }
 }

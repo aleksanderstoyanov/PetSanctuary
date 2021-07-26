@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<CommentServiceModel>
 
 @{
-    ViewBag.Title = "Latest Comments";
- }
+    ViewBag.Title = "Latest comments";
+}
+
 <div class="row d-flex justify-content-center mt-100 mb-100">
     <div class="col-lg-6">
         <div class="card">
@@ -19,10 +20,19 @@
                             <h6 class="font-medium">@comment.Publisher</h6> <span class="m-b-15 d-block">@comment.Content</span>
                             <div class="comment-footer">
                                 <span class="text-muted float-right">@comment.PublishedOn</span>
-                                @if (this.User.Identity.IsAuthenticated && this.User.Identity.Name == comment.Publisher||this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                @if (this.User.Identity.IsAuthenticated && this.User.Identity.Name == comment.Publisher)
                                 {
-                                    <a asp-area="" asp-controller="Blogs" asp-action="EditComment" asp-route-id="@comment.Id" class="btn btn-warning btn-sm">Edit <i class="fas fa-pencil-alt mr-3"></i></a>
-                                    <a asp-area="" asp-controller="Blogs" asp-action="DeleteComment" asp-route-id="@comment.Id" class="btn btn-danger btn-sm">Delete <i class="fas fa-trash-alt mr-2"></i></a>
+                                    @if ((string)this.ViewData["Name"] == "Vet")
+                                    {
+                                        <a asp-area="" asp-controller="Comments" asp-action="EditVetComment" asp-route-id="@comment.Id" class="btn btn-warning btn-sm">Edit <i class="fas fa-pencil-alt mr-3"></i></a>
+                                        <a asp-area="" asp-controller="Comments" asp-action="DeleteVetComment" asp-route-id="@comment.Id" class="btn btn-danger btn-sm">Delete <i class="fas fa-trash-alt mr-2"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-area="" asp-controller="Comments" asp-action="EditBlogComment" asp-route-id="@comment.Id" class="btn btn-warning btn-sm">Edit <i class="fas fa-pencil-alt mr-3"></i></a>
+                                        <a asp-area="" asp-controller="Comments" asp-action="DeleteBlogComment" asp-route-id="@comment.Id" class="btn btn-danger btn-sm">Delete <i class="fas fa-trash-alt mr-2"></i></a>
+                                    }
+
                                 }
 
                             </div>
@@ -36,7 +46,7 @@
 
 </div>
 
-@if (User.Identity.IsAuthenticated)
+@if (this.User.Identity.IsAuthenticated)
 {
     <button data-toggle="modal" data-target="#exampleModal" class="btn btn-info float-right">Add comment</button>
 

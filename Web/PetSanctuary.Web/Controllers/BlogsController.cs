@@ -31,20 +31,6 @@ namespace PetSanctuary.Web.Controllers
             return this.View(model);
         }
 
-        public IActionResult Comments(string id)
-        {
-            var comments = this.commentService.GetAllBlogComments(id);
-            return this.View(comments);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Comments(string id, CommentFormCreateViewModel model)
-        {
-            var publisherId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await this.commentService.CreateBlogComment(id, model.Content, publisherId);
-            return this.RedirectToAction(nameof(this.Comments), "Blogs");
-        }
 
         [Authorize]
         public IActionResult Create()
@@ -65,35 +51,6 @@ namespace PetSanctuary.Web.Controllers
             await this.blogService.Create(model.Title, model.Image, model.Description, this.User.Identity.Name);
 
             return this.Redirect($"/Blogs");
-        }
-
-        [Authorize]
-        public IActionResult EditComment(int id)
-        {
-            var comment = this.commentService.GetCommentById(id);
-            var model = new CommentFormCreateViewModel
-            {
-                Content = comment.Content
-            };
-
-            return this.View(model);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> EditComment(int id, CommentFormCreateViewModel model)
-        {
-            var blogId = this.commentService.GetBlogIdByComment(id);
-            await this.commentService.Edit(id, model.Content);
-            return this.RedirectToAction(nameof(this.Comments), "Blogs", new { id = blogId });
-        }
-
-        [Authorize]
-        public async Task<IActionResult> DeleteComment(int id)
-        {
-            var blogId = this.commentService.GetBlogIdByComment(id);
-            await this.commentService.Delete(id);
-            return this.RedirectToAction(nameof(this.Comments), "Blogs", new { id = blogId });
         }
 
     }
