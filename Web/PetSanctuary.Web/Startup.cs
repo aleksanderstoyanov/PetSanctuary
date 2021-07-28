@@ -31,6 +31,7 @@
     using PetSanctuary.Services.Data.Vets;
     using PetSanctuary.Services.Data.Administration.Vets;
     using PetSanctuary.Services.Data.Administration.Clinics;
+    using PetSanctuary.Services.Data.Counts;
 
     public class Startup
     {
@@ -84,6 +85,7 @@
             services.AddTransient<IVetService, VetService>();
             services.AddTransient<IAdminVetService, AdminVetService>();
             services.AddTransient<IAdminClinicService, AdminClinicService>();
+            services.AddTransient<ICountService, CountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

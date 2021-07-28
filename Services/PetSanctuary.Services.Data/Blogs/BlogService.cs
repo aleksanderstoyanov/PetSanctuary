@@ -62,13 +62,25 @@ namespace PetSanctuary.Services.Data.Blogs
                 .ToList();
         }
 
-        public IEnumerable<BlogServiceModel> GetAllUserBlogs(string id)
+        public IEnumerable<BlogServiceModel> GetAllUserBlogs(string id, int currentPage, int postsPerPage, bool isAdmin)
         {
+            if (isAdmin)
+            {
+                return this.blogRepository
+                  .AllAsNoTracking()
+                  .Skip((currentPage - 1) * postsPerPage)
+                  .Take(postsPerPage)
+                  .To<BlogServiceModel>()
+                  .ToList();
+            }
+
             return this.blogRepository
-                .AllAsNoTracking()
-                .Where(blog => blog.AuthorId == id)
-                .To<BlogServiceModel>()
-                .ToList();
+              .AllAsNoTracking()
+              .Where(blog => blog.AuthorId == id)
+              .Skip((currentPage - 1) * postsPerPage)
+              .Take(postsPerPage)
+              .To<BlogServiceModel>()
+              .ToList();
         }
 
         public BlogServiceModel GetBlogById(string id)

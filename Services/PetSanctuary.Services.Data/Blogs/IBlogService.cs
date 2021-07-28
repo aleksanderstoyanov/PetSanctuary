@@ -12,7 +12,7 @@ namespace PetSanctuary.Services.Data.Blogs
 
         Task Create(string title, string image, string description, string authorName);
 
-        IEnumerable<BlogServiceModel> GetAllUserBlogs(string id);
+        IEnumerable<BlogServiceModel> GetAllUserBlogs(string id, int currentPage, int postsPerPage, bool isAdmin);
 
         BlogServiceModel GetBlogByTitle(string title);
 

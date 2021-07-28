@@ -136,12 +136,25 @@ namespace PetSanctuary.Services.Data.Catalogs
               .ToList();
         }
 
-        public IEnumerable<CatalogServiceModel> GetAllUserPets(string id)
+        public IEnumerable<CatalogServiceModel> GetAllUserPets(string id, int currentPage, int postsPerPage, bool isAdmin)
         {
+            if (isAdmin)
+            {
+                return this.petsRepository
+                    .AllAsNoTracking()
+                    .Skip((currentPage - 1) * postsPerPage)
+                    .Take(postsPerPage)
+                    .To<CatalogServiceModel>()
+                    .ToList();
+            }
+
             return this.petsRepository
               .AllAsNoTracking()
               .Where(pet => pet.OwnerId == id)
-              .To<CatalogServiceModel>();
+              .Skip((currentPage - 1) * postsPerPage)
+              .Take(postsPerPage)
+              .To<CatalogServiceModel>()
+              .ToList();
         }
 
         public CatalogServiceModel GetPetById(string id)

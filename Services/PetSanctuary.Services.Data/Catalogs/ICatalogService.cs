@@ -18,7 +18,7 @@ namespace PetSanctuary.Services.Data.Catalogs
 
         IEnumerable<CatalogServiceModel> GetAllOthers();
 
-        IEnumerable<CatalogServiceModel> GetAllUserPets(string id);
+        IEnumerable<CatalogServiceModel> GetAllUserPets(string id, int currentPage, int postPerPage, bool isAdmin);
 
         CatalogServiceModel GetPetById(string id);
 

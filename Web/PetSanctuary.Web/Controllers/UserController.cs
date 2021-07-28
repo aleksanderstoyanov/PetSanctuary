@@ -5,6 +5,7 @@ using PetSanctuary.Services.Data.Addresses;
 using PetSanctuary.Services.Data.Blogs;
 using PetSanctuary.Services.Data.Catalogs;
 using PetSanctuary.Services.Data.Cities;
+using PetSanctuary.Services.Data.Counts;
 using PetSanctuary.Services.Data.Users;
 using PetSanctuary.Web.ViewModels.User;
 using System;
@@ -20,67 +21,49 @@ namespace PetSanctuary.Web.Controllers
         private readonly ICatalogService catalogService;
         private readonly IUserService userService;
         private readonly IBlogService blogService;
+        private readonly ICountService countService;
 
-        public UserController(ICatalogService catalogService, IUserService userService, IBlogService blogService)
+        public UserController(
+            ICatalogService catalogService,
+            IUserService userService,
+            IBlogService blogService,
+            ICountService countService)
         {
             this.catalogService = catalogService;
             this.userService = userService;
             this.blogService = blogService;
+            this.countService = countService;
         }
 
         [Authorize]
         public IActionResult Profile()
         {
+
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var model = new ProfileViewModel
             {
 
                 Email = this.User.Identity.Name,
-                NumberOfPosts = this.catalogService.GetAllUserPets(userId).Count(),
+                NumberOfPosts = this.countService.GetUserPostsCount(userId, this.User.IsInRole(GlobalConstants.AdministratorRoleName)),
                 PhoneNumber = this.userService.GetUserPhoneNumber(userId),
-                NumberOfBlogs = this.blogService.GetAllUserBlogs(userId).Count()
+                NumberOfBlogs = this.countService.GetUserBlogsCount(userId, this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             };
             return this.View(model);
         }
 
         [Authorize]
-        public IActionResult Posts()
+        public IActionResult Posts([FromQuery] PetPostQueryModel query)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            bool isAdmin = this.User.IsInRole(GlobalConstants.AdministratorRoleName);
 
-            var posts = this.catalogService.GetAllUserPets(userId)
-                .Select(pet => new PetPostViewModel
-                {
-                    Id = pet.Id,
-                    Name = pet.Name,
-                    Age = pet.Age,
-                    Address = pet.Address,
-                    City = pet.City,
-                    IsVaccinated = pet.IsVaccinated,
-                    Type = pet.Type.ToString(),
-                    Gender = pet.Gender.ToString(),
-                    Image = pet.Image,
-                    PhoneNumber = pet.PhoneNumber,
-                }).ToList();
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-            {
-                posts = this.catalogService.GetAllPets()
-                .Select(pet => new PetPostViewModel
-                {
-                    Id = pet.Id,
-                    Name = pet.Name,
-                    Age = pet.Age,
-                    Address = pet.Address,
-                    City = pet.City,
-                    IsVaccinated = pet.IsVaccinated,
-                    Type = pet.Type.ToString(),
-                    Gender = pet.Gender.ToString(),
-                    Image = pet.Image,
-                    PhoneNumber = pet.PhoneNumber,
-                }).ToList();
-            }
+            query.Pets = this.catalogService
+               .GetAllUserPets(userId, query.CurrentPage, query.ElementsPerPage, isAdmin)
+               .ToList();
 
-            return this.View(posts);
+            query.TotalPosts = this.countService.GetUserPostsCount(userId, isAdmin);
+
+            return this.View(query);
         }
 
         [Authorize]
@@ -110,7 +93,7 @@ namespace PetSanctuary.Web.Controllers
                 this.ModelState.AddModelError(nameof(model.Type), "Pet type is invalid");
             }
 
-            if (model.Gender != "Male" && model.Type != "Female")
+            if (model.Gender != "Male" && model.Gender != "Female")
             {
                 this.ModelState.AddModelError(nameof(model.Gender), "Pet gender is invalid");
             }
@@ -138,32 +121,19 @@ namespace PetSanctuary.Web.Controllers
         }
 
         [Authorize]
-        public IActionResult Blogs()
+        public IActionResult Blogs([FromQuery] BlogPostQueryModel query)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var blogs = this.blogService.GetAllUserBlogs(userId)
-                .Select(x => new BlogPostViewModel
-                {
-                    Id = x.Id,
-                    Image = x.Image,
-                    Title = x.Title,
-                    Description = x.Description
-                }).ToList();
+            bool isAdmin = this.User.IsInRole(GlobalConstants.AdministratorRoleName);
 
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-            {
-                blogs = this.blogService.GetAllBlogs()
-                .Select(x => new BlogPostViewModel
-                {
-                    Id = x.Id,
-                    Image = x.Image,
-                    Title = x.Title,
-                    Description = x.Description
+            var blogs = this.blogService
+              .GetAllUserBlogs(userId, query.CurrentPage, query.ElementsPerPage, isAdmin)
+              .ToList();
 
-                }).ToList();
-            }
+            query.Blogs = blogs;
+            query.TotalPosts = this.countService.GetUserBlogsCount(userId, isAdmin);
 
-            return this.View(blogs);
+            return this.View(query);
         }
 
         [HttpPost]
