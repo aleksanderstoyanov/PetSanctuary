@@ -20,7 +20,7 @@
                             <h6 class="font-medium">@comment.Publisher</h6> <span class="m-b-15 d-block">@comment.Content</span>
                             <div class="comment-footer">
                                 <span class="text-muted float-right">@comment.PublishedOn</span>
-                                @if (this.User.Identity.IsAuthenticated && this.User.Identity.Name == comment.Publisher)
+                                @if (this.User.Identity.IsAuthenticated && this.User.Identity.Name == comment.Publisher||this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                 {
                                     @if ((string)this.ViewData["Name"] == "Vet")
                                     {
