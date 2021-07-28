@@ -13,7 +13,7 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle"></i></a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Profile">My Profile</a>
+                <a class="dropdown-item" asp-area="" asp-controller="MyProfile" asp-action="Index">My Profile</a>
                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="fas fa-cog"></i> Settings</a>
                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
                     <button type="submit" class="nav-link btn btn-link text-dark"><i class="fas fa-door-open"></i> Logout</button>

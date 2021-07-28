@@ -16,14 +16,14 @@ using System.Threading.Tasks;
 
 namespace PetSanctuary.Web.Controllers
 {
-    public class UserController : BaseController
+    public class MyProfileController : BaseController
     {
         private readonly ICatalogService catalogService;
         private readonly IUserService userService;
         private readonly IBlogService blogService;
         private readonly ICountService countService;
 
-        public UserController(
+        public MyProfileController(
             ICatalogService catalogService,
             IUserService userService,
             IBlogService blogService,
@@ -36,13 +36,11 @@ namespace PetSanctuary.Web.Controllers
         }
 
         [Authorize]
-        public IActionResult Profile()
+        public IActionResult Index()
         {
-
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var model = new ProfileViewModel
             {
-
                 Email = this.User.Identity.Name,
                 NumberOfPosts = this.countService.GetUserPostsCount(userId, this.User.IsInRole(GlobalConstants.AdministratorRoleName)),
                 PhoneNumber = this.userService.GetUserPhoneNumber(userId),
@@ -109,7 +107,7 @@ namespace PetSanctuary.Web.Controllers
             }
 
             await this.catalogService.EditPetById(id, model.Name, model.Age, model.Image, model.Type, model.Gender, model.IsVaccinated, model.City, model.Address);
-            return this.RedirectToAction(nameof(this.Posts), "User");
+            return this.RedirectToAction(nameof(this.Posts), "MyProfile");
         }
 
         [Authorize]
@@ -117,7 +115,7 @@ namespace PetSanctuary.Web.Controllers
         public async Task<IActionResult> DeletePost(string id)
         {
             await this.catalogService.DeletePetById(id);
-            return this.RedirectToAction(nameof(this.Posts), "User");
+            return this.RedirectToAction(nameof(this.Posts), "MyProfile");
         }
 
         [Authorize]
@@ -146,7 +144,7 @@ namespace PetSanctuary.Web.Controllers
             }
 
             await this.blogService.EditBlogById(id, model.Title, model.Image, model.Description);
-            return this.RedirectToAction(nameof(this.Blogs), "User");
+            return this.RedirectToAction(nameof(this.Blogs), "MyProfile");
         }
 
         [Authorize]
@@ -173,14 +171,14 @@ namespace PetSanctuary.Web.Controllers
             }
 
             await this.blogService.EditBlogById(id, model.Title, model.Image, model.Description);
-            return this.RedirectToAction(nameof(this.Blogs), "User");
+            return this.RedirectToAction(nameof(this.Blogs), "MyProfile");
         }
 
         [Authorize]
         public async Task<IActionResult> DeleteBlog(string id)
         {
             await this.blogService.DeleteBlogById(id);
-            return this.RedirectToAction(nameof(this.Blogs), "User");
+            return this.RedirectToAction(nameof(this.Blogs), "MyProfile");
         }
     }
 }

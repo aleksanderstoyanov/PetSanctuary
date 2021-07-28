@@ -8,8 +8,8 @@
                 <a asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-id="@Model.Id" type="button" class="btn btn-success">Details <i class="fas fa-info-circle"></i></a>
                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
-                    <a asp-area="" asp-controller="User" asp-action="EditPost" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Edit <i class="fas fa-pencil-alt"></i></a>
-                    <a asp-area="" asp-controller="User" asp-action="DeletePost" asp-route-id="@Model.Id" type="button" class="btn btn-danger">Delete <i class="fas fa-trash-alt"></i></a>
+                    <a asp-area="" asp-controller="MyProfile" asp-action="EditPost" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Edit <i class="fas fa-pencil-alt"></i></a>
+                    <a asp-area="" asp-controller="MyProfile" asp-action="DeletePost" asp-route-id="@Model.Id" type="button" class="btn btn-danger">Delete <i class="fas fa-trash-alt"></i></a>
                 }
             </div>
             <div class="card-footer">
