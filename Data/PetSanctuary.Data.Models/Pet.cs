@@ -36,6 +36,8 @@
 
         public string OwnerId { get; set; }
 
+        public ApplicationUser Owner { get; set; }
+
         [Required]
         public int CityId { get; set; }
 

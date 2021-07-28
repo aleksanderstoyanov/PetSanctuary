@@ -1,10 +1,13 @@
-﻿using System;
+﻿using AutoMapper;
+using PetSanctuary.Data.Models;
+using PetSanctuary.Services.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PetSanctuary.Services.Data.Clinics
 {
-    public class ClinicServiceModel
+    public class ClinicServiceModel : IMapFrom<Clinic>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -16,5 +19,11 @@ namespace PetSanctuary.Services.Data.Clinics
 
         public string Address { get; set; }
 
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Clinic, ClinicServiceModel>()
+                 .ForMember(clinic => clinic.City, opt => opt.MapFrom(clinic => clinic.City.Name))
+                 .ForMember(clinic => clinic.Address, opt => opt.MapFrom(clinic => clinic.Address.Name));
+        }
     }
 }

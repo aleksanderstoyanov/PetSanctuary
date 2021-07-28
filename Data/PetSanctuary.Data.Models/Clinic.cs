@@ -28,6 +28,8 @@
         [Required]
         public int AddressId { get; set; }
 
+        public Address Address { get; set; }
+
         [Url]
         public string Image { get; set; }
 

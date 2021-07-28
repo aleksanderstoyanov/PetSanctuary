@@ -1,6 +1,7 @@
 ﻿using PetSanctuary.Data.Common.Models;
 using PetSanctuary.Data.Common.Repositories;
 using PetSanctuary.Data.Models;
+using PetSanctuary.Services.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,24 +33,21 @@ namespace PetSanctuary.Services.Data.Cities
 
         public CityServiceModel GetCityById(int id)
         {
-            return this.MapCities(this.citiesRepository.AllAsNoTracking().Where(city => city.Id == id))
-                .FirstOrDefault();
+            return this.citiesRepository
+              .AllAsNoTracking()
+              .Where(city => city.Id == id)
+              .To<CityServiceModel>()
+              .FirstOrDefault();
         }
 
         public CityServiceModel GetCityByName(string name)
         {
-            return this.MapCities(this.citiesRepository.All().Where(city => city.Name == name))
-                .FirstOrDefault();
+            return this.citiesRepository
+              .All()
+              .Where(city => city.Name == name)
+              .To<CityServiceModel>()
+              .FirstOrDefault();
         }
 
-        private IEnumerable<CityServiceModel> MapCities(IQueryable<City> cities)
-        {
-            return cities
-                .Select(city => new CityServiceModel
-                {
-                    Id = city.Id,
-                    Name = city.Name
-                }).ToList();
-        }
     }
 }

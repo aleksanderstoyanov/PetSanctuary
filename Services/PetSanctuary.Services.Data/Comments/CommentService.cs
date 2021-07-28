@@ -2,6 +2,7 @@
 using PetSanctuary.Data.Models;
 using PetSanctuary.Services.Data.Blogs;
 using PetSanctuary.Services.Data.Users;
+using PetSanctuary.Services.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +16,15 @@ namespace PetSanctuary.Services.Data.Comments
         private readonly IDeletableEntityRepository<Comment> commentRepository;
         private readonly IRepository<BlogComment> blogCommentRepository;
         private readonly IRepository<VetComment> vetCommentRepository;
-        private readonly IUserService userService;
 
         public CommentService(
             IDeletableEntityRepository<Comment> commentRepository,
             IRepository<BlogComment> blogCommentRepository,
-            IRepository<VetComment> vetCommentRepository,
-            IUserService userService)
+            IRepository<VetComment> vetCommentRepository)
         {
             this.commentRepository = commentRepository;
             this.blogCommentRepository = blogCommentRepository;
             this.vetCommentRepository = vetCommentRepository;
-            this.userService = userService;
         }
 
         public async Task CreateBlogComment(string blogId, string content, string publisherId)
@@ -83,16 +81,20 @@ namespace PetSanctuary.Services.Data.Comments
 
         public IEnumerable<CommentServiceModel> GetAllBlogComments(string blogId)
         {
-            return this.MapComments(this.commentRepository.AllAsNoTracking()
-                 .Where(comment => comment.BlogComments.Any(blogComment => blogComment.BlogId == blogId)))
-                 .ToList();
+            return this.commentRepository
+              .AllAsNoTracking()
+              .Where(comment => comment.BlogComments.Any(blogComment => blogComment.BlogId == blogId))
+              .To<CommentServiceModel>()
+              .ToList();
         }
 
         public IEnumerable<CommentServiceModel> GetAllVetComments(string vetId)
         {
-            return this.MapComments( this.commentRepository.AllAsNoTracking()
-                 .Where(comment => comment.VetComments.Any(vetComment => vetComment.VetId == vetId)))
-                 .ToList();
+            return this.commentRepository
+              .AllAsNoTracking()
+              .Where(comment => comment.VetComments.Any(vetComment => vetComment.VetId == vetId))
+              .To<CommentServiceModel>()
+              .ToList();
         }
 
         public string GetBlogIdByComment(int id)
@@ -104,8 +106,11 @@ namespace PetSanctuary.Services.Data.Comments
 
         public CommentServiceModel GetCommentById(int id)
         {
-            return this.MapComments(this.commentRepository.All().Where(comment => comment.Id == id))
-                .FirstOrDefault();
+            return this.commentRepository
+              .All()
+              .Where(comment => comment.Id == id)
+              .To<CommentServiceModel>()
+              .FirstOrDefault();
         }
 
         public string GetVetIdByComment(int id)
@@ -116,16 +121,5 @@ namespace PetSanctuary.Services.Data.Comments
                 .VetId;
         }
 
-        private IEnumerable<CommentServiceModel> MapComments(IQueryable<Comment> comments)
-        {
-            return comments
-                .Select(comment => new CommentServiceModel
-                {
-                    Id = comment.Id,
-                    PublishedOn = comment.PublishedOn.ToString("ddd d MMM"),
-                    Publisher = this.userService.GetUserById(comment.PublisherId).UserName,
-                    Content = comment.Content
-                }).ToList();
-        }
     }
 }

@@ -2,6 +2,7 @@
 using PetSanctuary.Data.Models;
 using PetSanctuary.Services.Data.Addresses;
 using PetSanctuary.Services.Data.Cities;
+using PetSanctuary.Services.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,44 +13,34 @@ namespace PetSanctuary.Services.Data.Clinics
     public class ClinicService : IClinicService
     {
         private readonly IDeletableEntityRepository<Clinic> clinicsRepository;
-        private readonly IAddressService addressService;
-        private readonly ICityService cityService;
 
-        public ClinicService(IDeletableEntityRepository<Clinic> clinicsRepository, IAddressService addressService, ICityService cityService)
+        public ClinicService(IDeletableEntityRepository<Clinic> clinicsRepository)
         {
             this.clinicsRepository = clinicsRepository;
-            this.addressService = addressService;
-            this.cityService = cityService;
         }
 
         public IEnumerable<ClinicServiceModel> GetAllClinics()
         {
-            return this.MapClinics(this.clinicsRepository.AllAsNoTracking());
+            return this.clinicsRepository
+              .AllAsNoTracking()
+              .To<ClinicServiceModel>()
+              .ToList();
         }
 
         public ClinicServiceModel GetClinicById(int id)
         {
-            return this.MapClinics(this.clinicsRepository.All())
-                .FirstOrDefault(clinic => clinic.Id == id);
+            return this.clinicsRepository
+              .All()
+              .To<ClinicServiceModel>()
+              .FirstOrDefault(clinic => clinic.Id == id);
         }
 
         public ClinicServiceModel GetClinicByName(string name)
         {
-            return this.MapClinics(this.clinicsRepository.All())
-                .FirstOrDefault(clinic => clinic.Name == name);
-        }
-
-        private IEnumerable<ClinicServiceModel> MapClinics(IQueryable<Clinic> clinics)
-        {
-            return clinics
-                .Select(clinic => new ClinicServiceModel
-                {
-                    Id = clinic.Id,
-                    Name = clinic.Name,
-                    Image = clinic.Image,
-                    Address = this.addressService.GetAddressById(clinic.AddressId).Name,
-                    City = this.cityService.GetCityById(clinic.CityId).Name
-                }).ToList();
+            return this.clinicsRepository
+              .All()
+              .To<ClinicServiceModel>()
+              .FirstOrDefault(clinic => clinic.Name == name);
         }
     }
 }

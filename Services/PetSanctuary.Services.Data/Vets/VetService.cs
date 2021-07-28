@@ -1,6 +1,7 @@
 ﻿using PetSanctuary.Data.Common.Repositories;
 using PetSanctuary.Data.Models;
 using PetSanctuary.Services.Data.Clinics;
+using PetSanctuary.Services.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,24 +13,28 @@ namespace PetSanctuary.Services.Data.Vets
     public class VetService : IVetService
     {
         private readonly IDeletableEntityRepository<Vet> vetsRepository;
-        private readonly IClinicService clinicService;
 
-        public VetService(IDeletableEntityRepository<Vet> vetsRepository, IClinicService clinicService)
+        public VetService(IDeletableEntityRepository<Vet> vetsRepository)
         {
             this.vetsRepository = vetsRepository;
-            this.clinicService = clinicService;
         }
 
         public VetServiceModel GetVetById(string id)
         {
-            return this.MapVets(this.vetsRepository.AllAsNoTracking().Where(vet => vet.Id == id))
-                .FirstOrDefault();
+            return this.vetsRepository
+              .AllAsNoTracking()
+              .Where(vet => vet.Id == id)
+              .To<VetServiceModel>()
+              .FirstOrDefault();
         }
 
         public IEnumerable<VetServiceModel> GetVetsById(int clinicId)
         {
-            return this.MapVets(this.vetsRepository.AllAsNoTracking().Where(vet => vet.ClinicId == clinicId));
-
+            return this.vetsRepository
+              .AllAsNoTracking()
+              .Where(vet => vet.ClinicId == clinicId)
+              .To<VetServiceModel>()
+              .ToList();
         }
 
         public async Task UpdateDislikes(string vetId)
@@ -52,23 +57,6 @@ namespace PetSanctuary.Services.Data.Vets
             vet.Likes += 1;
             this.vetsRepository.Update(vet);
             await this.vetsRepository.SaveChangesAsync();
-        }
-
-        private IEnumerable<VetServiceModel> MapVets(IQueryable<Vet> vets)
-        {
-            return vets
-                .Select(vet => new VetServiceModel
-                {
-                    Id = vet.Id,
-                    FirstName = vet.FirstName,
-                    Surname = vet.Surname,
-                    Clinic = this.clinicService.GetClinicById(vet.ClinicId).Name,
-                    ClinicId = vet.ClinicId,
-                    Description = vet.Description,
-                    Likes = vet.Likes,
-                    Dislikes = vet.Dislikes
-                }).ToList();
-
         }
     }
 }

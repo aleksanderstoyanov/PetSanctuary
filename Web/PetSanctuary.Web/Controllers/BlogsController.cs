@@ -16,13 +16,10 @@ namespace PetSanctuary.Web.Controllers
     public class BlogsController : BaseController
     {
         private readonly IBlogService blogService;
-        private readonly ICommentService commentService;
 
-        public BlogsController(IBlogService blogService, ICommentService commentService)
+        public BlogsController(IBlogService blogService)
         {
-
             this.blogService = blogService;
-            this.commentService = commentService;
         }
 
         public IActionResult Index()

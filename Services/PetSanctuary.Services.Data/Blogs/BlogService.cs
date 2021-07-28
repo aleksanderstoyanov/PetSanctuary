@@ -2,6 +2,7 @@
 using PetSanctuary.Data.Models;
 using PetSanctuary.Services.Data.Comments;
 using PetSanctuary.Services.Data.Users;
+using PetSanctuary.Services.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,39 +56,37 @@ namespace PetSanctuary.Services.Data.Blogs
 
         public IEnumerable<BlogServiceModel> GetAllBlogs()
         {
-            return this.MapBlogs(this.blogRepository.AllAsNoTracking());
+            return this.blogRepository
+                .AllAsNoTracking()
+                .To<BlogServiceModel>()
+                .ToList();
         }
 
         public IEnumerable<BlogServiceModel> GetAllUserBlogs(string id)
         {
-            return this.MapBlogs(this.blogRepository.AllAsNoTracking().Where(blog => blog.AuthorId == id));
+            return this.blogRepository
+                .AllAsNoTracking()
+                .Where(blog => blog.AuthorId == id)
+                .To<BlogServiceModel>()
+                .ToList();
         }
 
         public BlogServiceModel GetBlogById(string id)
         {
-            return this.MapBlogs(this.blogRepository.AllAsNoTracking().Where(blog => blog.Id == id))
+            return this.blogRepository
+                .AllAsNoTracking()
+                .Where(blog => blog.Id == id)
+                .To<BlogServiceModel>()
                 .FirstOrDefault(blog => blog.Id == id);
         }
 
         public BlogServiceModel GetBlogByTitle(string title)
         {
-            return this.MapBlogs(this.blogRepository.All())
+            return this.blogRepository.All()
+                .To<BlogServiceModel>()
                 .FirstOrDefault(blog => blog.Title == title);
         }
 
-        private IEnumerable<BlogServiceModel> MapBlogs(IQueryable<Blog> blogs)
-        {
-            return blogs
-                .Select(blog => new BlogServiceModel
-                {
-                    Id = blog.Id,
-                    Title = blog.Title,
-                    Image = blog.Image,
-                    Description = blog.Description,
-                    Author = this.userService.GetUserById(blog.AuthorId).UserName,
-                    CreatedOn = blog.CreatedOn.ToString("ddd d MMM")
-                }).ToList();
-        }
 
     }
 }

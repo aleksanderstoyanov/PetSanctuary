@@ -103,57 +103,54 @@ namespace PetSanctuary.Services.Data.Catalogs
 
         public IEnumerable<CatalogServiceModel> GetAllCats()
         {
-            return this.MapPets(this.petsRepository.AllAsNoTracking()
-              .Where(pet => pet.Type.Equals(PetType.Cat)));
+            return this.petsRepository
+              .AllAsNoTracking()
+              .Where(pet => pet.Type.Equals(PetType.Cat))
+              .To<CatalogServiceModel>()
+              .ToList();
         }
 
         public IEnumerable<CatalogServiceModel> GetAllDogs()
         {
-            return this.MapPets(this.petsRepository.AllAsNoTracking()
-              .Where(pet => pet.Type.Equals(PetType.Dog)));
+            return this.petsRepository
+              .AllAsNoTracking()
+              .Where(pet => pet.Type.Equals(PetType.Dog))
+              .To<CatalogServiceModel>()
+              .ToList();
         }
 
         public IEnumerable<CatalogServiceModel> GetAllOthers()
         {
-            return this.MapPets(this.petsRepository.AllAsNoTracking()
-             .Where(pet => pet.Type.Equals(PetType.Other)));
+            return this.petsRepository
+              .AllAsNoTracking()
+              .Where(pet => pet.Type.Equals(PetType.Other))
+              .To<CatalogServiceModel>()
+              .ToList();
         }
 
         public IEnumerable<CatalogServiceModel> GetAllPets()
         {
-            return this.MapPets(this.petsRepository.AllAsNoTracking());
+            return this.petsRepository
+              .AllAsNoTracking()
+              .To<CatalogServiceModel>()
+              .ToList();
         }
 
         public IEnumerable<CatalogServiceModel> GetAllUserPets(string id)
         {
-            return this.MapPets(this.petsRepository.AllAsNoTracking()
-                 .Where(pet => pet.OwnerId == id));
+            return this.petsRepository
+              .AllAsNoTracking()
+              .Where(pet => pet.OwnerId == id)
+              .To<CatalogServiceModel>();
         }
 
         public CatalogServiceModel GetPetById(string id)
         {
-            return this.MapPets(this.petsRepository.All()
-              .Where(pet => pet.Id == id))
+            return this.petsRepository
+              .All()
+              .Where(pet => pet.Id == id)
+              .To<CatalogServiceModel>()
               .FirstOrDefault();
-        }
-
-        private IEnumerable<CatalogServiceModel> MapPets(IQueryable<Pet> pets)
-        {
-            return pets
-                .Select(pet => new CatalogServiceModel
-                {
-                    Id = pet.Id,
-                    Name = pet.Name,
-                    Age = pet.Age,
-                    Image = pet.Image,
-                    Address = this.addressService.GetAddressById(pet.AddressId).Name,
-                    Gender = pet.Gender.ToString(),
-                    City = this.cityService.GetCityById(pet.CityId).Name,
-                    CreatedOn = pet.CreatedOn.ToString("ddd d MMM"),
-                    IsVaccinated = pet.IsVaccinated ? "Yes" : "No",
-                    Type = pet.Type.ToString(),
-                    PhoneNumber = this.userService.GetUserById(pet.OwnerId).PhoneNumber,
-                }).ToList();
         }
 
         private async Task<AddressServiceModel> EnsureAddressCreated(string addressName, int cityId)

@@ -1,10 +1,13 @@
-﻿using System;
+﻿using AutoMapper;
+using PetSanctuary.Data.Models;
+using PetSanctuary.Services.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PetSanctuary.Services.Data.Blogs
 {
-    public class BlogServiceModel
+    public class BlogServiceModel : IMapFrom<Blog>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -17,5 +20,11 @@ namespace PetSanctuary.Services.Data.Blogs
         public string Author { get; set; }
 
         public string CreatedOn { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Blog, BlogServiceModel>()
+                .ForMember(blog => blog.Author, opt => opt.MapFrom(blog => blog.Author.UserName));
+        }
     }
 }

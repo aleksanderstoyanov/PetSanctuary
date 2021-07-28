@@ -1,6 +1,7 @@
 ﻿using PetSanctuary.Data.Common.Repositories;
 using PetSanctuary.Data.Models;
 using PetSanctuary.Services.Data.Cities;
+using PetSanctuary.Services.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,10 @@ namespace PetSanctuary.Services.Data.Addresses
     public class AddressService : IAddressService
     {
         private readonly IDeletableEntityRepository<Address> addressRepository;
-        private readonly ICityService cityService;
 
-        public AddressService(IDeletableEntityRepository<Address> addressRepository, ICityService cityService)
+        public AddressService(IDeletableEntityRepository<Address> addressRepository)
         {
             this.addressRepository = addressRepository;
-            this.cityService = cityService;
         }
 
         public async Task Create(string name, int cityId)
@@ -36,29 +35,17 @@ namespace PetSanctuary.Services.Data.Addresses
         public AddressServiceModel GetAddressById(int id)
         {
             return this.addressRepository
-                .AllAsNoTracking()
-                .Where(address => address.Id == id)
-                .Select(address => new AddressServiceModel
-                {
-                    Id = address.Id,
-                    Name = address.Name,
-                    City = this.cityService.GetCityById(address.CityId).Name
-                })
-                .FirstOrDefault();
+              .AllAsNoTracking()
+              .To<AddressServiceModel>()
+              .FirstOrDefault(address => address.Id == id);
         }
 
         public AddressServiceModel GetAddressByName(string name)
         {
             return this.addressRepository
-                 .AllAsNoTracking()
-                 .Where(address => address.Name == name)
-                 .Select(address => new AddressServiceModel
-                 {
-                     Id = address.Id,
-                     Name = address.Name,
-                     City = this.cityService.GetCityById(address.CityId).Name
-                 })
-                 .FirstOrDefault();
+              .AllAsNoTracking()
+              .To<AddressServiceModel>()
+              .FirstOrDefault(address => address.Name == name);
         }
     }
 }
