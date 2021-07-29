@@ -51,14 +51,14 @@ namespace PetSanctuary.Web.Controllers
         public async Task<IActionResult> Like(string vetId)
         {
             var vet = this.vetService.GetVetById(vetId);
-            await this.vetService.UpdateLikes(vetId);
+            await this.vetService.UpdateLikesAsync(vetId);
             return this.RedirectToAction(nameof(this.Vets), "Clinics", new { id = vet.ClinicId });
         }
 
         public async Task<IActionResult> Dislike(string vetId)
         {
             var vet = this.vetService.GetVetById(vetId);
-            await this.vetService.UpdateDislikes(vetId);
+            await this.vetService.UpdateDislikesAsync(vetId);
             return this.RedirectToAction(nameof(this.Vets), "Clinics", new { id = vet.ClinicId });
         }
 

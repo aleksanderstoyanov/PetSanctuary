@@ -10,7 +10,7 @@ namespace PetSanctuary.Services.Data.Blogs
     {
         IEnumerable<BlogServiceModel> GetAllBlogs();
 
-        Task Create(string title, string image, string description, string authorName);
+        Task CreateAsync(string title, string image, string description, string authorName);
 
         IEnumerable<BlogServiceModel> GetAllUserBlogs(string id, int currentPage, int postsPerPage, bool isAdmin);
 
@@ -18,8 +18,8 @@ namespace PetSanctuary.Services.Data.Blogs
 
         BlogServiceModel GetBlogById(string id);
 
-        Task EditBlogById(string id, string title, string image, string description);
+        Task EditByIdAsync(string id, string title, string image, string description);
 
-        Task DeleteBlogById(string id);
+        Task DeleteByIdAsync(string id);
     }
 }

@@ -96,7 +96,7 @@ namespace PetSanctuary.Web.Controllers
                 this.ModelState.AddModelError(nameof(model.Gender), "Pet gender is invalid");
             }
 
-            if (model.IsVaccinated != "Yes" && model.Type != "No")
+            if (model.IsVaccinated != "Yes" && model.IsVaccinated != "No")
             {
                 this.ModelState.AddModelError(nameof(model.IsVaccinated), "Pet's vaccination type is invalid");
             }
@@ -143,7 +143,7 @@ namespace PetSanctuary.Web.Controllers
                 return this.View(model);
             }
 
-            await this.blogService.EditBlogById(id, model.Title, model.Image, model.Description);
+            await this.blogService.EditByIdAsync(id, model.Title, model.Image, model.Description);
             return this.RedirectToAction(nameof(this.Blogs), "MyProfile");
         }
 
@@ -170,14 +170,14 @@ namespace PetSanctuary.Web.Controllers
                 return this.View(model);
             }
 
-            await this.blogService.EditBlogById(id, model.Title, model.Image, model.Description);
+            await this.blogService.EditByIdAsync(id, model.Title, model.Image, model.Description);
             return this.RedirectToAction(nameof(this.Blogs), "MyProfile");
         }
 
         [Authorize]
         public async Task<IActionResult> DeleteBlog(string id)
         {
-            await this.blogService.DeleteBlogById(id);
+            await this.blogService.DeleteByIdAsync(id);
             return this.RedirectToAction(nameof(this.Blogs), "MyProfile");
         }
     }

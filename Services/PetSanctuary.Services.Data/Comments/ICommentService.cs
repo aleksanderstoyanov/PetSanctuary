@@ -14,13 +14,13 @@ namespace PetSanctuary.Services.Data.Comments
 
         string GetVetIdByComment(int id);
 
-        Task CreateBlogComment(string blogId, string content, string publisherId);
+        Task CreateBlogCommentAsync(string blogId, string content, string publisherId);
 
-        Task CreateVetComment(string vetId, string content, string publisherId);
+        Task CreateVetCommentAsync(string vetId, string content, string publisherId);
 
-        Task Edit(int id, string content);
+        Task EditAsync(int id, string content);
 
-        Task Delete(int id);
+        Task DeleteAsync(int id);
 
         IEnumerable<CommentServiceModel> GetAllBlogComments(string blogId);
 

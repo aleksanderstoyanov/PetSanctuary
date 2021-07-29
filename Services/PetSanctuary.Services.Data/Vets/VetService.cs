@@ -37,7 +37,7 @@ namespace PetSanctuary.Services.Data.Vets
               .ToList();
         }
 
-        public async Task UpdateDislikes(string vetId)
+        public async Task UpdateDislikesAsync(string vetId)
         {
             var vet = this.vetsRepository
                 .All()
@@ -48,7 +48,7 @@ namespace PetSanctuary.Services.Data.Vets
             await this.vetsRepository.SaveChangesAsync();
         }
 
-        public async Task UpdateLikes(string vetId)
+        public async Task UpdateLikesAsync(string vetId)
         {
             var vet = this.vetsRepository
                .All()

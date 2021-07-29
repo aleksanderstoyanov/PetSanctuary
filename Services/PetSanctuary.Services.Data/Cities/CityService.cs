@@ -19,7 +19,7 @@ namespace PetSanctuary.Services.Data.Cities
             this.citiesRepository = citiesRepository;
         }
 
-        public async Task Create(string name)
+        public async Task CreateAsync(string name)
         {
             await this.citiesRepository.AddAsync(new City
             {

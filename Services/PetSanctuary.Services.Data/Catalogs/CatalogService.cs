@@ -168,13 +168,13 @@ namespace PetSanctuary.Services.Data.Catalogs
 
         private async Task<AddressServiceModel> EnsureAddressCreated(string addressName, int cityId)
         {
-            await this.addressService.Create(addressName, cityId);
+            await this.addressService.CreateAsync(addressName, cityId);
             return this.addressService.GetAddressByName(addressName);
         }
 
         private async Task<CityServiceModel> EnsureCityCreated(string cityName)
         {
-            await this.cityService.Create(cityName);
+            await this.cityService.CreateAsync(cityName);
             return this.cityService.GetCityByName(cityName);
         }
     }

@@ -34,7 +34,7 @@ namespace PetSanctuary.Web.Areas.Administration.Controllers
                 return this.View(model);
             }
 
-            await this.adminVetService.Create(model.FirstName, model.Surname, model.Description, model.Qualification, model.Clinic);
+            await this.adminVetService.CreateAsync(model.FirstName, model.Surname, model.Description, model.Qualification, model.Clinic);
             return this.Redirect("/Clinics/Index");
         }
 
@@ -60,13 +60,13 @@ namespace PetSanctuary.Web.Areas.Administration.Controllers
                 return this.View(model);
             }
 
-            await this.adminVetService.Edit(id, model.FirstName, model.Surname, model.Description, model.Qualification, model.Clinic);
+            await this.adminVetService.EditAsync(id, model.FirstName, model.Surname, model.Description, model.Qualification, model.Clinic);
             return this.Redirect("/Clinics/Index");
         }
 
         public async Task<IActionResult> Delete(string id)
         {
-            await this.adminVetService.Delete(id);
+            await this.adminVetService.DeleteAsync(id);
             return this.Redirect("/Clinics/Index");
         }
     }

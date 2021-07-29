@@ -22,7 +22,7 @@ namespace PetSanctuary.Services.Data.Blogs
             this.userService = userService;
         }
 
-        public async Task Create(string title, string image, string description, string authorName)
+        public async Task CreateAsync(string title, string image, string description, string authorName)
         {
             var author = this.userService.GetUserByName(authorName);
             await this.blogRepository.AddAsync(new Blog
@@ -37,14 +37,14 @@ namespace PetSanctuary.Services.Data.Blogs
             await this.blogRepository.SaveChangesAsync();
         }
 
-        public async Task DeleteBlogById(string id)
+        public async Task DeleteByIdAsync(string id)
         {
             var blog = this.blogRepository.All().FirstOrDefault(blog => blog.Id == id);
             this.blogRepository.Delete(blog);
             await this.blogRepository.SaveChangesAsync();
         }
 
-        public async Task EditBlogById(string id, string title, string image, string description)
+        public async Task EditByIdAsync(string id, string title, string image, string description)
         {
             var blog = this.blogRepository.All().FirstOrDefault(blog => blog.Id == id);
             blog.Title = title;

@@ -28,7 +28,7 @@ namespace PetSanctuary.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ClinicInputModel model)
         {
-            await this.adminClinicService.Create(model.Name, model.Address, model.City, model.Image);
+            await this.adminClinicService.CreateAsync(model.Name, model.Address, model.City, model.Image);
             return this.Redirect("/Clinics/Index");
         }
 
@@ -49,13 +49,13 @@ namespace PetSanctuary.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, ClinicInputModel model)
         {
-            await this.adminClinicService.Edit(id, model.Name, model.Address, model.City, model.Image);
+            await this.adminClinicService.EditAsync(id, model.Name, model.Address, model.City, model.Image);
             return this.Redirect("/Clinics/Index");
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            await this.adminClinicService.Delete(id);
+            await this.adminClinicService.DeleteAsync(id);
             return this.Redirect("/Clinics/Index");
         }
     }

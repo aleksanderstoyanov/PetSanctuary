@@ -7,10 +7,10 @@ namespace PetSanctuary.Services.Data.Administration.Clinics
 {
     public interface IAdminClinicService
     {
-        Task Create(string name, string addressName, string cityName, string image);
+        Task CreateAsync(string name, string addressName, string cityName, string image);
 
-        Task Edit(int id, string name, string addressName, string cityName, string image);
+        Task EditAsync(int id, string name, string addressName, string cityName, string image);
 
-        Task Delete(int id);
+        Task DeleteAsync(int id);
     }
 }

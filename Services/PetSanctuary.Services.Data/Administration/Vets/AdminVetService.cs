@@ -21,7 +21,7 @@ namespace PetSanctuary.Services.Data.Administration.Vets
             this.clinicService = clinicService;
         }
 
-        public async Task Create(string firstName, string surname, string description, string qualification, string clinic)
+        public async Task CreateAsync(string firstName, string surname, string description, string qualification, string clinic)
         {
             await this.vetRepository.AddAsync(new Vet
             {
@@ -34,7 +34,7 @@ namespace PetSanctuary.Services.Data.Administration.Vets
             await this.vetRepository.SaveChangesAsync();
         }
 
-        public async Task Delete(string id)
+        public async Task DeleteAsync(string id)
         {
             this.vetRepository.Delete(this.vetRepository
                 .All()
@@ -43,7 +43,7 @@ namespace PetSanctuary.Services.Data.Administration.Vets
             await this.vetRepository.SaveChangesAsync();
         }
 
-        public async Task Edit(string id, string firstName, string surname, string description, string qualification, string clinic)
+        public async Task EditAsync(string id, string firstName, string surname, string description, string qualification, string clinic)
         {
             var vet = this.vetRepository
                 .All()

@@ -24,7 +24,7 @@ namespace PetSanctuary.Services.Data.Administration.Clinics
             this.cityService = cityService;
         }
 
-        public async Task Create(string name, string addressName, string cityName, string image)
+        public async Task CreateAsync(string name, string addressName, string cityName, string image)
         {
             var city = this.cityService.GetCityByName(cityName);
             var address = this.addressService.GetAddressByName(addressName);
@@ -49,14 +49,14 @@ namespace PetSanctuary.Services.Data.Administration.Clinics
             await this.clinicRepository.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             this.clinicRepository.Delete(this.clinicRepository.All()
                  .FirstOrDefault(clinic => clinic.Id == id));
             await this.clinicRepository.SaveChangesAsync();
         }
 
-        public async Task Edit(int id, string name, string addressName, string cityName, string image)
+        public async Task EditAsync(int id, string name, string addressName, string cityName, string image)
         {
             var city = this.cityService.GetCityByName(cityName);
             var address = this.addressService.GetAddressByName(addressName);
@@ -81,13 +81,13 @@ namespace PetSanctuary.Services.Data.Administration.Clinics
 
         private async Task<AddressServiceModel> EnsureAddressCreated(string addressName, int cityId)
         {
-            await this.addressService.Create(addressName, cityId);
+            await this.addressService.CreateAsync(addressName, cityId);
             return this.addressService.GetAddressByName(addressName);
         }
 
         private async Task<CityServiceModel> EnsureCityCreated(string cityName)
         {
-            await this.cityService.Create(cityName);
+            await this.cityService.CreateAsync(cityName);
             return this.cityService.GetCityByName(cityName);
         }
     }

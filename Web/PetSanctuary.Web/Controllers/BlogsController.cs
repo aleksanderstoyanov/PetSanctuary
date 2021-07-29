@@ -45,7 +45,7 @@ namespace PetSanctuary.Web.Controllers
                 return this.View(model);
             }
 
-            await this.blogService.Create(model.Title, model.Image, model.Description, this.User.Identity.Name);
+            await this.blogService.CreateAsync(model.Title, model.Image, model.Description, this.User.Identity.Name);
 
             return this.Redirect($"/Blogs");
         }

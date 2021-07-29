@@ -12,6 +12,6 @@ namespace PetSanctuary.Services.Data.Addresses
 
         AddressServiceModel GetAddressById(int id);
 
-        Task Create(string name, int cityId);
+        Task CreateAsync(string name, int cityId);
     }
 }

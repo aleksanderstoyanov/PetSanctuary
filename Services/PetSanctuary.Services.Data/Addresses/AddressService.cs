@@ -19,7 +19,7 @@ namespace PetSanctuary.Services.Data.Addresses
             this.addressRepository = addressRepository;
         }
 
-        public async Task Create(string name, int cityId)
+        public async Task CreateAsync(string name, int cityId)
         {
             await this.addressRepository.AddAsync(new Address
             {

@@ -27,7 +27,7 @@ namespace PetSanctuary.Services.Data.Comments
             this.vetCommentRepository = vetCommentRepository;
         }
 
-        public async Task CreateBlogComment(string blogId, string content, string publisherId)
+        public async Task CreateBlogCommentAsync(string blogId, string content, string publisherId)
         {
             var comment = new Comment
             {
@@ -44,7 +44,7 @@ namespace PetSanctuary.Services.Data.Comments
             await this.commentRepository.SaveChangesAsync();
         }
 
-        public async Task CreateVetComment(string vetId, string content, string publisherId)
+        public async Task CreateVetCommentAsync(string vetId, string content, string publisherId)
         {
             var comment = new Comment
             {
@@ -61,7 +61,7 @@ namespace PetSanctuary.Services.Data.Comments
             await this.commentRepository.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             var comment = this.commentRepository.All()
                 .FirstOrDefault(comment => comment.Id == id);
@@ -70,7 +70,7 @@ namespace PetSanctuary.Services.Data.Comments
             await this.commentRepository.SaveChangesAsync();
         }
 
-        public async Task Edit(int id, string content)
+        public async Task EditAsync(int id, string content)
         {
             var comment = this.commentRepository.All()
                 .FirstOrDefault(comment => comment.Id == id);

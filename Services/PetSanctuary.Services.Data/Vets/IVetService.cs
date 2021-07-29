@@ -10,9 +10,9 @@ namespace PetSanctuary.Services.Data.Vets
     {
         IEnumerable<VetServiceModel> GetVetsById(int clinicId);
 
-        Task UpdateLikes(string vetId);
+        Task UpdateLikesAsync(string vetId);
 
-        Task UpdateDislikes(string vetId);
+        Task UpdateDislikesAsync(string vetId);
 
         VetServiceModel GetVetById(string id);
     }
