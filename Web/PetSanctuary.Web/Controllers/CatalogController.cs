@@ -28,7 +28,8 @@ namespace PetSanctuary.Web.Controllers
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Image = x.Image
+                    Image = x.Image,
+                    CreatedOn=x.CreatedOn
                 }).ToList();
             return this.View(dogs);
         }
@@ -40,7 +41,8 @@ namespace PetSanctuary.Web.Controllers
                {
                    Id = x.Id,
                    Name = x.Name,
-                   Image = x.Image
+                   Image = x.Image,
+                   CreatedOn=x.CreatedOn
                }).ToList();
             return this.View(cats);
         }
@@ -52,7 +54,8 @@ namespace PetSanctuary.Web.Controllers
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Image = x.Image
+                    Image = x.Image,
+                    CreatedOn=x.CreatedOn
                 }).ToList();
             return this.View(others);
         }

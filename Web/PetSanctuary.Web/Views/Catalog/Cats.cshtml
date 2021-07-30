@@ -1,5 +1,10 @@
-﻿
-@model List<CatalogViewModel>
+﻿@model List<CatalogViewModel>
+
+@{
+    ViewBag.Title = "Cats";
+}
+
+<h1 class="d-flex justify-content-center">@ViewBag.Title <i class="fas fa-cat ml-3"></i></h1>
 <div class="row">
     @foreach (var cat in Model)
     {
