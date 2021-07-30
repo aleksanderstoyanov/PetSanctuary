@@ -36,7 +36,8 @@ namespace PetSanctuary.Services.Data.Catalogs
             configuration.CreateMap<Pet, CatalogServiceModel>()
                 .ForMember(pet => pet.PhoneNumber, opt => opt.MapFrom(pet => pet.Owner.PhoneNumber))
                 .ForMember(pet => pet.City, opt => opt.MapFrom(pet => pet.City.Name))
-                .ForMember(pet => pet.Address, opt => opt.MapFrom(pet => pet.Address.Name));
+                .ForMember(pet => pet.Address, opt => opt.MapFrom(pet => pet.Address.Name))
+                .ForMember(pet => pet.CreatedOn, opt => opt.MapFrom(pet => pet.CreatedOn.ToString("dddd, dd MMMM yyyy")));
         }
     }
 }

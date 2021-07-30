@@ -1,0 +1,16 @@
+﻿@model CommentInputModel
+<div class="container d-flex justify-content-center">
+    <form class="col-3 col-md-9 bg-dark" method="post">
+        <div class="row">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="w-75 form-group">
+                    <label asp-for="Content" style="color:white;">Content</label>
+                    <input asp-for="Content" type="text" class="form-control">
+                    <span asp-validation-for="Content" style="color:red"></span>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-block btn-outline-primary bg-muted" style="color:white">Add Comment</button>
+    </form>
+</div>

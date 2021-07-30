@@ -27,7 +27,7 @@ namespace PetSanctuary.Services.Data.Comments
             this.vetCommentRepository = vetCommentRepository;
         }
 
-        public async Task CreateBlogCommentAsync(string blogId, string content, string publisherId)
+        public async Task CreateAsync(string id, string content, string type, string publisherId)
         {
             var comment = new Comment
             {
@@ -35,28 +35,24 @@ namespace PetSanctuary.Services.Data.Comments
                 PublishedOn = DateTime.UtcNow,
                 PublisherId = publisherId,
             };
-            comment.BlogComments.Add(new BlogComment
-            {
-                BlogId = blogId,
-                CommentId = comment.Id
-            });
-            await this.commentRepository.AddAsync(comment);
-            await this.commentRepository.SaveChangesAsync();
-        }
 
-        public async Task CreateVetCommentAsync(string vetId, string content, string publisherId)
-        {
-            var comment = new Comment
+            if (type == "Blog")
             {
-                Content = content,
-                PublishedOn = DateTime.UtcNow,
-                PublisherId = publisherId,
-            };
-            comment.VetComments.Add(new VetComment
+                comment.BlogComments.Add(new BlogComment
+                {
+                    BlogId = id,
+                    CommentId = comment.Id
+                });
+            }
+            else
             {
-                VetId = vetId,
-                CommentId = comment.Id
-            });
+                comment.VetComments.Add(new VetComment
+                {
+                    VetId = id,
+                    CommentId = comment.Id
+                });
+            }
+
             await this.commentRepository.AddAsync(comment);
             await this.commentRepository.SaveChangesAsync();
         }
@@ -111,6 +107,22 @@ namespace PetSanctuary.Services.Data.Comments
               .Where(comment => comment.Id == id)
               .To<CommentServiceModel>()
               .FirstOrDefault();
+        }
+
+        public string GetIdByComment(int id, string type)
+        {
+            if (type == "Vet")
+            {
+                return this.vetCommentRepository
+               .All()
+               .FirstOrDefault(blogComment => blogComment.CommentId == id)
+               .VetId;
+            }
+
+            return this.blogCommentRepository.All()
+               .FirstOrDefault(blogComment => blogComment.CommentId == id)
+               .BlogId;
+
         }
 
         public string GetVetIdByComment(int id)

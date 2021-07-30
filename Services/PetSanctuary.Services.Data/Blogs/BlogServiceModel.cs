@@ -24,7 +24,8 @@ namespace PetSanctuary.Services.Data.Blogs
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Blog, BlogServiceModel>()
-                .ForMember(blog => blog.Author, opt => opt.MapFrom(blog => blog.Author.UserName));
+                .ForMember(blog => blog.Author, opt => opt.MapFrom(blog => blog.Author.UserName))
+                .ForMember(blog => blog.CreatedOn, opt => opt.MapFrom(blog => blog.CreatedOn.ToString("dddd, dd MMMM yyyy")));
         }
     }
 }

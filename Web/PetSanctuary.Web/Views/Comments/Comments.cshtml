@@ -11,6 +11,7 @@
                 <h4 class="card-title">@ViewBag.Title</h4>
             </div>
             <div>
+
                 @foreach (var comment in Model)
                 {
                     <hr>
@@ -20,18 +21,11 @@
                             <h6 class="font-medium">@comment.Publisher</h6> <span class="m-b-15 d-block">@comment.Content</span>
                             <div class="comment-footer">
                                 <span class="text-muted float-right">@comment.PublishedOn</span>
-                                @if (this.User.Identity.IsAuthenticated && this.User.Identity.Name == comment.Publisher||this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                @if (this.User.Identity.IsAuthenticated && this.User.Identity.Name == comment.Publisher || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                 {
-                                    @if ((string)this.ViewData["Name"] == "Vet")
-                                    {
-                                        <a asp-area="" asp-controller="Comments" asp-action="EditVetComment" asp-route-id="@comment.Id" class="btn btn-warning btn-sm">Edit <i class="fas fa-pencil-alt mr-3"></i></a>
-                                        <a asp-area="" asp-controller="Comments" asp-action="DeleteVetComment" asp-route-id="@comment.Id" class="btn btn-danger btn-sm">Delete <i class="fas fa-trash-alt mr-2"></i></a>
-                                    }
-                                    else
-                                    {
-                                        <a asp-area="" asp-controller="Comments" asp-action="EditBlogComment" asp-route-id="@comment.Id" class="btn btn-warning btn-sm">Edit <i class="fas fa-pencil-alt mr-3"></i></a>
-                                        <a asp-area="" asp-controller="Comments" asp-action="DeleteBlogComment" asp-route-id="@comment.Id" class="btn btn-danger btn-sm">Delete <i class="fas fa-trash-alt mr-2"></i></a>
-                                    }
+
+                                    <a asp-area="" asp-controller="Comments" asp-action="Edit" asp-route-id="@comment.Id" asp-route-type="@this.ViewBag.Name" class="btn btn-warning btn-sm">Edit <i class="fas fa-pencil-alt mr-3"></i></a>
+                                    <a asp-area="" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-type="@this.ViewBag.Name" class="btn btn-danger btn-sm">Delete <i class="fas fa-trash-alt mr-2"></i></a>
 
                                 }
 
@@ -40,31 +34,14 @@
                     </div> <!-- Comment Row -->
                     <hr>
                 }
+                @if (this.User.Identity.IsAuthenticated||this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    <a asp-area="" asp-controller="Comments" asp-action="Create" asp-route-id="@ViewContext.RouteData.Values["id"]" asp-route-type="@this.ViewBag.Name" class="btn btn-outline-primary btn-sm d-flex justify-content-center">Add Comment<i class="far fa-comment ml-2" style="padding-top:3px;"></i></a>
+                }
+
             </div> <!-- Card -->
         </div>
     </div>
 
 </div>
 
-@if (this.User.Identity.IsAuthenticated)
-{
-    <button data-toggle="modal" data-target="#exampleModal" class="btn btn-info float-right">Add comment</button>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form method="post">
-                    <div class="form-group">
-                        <label style="color:white;">Content</label>
-                        <input name="Content" type="text" class="form-control" value="" placeholder="Content">
-                        <span style="color:red"></span>
-                    </div>
-
-                    <button type="submit" class="btn btn-block btn-primary bg-success" style="color:white;">Publish</button>
-                </form>
-            </div>
-        </div>
-    </div>
-}

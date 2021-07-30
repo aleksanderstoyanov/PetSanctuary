@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PetSanctuary.Web.Controllers
 {
-    public class CommentsController : Controller
+    public class CommentsController : BaseController
     {
         private readonly ICommentService commentService;
 
@@ -22,85 +22,41 @@ namespace PetSanctuary.Web.Controllers
         public IActionResult Blog(string id)
         {
             var model = this.commentService.GetAllBlogComments(id);
-            this.ViewBag.Name = "Blog";
+            this.ViewBag.Name = nameof(this.Blog);
             return this.View("Comments", model);
         }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Blog(string id, CommentInputModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View("Comments", model);
-            }
-
-            var publisherId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await this.commentService.CreateBlogCommentAsync(id, model.Content, publisherId);
-            return this.RedirectToAction(nameof(this.Blog), "Comments");
-        }
-
-        [Authorize]
-        [Route("/Comments/Blog/Edit/{id}")]
-        public IActionResult EditBlogComment(int id)
-        {
-            var comment = this.commentService.GetCommentById(id);
-            var model = new CommentInputModel
-            {
-                Content = comment.Content
-            };
-
-            return this.View("Edit", model);
-        }
-
-        [HttpPost]
-        [Route("/Comments/Blog/Edit/{id}")]
-        [Authorize]
-        public async Task<IActionResult> EditBlogComment(int id, CommentInputModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View("Edit", model);
-            }
-
-            var blogId = this.commentService.GetBlogIdByComment(id);
-            await this.commentService.EditAsync(id, model.Content);
-            return this.RedirectToAction(nameof(this.Blog), "Comments", new { id = blogId });
-        }
-
-        [Authorize]
-        public async Task<IActionResult> DeleteBlogComment(int id)
-        {
-            var blogId = this.commentService.GetBlogIdByComment(id);
-            await this.commentService.DeleteAsync(id);
-            return this.RedirectToAction(nameof(this.Blog), "Comments", new { id = blogId });
-        }
-
 
         public IActionResult Vet(string id)
         {
             var model = this.commentService.GetAllVetComments(id);
-            this.ViewBag.Name = "Vet";
+            this.ViewBag.Name = nameof(this.Vet);
             return this.View("Comments", model);
+        }
+
+        [Authorize]
+
+        public IActionResult Create()
+        {
+            return this.View();
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Vet(string id, CommentInputModel model)
+        public async Task<IActionResult> Create(string id, string type, CommentInputModel model)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View("Comments", model);
+                return this.View(model);
             }
+            var publisherId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await this.commentService.CreateAsync(id, model.Content, type, publisherId);
 
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await this.commentService.CreateVetCommentAsync(id, model.Content, userId);
-            return this.RedirectToAction(nameof(this.Vet), "Comments", new { id = id });
+            return this.RedirectToAction(type, "Comments", new { id = id });
+
         }
 
         [Authorize]
-        [Route("/Comments/Vet/Edit/{id}")]
-        public IActionResult EditVetComment(int id)
+        public IActionResult Edit(int id)
         {
             var comment = this.commentService.GetCommentById(id);
             var model = new CommentInputModel
@@ -108,30 +64,29 @@ namespace PetSanctuary.Web.Controllers
                 Content = comment.Content
             };
 
-            return this.View("Edit", model);
+            return this.View(model);
         }
 
         [HttpPost]
         [Authorize]
-        [Route("/Comments/Vet/Edit/{id}")]
-        public async Task<IActionResult> EditVetComment(int id, CommentInputModel model)
+        public async Task<IActionResult> Edit(int id, string type, CommentInputModel model)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View("Edit", model);
+                return this.View(model);
             }
 
-            var vetId = this.commentService.GetVetIdByComment(id);
+            var typeId = this.commentService.GetIdByComment(id, type);
             await this.commentService.EditAsync(id, model.Content);
-            return this.RedirectToAction(nameof(this.Vet), "Comments", new { id = vetId });
+            return this.RedirectToAction(type, "Comments", new { id = typeId });
         }
 
         [Authorize]
-        public async Task<IActionResult> DeleteVetComment(int id)
+        public async Task<IActionResult> Delete(int id, string type)
         {
-            var vetId = this.commentService.GetVetIdByComment(id);
+            var typeId = this.commentService.GetIdByComment(id, type);
             await this.commentService.DeleteAsync(id);
-            return this.RedirectToAction(nameof(this.Vet), "Comments", new { id = vetId });
+            return this.RedirectToAction(type, "Comments", new { id = typeId });
         }
     }
 }

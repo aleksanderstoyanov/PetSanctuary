@@ -14,9 +14,9 @@ namespace PetSanctuary.Services.Data.Comments
 
         string GetVetIdByComment(int id);
 
-        Task CreateBlogCommentAsync(string blogId, string content, string publisherId);
+        string GetIdByComment(int id, string type);
 
-        Task CreateVetCommentAsync(string vetId, string content, string publisherId);
+        Task CreateAsync(string id, string content, string type, string publisherId);
 
         Task EditAsync(int id, string content);
 
