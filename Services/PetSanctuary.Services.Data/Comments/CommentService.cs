@@ -75,20 +75,24 @@ namespace PetSanctuary.Services.Data.Comments
             await this.commentRepository.SaveChangesAsync();
         }
 
-        public IEnumerable<CommentServiceModel> GetAllBlogComments(string blogId)
+        public IEnumerable<CommentServiceModel> GetAllBlogComments(string blogId, int currentPage, int postsPerPage)
         {
             return this.commentRepository
               .AllAsNoTracking()
               .Where(comment => comment.BlogComments.Any(blogComment => blogComment.BlogId == blogId))
+              .Skip((currentPage - 1) * postsPerPage)
+              .Take(postsPerPage)
               .To<CommentServiceModel>()
               .ToList();
         }
 
-        public IEnumerable<CommentServiceModel> GetAllVetComments(string vetId)
+        public IEnumerable<CommentServiceModel> GetAllVetComments(string vetId, int currentPage, int postsPerPage)
         {
             return this.commentRepository
               .AllAsNoTracking()
               .Where(comment => comment.VetComments.Any(vetComment => vetComment.VetId == vetId))
+              .Skip((currentPage - 1) * postsPerPage)
+              .Take(postsPerPage)
               .To<CommentServiceModel>()
               .ToList();
         }

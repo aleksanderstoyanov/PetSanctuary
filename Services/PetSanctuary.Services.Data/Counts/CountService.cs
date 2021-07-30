@@ -13,13 +13,35 @@ namespace PetSanctuary.Services.Data.Counts
     {
         private readonly IDeletableEntityRepository<Pet> catalogRepository;
         private readonly IDeletableEntityRepository<Blog> blogRepository;
+        private readonly IRepository<BlogComment> blogCommentRepository;
+        private readonly IRepository<VetComment> vetCommentRepository;
 
         public CountService(
             IDeletableEntityRepository<Pet> catalogRepository,
-            IDeletableEntityRepository<Blog> blogRepository)
+            IDeletableEntityRepository<Blog> blogRepository,
+            IRepository<BlogComment> blogCommentRepository,
+            IRepository<VetComment> vetCommentRepository)
         {
             this.catalogRepository = catalogRepository;
             this.blogRepository = blogRepository;
+            this.blogCommentRepository = blogCommentRepository;
+            this.vetCommentRepository = vetCommentRepository;
+        }
+
+        public int GetBlogCommentsCount(string id)
+        {
+            return this.blogCommentRepository
+                .AllAsNoTracking()
+                .Where(blog => blog.BlogId == id && !blog.Comment.IsDeleted)
+                .Count();
+        }
+
+        public int GetVetCommentsCount(string id)
+        {
+            return this.vetCommentRepository
+                .AllAsNoTracking()
+                .Where(vet => vet.VetId == id && !vet.Comment.IsDeleted)
+                .Count();
         }
 
         public int GetUserBlogsCount(string id, bool isAdmin)
@@ -51,5 +73,7 @@ namespace PetSanctuary.Services.Data.Counts
                 .Where(catalog => catalog.OwnerId == id)
                 .Count();
         }
+
+
     }
 }

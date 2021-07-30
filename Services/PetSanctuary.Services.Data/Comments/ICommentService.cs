@@ -22,8 +22,8 @@ namespace PetSanctuary.Services.Data.Comments
 
         Task DeleteAsync(int id);
 
-        IEnumerable<CommentServiceModel> GetAllBlogComments(string blogId);
+        IEnumerable<CommentServiceModel> GetAllBlogComments(string blogId, int currentPage, int postsPerPage);
 
-        IEnumerable<CommentServiceModel> GetAllVetComments(string vetId);
+        IEnumerable<CommentServiceModel> GetAllVetComments(string vetId, int currentPage, int postsPerPage);
     }
 }

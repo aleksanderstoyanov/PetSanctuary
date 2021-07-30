@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetSanctuary.Services.Data.Comments;
+using PetSanctuary.Services.Data.Counts;
 using PetSanctuary.Web.ViewModels.Comments;
 using System;
 using System.Collections.Generic;
@@ -13,24 +14,37 @@ namespace PetSanctuary.Web.Controllers
     public class CommentsController : BaseController
     {
         private readonly ICommentService commentService;
+        private readonly ICountService countService;
 
-        public CommentsController(ICommentService commentService)
+        public CommentsController(ICommentService commentService, ICountService countService)
         {
             this.commentService = commentService;
+            this.countService = countService;
         }
 
-        public IActionResult Blog(string id)
+        public IActionResult Blog(string id, [FromQuery] CommentQueryModel query)
         {
-            var model = this.commentService.GetAllBlogComments(id);
+            var comments = this.commentService
+                .GetAllBlogComments(id, query.CurrentPage, query.ElementsPerPage)
+                .ToList();
+
+            query.Comments = comments;
+            query.TotalPosts = this.countService.GetBlogCommentsCount(id);
             this.ViewBag.Name = nameof(this.Blog);
-            return this.View("Comments", model);
+
+            return this.View("Comments", query);
         }
 
-        public IActionResult Vet(string id)
+        public IActionResult Vet(string id, [FromQuery] CommentQueryModel query)
         {
-            var model = this.commentService.GetAllVetComments(id);
+            var comments = this.commentService
+                .GetAllVetComments(id, query.CurrentPage, query.ElementsPerPage)
+                .ToList();
+            query.Comments = comments;
+            query.TotalPosts = this.countService.GetVetCommentsCount(id);
+
             this.ViewBag.Name = nameof(this.Vet);
-            return this.View("Comments", model);
+            return this.View("Comments", query);
         }
 
         [Authorize]
