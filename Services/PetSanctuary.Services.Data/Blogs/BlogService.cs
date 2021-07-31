@@ -1,7 +1,6 @@
 ﻿using PetSanctuary.Data.Common.Repositories;
 using PetSanctuary.Data.Models;
 using PetSanctuary.Services.Data.Comments;
-using PetSanctuary.Services.Data.Users;
 using PetSanctuary.Services.Mapping;
 using System;
 using System.Collections.Generic;
@@ -14,23 +13,20 @@ namespace PetSanctuary.Services.Data.Blogs
     public class BlogService : IBlogService
     {
         private readonly IDeletableEntityRepository<Blog> blogRepository;
-        private readonly IUserService userService;
 
-        public BlogService(IDeletableEntityRepository<Blog> blogRepository, IUserService userService)
+        public BlogService(IDeletableEntityRepository<Blog> blogRepository)
         {
             this.blogRepository = blogRepository;
-            this.userService = userService;
         }
 
-        public async Task CreateAsync(string title, string image, string description, string authorName)
+        public async Task CreateAsync(string title, string image, string description, string authorId)
         {
-            var author = this.userService.GetUserByName(authorName);
             await this.blogRepository.AddAsync(new Blog
             {
                 Title = title,
                 Image = image,
                 Description = description,
-                AuthorId = author.Id,
+                AuthorId = authorId,
                 CreatedOn = DateTime.UtcNow
 
             });

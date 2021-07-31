@@ -24,7 +24,6 @@
     using PetSanctuary.Services.Data.Catalogs;
     using PetSanctuary.Services.Data.Cities;
     using PetSanctuary.Services.Data.Addresses;
-    using PetSanctuary.Services.Data.Users;
     using PetSanctuary.Services.Data.Blogs;
     using PetSanctuary.Services.Data.Comments;
     using PetSanctuary.Services.Data.Clinics;
@@ -78,7 +77,6 @@
             services.AddTransient<ICatalogService, CatalogService>();
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<IAddressService, AddressService>();
-            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IClinicService, ClinicService>();

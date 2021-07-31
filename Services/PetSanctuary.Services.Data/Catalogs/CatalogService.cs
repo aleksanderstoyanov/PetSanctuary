@@ -3,7 +3,6 @@ using PetSanctuary.Data.Models;
 using PetSanctuary.Data.Models.Enums;
 using PetSanctuary.Services.Data.Addresses;
 using PetSanctuary.Services.Data.Cities;
-using PetSanctuary.Services.Data.Users;
 using PetSanctuary.Services.Mapping;
 using System;
 using System.Collections.Generic;
@@ -18,17 +17,15 @@ namespace PetSanctuary.Services.Data.Catalogs
         private readonly IDeletableEntityRepository<Pet> petsRepository;
         private readonly ICityService cityService;
         private readonly IAddressService addressService;
-        private readonly IUserService userService;
 
-        public CatalogService(IDeletableEntityRepository<Pet> petsRepository, ICityService cityService, IAddressService addressService, IUserService userService)
+        public CatalogService(IDeletableEntityRepository<Pet> petsRepository, ICityService cityService, IAddressService addressService)
         {
             this.petsRepository = petsRepository;
             this.cityService = cityService;
             this.addressService = addressService;
-            this.userService = userService;
         }
 
-        public async Task Create(string name, int age, string image, string type, string gender, string cityName, string addressName, string isVaccinated, string username)
+        public async Task Create(string name, int age, string image, string type, string gender, string cityName, string addressName, string isVaccinated, string ownerId)
         {
             var city = this.cityService.GetCityByName(cityName);
             var address = this.addressService.GetAddressByName(addressName);
@@ -49,7 +46,7 @@ namespace PetSanctuary.Services.Data.Catalogs
                 Image = image,
                 CityId = city.Id,
                 AddressId = address.Id,
-                OwnerId = this.userService.GetUserByName(username).Id,
+                OwnerId = ownerId,
                 CreatedOn = DateTime.UtcNow,
                 Type = (PetType)Enum.Parse(typeof(PetType), type),
                 Gender = (GenderType)Enum.Parse(typeof(GenderType), gender),
@@ -58,8 +55,8 @@ namespace PetSanctuary.Services.Data.Catalogs
 
             pet.UserPets.Add(new UserPet
             {
-                User = this.userService.GetUserByName(username),
-                Pet = pet
+                UserId = ownerId,
+                PetId = pet.Id
             });
             await this.petsRepository.AddAsync(pet);
 

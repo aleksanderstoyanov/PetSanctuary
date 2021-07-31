@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using PetSanctuary.Services.Data.Addresses;
 using PetSanctuary.Services.Data.Catalogs;
 using PetSanctuary.Services.Data.Cities;
-using PetSanctuary.Services.Data.Users;
 using PetSanctuary.Web.ViewModels.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PetSanctuary.Web.Controllers
@@ -70,6 +70,7 @@ namespace PetSanctuary.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Create(CatalogFormCreateViewModel model)
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (model.Type != "Dog" && model.Type != "Cat" && model.Type != "Other")
             {
                 this.ModelState.AddModelError(nameof(model.Type), "Pet type is invalid");
@@ -90,7 +91,7 @@ namespace PetSanctuary.Web.Controllers
                 return this.View(model);
             }
 
-            await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.Gender, model.City, model.Address, model.IsVaccinated, this.User.Identity.Name);
+            await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.Gender, model.City, model.Address, model.IsVaccinated, userId);
             return this.RedirectToAction(nameof(this.Dogs), "Catalog");
         }
 

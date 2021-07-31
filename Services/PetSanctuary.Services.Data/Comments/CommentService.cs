@@ -1,7 +1,6 @@
 ﻿using PetSanctuary.Data.Common.Repositories;
 using PetSanctuary.Data.Models;
 using PetSanctuary.Services.Data.Blogs;
-using PetSanctuary.Services.Data.Users;
 using PetSanctuary.Services.Mapping;
 using System;
 using System.Collections.Generic;

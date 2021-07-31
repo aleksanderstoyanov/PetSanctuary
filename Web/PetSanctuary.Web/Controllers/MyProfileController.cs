@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PetSanctuary.Common;
+using PetSanctuary.Data.Models;
 using PetSanctuary.Services.Data.Addresses;
 using PetSanctuary.Services.Data.Blogs;
 using PetSanctuary.Services.Data.Catalogs;
 using PetSanctuary.Services.Data.Cities;
 using PetSanctuary.Services.Data.Counts;
-using PetSanctuary.Services.Data.Users;
 using PetSanctuary.Web.ViewModels.User;
 using System;
 using System.Collections.Generic;
@@ -19,32 +20,34 @@ namespace PetSanctuary.Web.Controllers
     public class MyProfileController : BaseController
     {
         private readonly ICatalogService catalogService;
-        private readonly IUserService userService;
         private readonly IBlogService blogService;
         private readonly ICountService countService;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public MyProfileController(
             ICatalogService catalogService,
-            IUserService userService,
             IBlogService blogService,
-            ICountService countService)
+            ICountService countService,
+            UserManager<ApplicationUser> userManager)
         {
             this.catalogService = catalogService;
-            this.userService = userService;
             this.blogService = blogService;
             this.countService = countService;
+            this.userManager = userManager;
         }
 
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await this.userManager.GetUserAsync(this.User);
+            var userPhoneNumber = await this.userManager.GetPhoneNumberAsync(user);
+
             var model = new ProfileViewModel
             {
                 Email = this.User.Identity.Name,
-                NumberOfPosts = this.countService.GetUserPostsCount(userId, this.User.IsInRole(GlobalConstants.AdministratorRoleName)),
-                PhoneNumber = this.userService.GetUserPhoneNumber(userId),
-                NumberOfBlogs = this.countService.GetUserBlogsCount(userId, this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                NumberOfPosts = this.countService.GetUserPostsCount(user.Id, this.User.IsInRole(GlobalConstants.AdministratorRoleName)),
+                PhoneNumber = userPhoneNumber,
+                NumberOfBlogs = this.countService.GetUserBlogsCount(user.Id, this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             };
             return this.View(model);
         }

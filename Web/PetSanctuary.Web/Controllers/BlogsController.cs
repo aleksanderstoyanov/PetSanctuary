@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PetSanctuary.Services.Data.Blogs;
 using PetSanctuary.Services.Data.Comments;
-using PetSanctuary.Services.Data.Users;
 using PetSanctuary.Web.ViewModels.Blogs;
 using PetSanctuary.Web.ViewModels.Comments;
 using System;
@@ -28,11 +27,9 @@ namespace PetSanctuary.Web.Controllers
             return this.View(model);
         }
 
-
         [Authorize]
         public IActionResult Create()
         {
-
             return this.View();
         }
 
@@ -40,12 +37,13 @@ namespace PetSanctuary.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Create(BlogFormCreateViewModel model)
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!this.ModelState.IsValid)
             {
                 return this.View(model);
             }
 
-            await this.blogService.CreateAsync(model.Title, model.Image, model.Description, this.User.Identity.Name);
+            await this.blogService.CreateAsync(model.Title, model.Image, model.Description, userId);
 
             return this.Redirect($"/Blogs");
         }
