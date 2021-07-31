@@ -4,76 +4,100 @@
     ViewBag.Title = "Latest comments";
 }
 
-<div class="row d-flex justify-content-center mt-100 mb-100">
-    <div class="col-lg-6">
-        <div class="card">
-            <div class="card-body text-center">
-                <h4 class="card-title">@ViewBag.Title</h4>
+@if (!Model.Comments.Any())
+{
+    ViewBag.Title = "No comments yet...";
+
+    <div class="row d-flex justify-content-center mt-100 mb-100">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="card-title">@ViewBag.Title</h4>
+                </div>
             </div>
-            <div>
+            @if (this.User.Identity.IsAuthenticated || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <a asp-area="" asp-controller="Comments" asp-action="Create" asp-route-id="@ViewContext.RouteData.Values["id"]" asp-route-type="@this.ViewBag.Name" class="btn btn-outline-primary btn-sm d-flex justify-content-center">Add Comment<i class="far fa-comment ml-2" style="padding-top:3px;"></i></a>
+            }
+        </div>
+    </div>
 
-                @foreach (var comment in Model.Comments)
-                {
-                    <hr>
-                    <div class="d-flex flex-row comment-row m-t-0">
-                        <div class="p-2"><img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" alt="user" width="50" class="rounded-circle"></div>
-                        <div class="comment-text w-100">
-                            <h6 class="font-medium">@comment.Publisher</h6> <span class="m-b-15 d-block">@comment.Content</span>
-                            <div class="comment-footer">
-                                <span class="text-muted float-right">@comment.PublishedOn</span>
-                                @if (this.User.Identity.IsAuthenticated && this.User.Identity.Name == comment.Publisher || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-                                {
+}
+else
+{
+    <div class="row d-flex justify-content-center mt-100 mb-100">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="card-title">@ViewBag.Title</h4>
+                </div>
+                <div>
 
-                                    <a asp-area="" asp-controller="Comments" asp-action="Edit" asp-route-id="@comment.Id" asp-route-type="@this.ViewBag.Name" class="btn btn-warning btn-sm">Edit <i class="fas fa-pencil-alt mr-3"></i></a>
-                                    <a asp-area="" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-type="@this.ViewBag.Name" class="btn btn-danger btn-sm">Delete <i class="fas fa-trash-alt mr-2"></i></a>
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <hr>
+                        <div class="d-flex flex-row comment-row m-t-0">
+                            <div class="p-2"><img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" alt="user" width="50" class="rounded-circle"></div>
+                            <div class="comment-text w-100">
+                                <h6 class="font-medium">@comment.Publisher</h6> <span class="m-b-15 d-block">@comment.Content</span>
+                                <div class="comment-footer">
+                                    <span class="text-muted float-right">@comment.PublishedOn</span>
+                                    @if (this.User.Identity.IsAuthenticated && this.User.Identity.Name == comment.Publisher || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                    {
 
-                                }
+                                        <a asp-area="" asp-controller="Comments" asp-action="Edit" asp-route-id="@comment.Id" asp-route-type="@this.ViewBag.Name" class="btn btn-warning btn-sm">Edit <i class="fas fa-pencil-alt mr-3"></i></a>
+                                        <a asp-area="" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-type="@this.ViewBag.Name" class="btn btn-danger btn-sm">Delete <i class="fas fa-trash-alt mr-2"></i></a>
 
+                                    }
+
+                                </div>
                             </div>
                         </div>
+                        <hr>
+                    }
+                    @{
+                        var previousPage = Model.CurrentPage - 1;
+                        if (previousPage < 1)
+                        {
+                            previousPage = 1;
+                        }
+                        var maxPage = Math.Ceiling((double)Model.TotalPosts / Model.ElementsPerPage);
+                    }
+                    @{
+                        var shouldPreviousButtonBeDisabled = Model.CurrentPage == 1 || !Model.Comments.Any();
+                        var shouldNextButtonBeDisabled = Model.CurrentPage == maxPage ||
+                                                     !Model.Comments.Any();
+                    }
+                    <div class="row">
+                        @if (this.ViewBag.Name == "Blog")
+                        {
+                            <div class="col-md-6">
+                                <a class="btn btn-outline-primary float-left" style="display:@(shouldPreviousButtonBeDisabled?"none":"block")" asp-area="" asp-controller="Comments" asp-action="Blog" asp-route-currentPage="@previousPage"><i class="fas fa-angle-double-left"></i></a>
+                            </div>
+                            <div class="col-md-6">
+                                <a class="btn btn-outline-primary float-right" style="display:@(shouldNextButtonBeDisabled?"none":"block")" asp-area="" asp-controller="Comments" asp-action="Blog" asp-route-currentPage="@(Model.CurrentPage+1)"><i class="fas fa-angle-double-right"></i></a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-6">
+                                <a class="btn btn-outline-primary float-left " style="display:@(shouldPreviousButtonBeDisabled?"none":"block")" asp-area="" asp-controller="Comments" asp-action="Vet" asp-route-currentPage="@previousPage"><i class="fas fa-angle-double-left"></i></a>
+                            </div>
+                            <div class="col-md-6">
+                                <a class="btn btn-outline-primary float-right" style="display:@(shouldNextButtonBeDisabled?"none":"block")" asp-area="" asp-controller="Comments" asp-action="Vet" asp-route-currentPage="@(Model.CurrentPage+1)"><i class="fas fa-angle-double-right"></i></a>
+                            </div>
+                        }
+
                     </div>
-                    <hr>
-                }
-                @{
-                    var previousPage = Model.CurrentPage - 1;
-                    if (previousPage < 1)
+                    @if (this.User.Identity.IsAuthenticated || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
-                        previousPage = 1;
-                    }
-                    var maxPage = Math.Ceiling((double)Model.TotalPosts / Model.ElementsPerPage);
-                }
-                @{
-                    var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
-                                                 !Model.Comments.Any();
-                }
-                <div class="row">
-                    @if (this.ViewBag.Name == "Blog")
-                    {
-                        <div class="col-md-6">
-                            <a class="btn btn-outline-primary float-left " asp-area="" asp-controller="Comments" asp-action="Blog" asp-route-currentPage="@previousPage"><i class="fas fa-angle-double-left"></i></a>
-                        </div>
-                        <div class="col-md-6">
-                            <a class="btn btn-outline-primary float-right" style="display:@(shouldButtonBeDisabled?"none":"block")" asp-area="" asp-controller="Comments" asp-action="Blog" asp-route-currentPage="@(Model.CurrentPage+1)"><i class="fas fa-angle-double-right"></i></a>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="col-md-6">
-                            <a class="btn btn-outline-primary float-left " asp-area="" asp-controller="Comments" asp-action="Vet" asp-route-currentPage="@previousPage"><i class="fas fa-angle-double-left"></i></a>
-                        </div>
-                        <div class="col-md-6">
-                            <a class="btn btn-outline-primary float-right" style="display:@(shouldButtonBeDisabled?"none":"block")" asp-area="" asp-controller="Comments" asp-action="Vet" asp-route-currentPage="@(Model.CurrentPage+1)"><i class="fas fa-angle-double-right"></i></a>
-                        </div>
+                        <a asp-area="" asp-controller="Comments" asp-action="Create" asp-route-id="@ViewContext.RouteData.Values["id"]" asp-route-type="@this.ViewBag.Name" class="btn btn-outline-primary btn-sm d-flex justify-content-center">Add Comment<i class="far fa-comment ml-2" style="padding-top:3px;"></i></a>
                     }
 
                 </div>
-                @if (this.User.Identity.IsAuthenticated || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-                {
-                    <a asp-area="" asp-controller="Comments" asp-action="Create" asp-route-id="@ViewContext.RouteData.Values["id"]" asp-route-type="@this.ViewBag.Name" class="btn btn-outline-primary btn-sm d-flex justify-content-center">Add Comment<i class="far fa-comment ml-2" style="padding-top:3px;"></i></a>
-                }
-
             </div>
         </div>
     </div>
-</div>
+}
+
 

@@ -37,15 +37,16 @@
         var maxPage = Math.Ceiling((double)Model.TotalPosts / Model.ElementsPerPage);
     }
     @{
-        var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
-                                     !Model.Pets.Any();
+        var shouldPreviousButtonBeDisabled = Model.CurrentPage == 1 || !Model.Pets.Any();
+        var shouldNextButtonBeDisabled = Model.CurrentPage == maxPage ||
+                                 !Model.Pets.Any();
     }
     <div class="row">
         <div class="col-md-6">
-            <a class="btn btn-outline-danger float-left " asp-area="" asp-controller="MyProfile" asp-action="Posts" asp-route-currentPage="@previousPage"><i class="fas fa-angle-double-left"></i></a>
+            <a class="btn btn-outline-danger float-left" style="display:@(shouldPreviousButtonBeDisabled?"none":"block")" asp-area="" asp-controller="MyProfile" asp-action="Posts" asp-route-currentPage="@previousPage"><i class="fas fa-angle-double-left"></i></a>
         </div>
         <div class="col-md-6">
-            <a class="btn btn-outline-danger float-right" style="display:@(shouldButtonBeDisabled?"none":"block")" asp-area="" asp-controller="MyProfile" asp-action="Posts" asp-route-currentPage="@(Model.CurrentPage+1)"><i class="fas fa-angle-double-right"></i></a>
+            <a class="btn btn-outline-danger float-right" style="display:@(shouldNextButtonBeDisabled?"none":"block")" asp-area="" asp-controller="MyProfile" asp-action="Posts" asp-route-currentPage="@(Model.CurrentPage+1)"><i class="fas fa-angle-double-right"></i></a>
         </div>
     </div>
 

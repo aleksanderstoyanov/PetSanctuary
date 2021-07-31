@@ -1,32 +1,33 @@
 ﻿@model IEnumerable<BlogServiceModel>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<div class="container mb80">
-    <div class="float-right card" style="width:300px">
-        <div class="input-group">
-            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                   aria-describedby="search-addon" />
-            <button type="button" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
-        </div>
-        <h4>Recent posts</h4>
-        @foreach (var post in Model.OrderByDescending(x => x.CreatedOn).Take(3))
-        {
-            <div class="media" style="padding-top:15px">
-                <div class="media-left">
-                    <a href="#">
+
+@if (!Model.Any())
+{
+    <h2>No blogs yet...</h2>
+}
+else
+{
+    <div class="container mb80">
+        <div class="float-right card" style="width:300px">
+            <h4 class=display>Recent posts</h4>
+            @foreach (var post in Model.OrderByDescending(x => x.CreatedOn).Take(3))
+            {
+                <div class="media" style="padding-top:15px">
+                    <div class="media-left">
                         <img src="@post.Image" ;class="media-object" alt="64x64" style="width: 64px; height: 64px; border-radius:50px" data-holder-rendered="true">
-                    </a>
-                </div> <div class="media-body">
-                    <a class="media-heading">@post.Title</a>
+                    </div>
+                    <div class="media-body">
+                        <p class="media-heading">@post.Title</p>
+                    </div>
                 </div>
-            </div>
+                <hr>
+            }
+
+
+        </div>
+        @foreach (var blog in Model)
+        {
+            <partial name="_BlogsPartial" model="blog" />
         }
-
     </div>
-    @foreach (var blog in Model)
-    {
-        <partial name="_BlogsPartial" model="blog" />
-    }
-
-</div>
-
-
+}
