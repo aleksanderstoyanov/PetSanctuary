@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PetSanctuary.Web.ViewModels.User
+﻿namespace PetSanctuary.Web.ViewModels.User
 {
     public class ProfileViewModel
     {

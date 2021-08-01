@@ -1,15 +1,14 @@
-﻿using PetSanctuary.Data.Common.Repositories;
-using PetSanctuary.Data.Models;
-using PetSanctuary.Services.Data.Blogs;
-using PetSanctuary.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Comments
+﻿namespace PetSanctuary.Services.Data.Comments
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using PetSanctuary.Data.Common.Repositories;
+    using PetSanctuary.Data.Models;
+    using PetSanctuary.Services.Mapping;
+
     public class CommentService : ICommentService
     {
         private readonly IDeletableEntityRepository<Comment> commentRepository;
@@ -40,7 +39,7 @@ namespace PetSanctuary.Services.Data.Comments
                 comment.BlogComments.Add(new BlogComment
                 {
                     BlogId = id,
-                    CommentId = comment.Id
+                    CommentId = comment.Id,
                 });
             }
             else
@@ -48,7 +47,7 @@ namespace PetSanctuary.Services.Data.Comments
                 comment.VetComments.Add(new VetComment
                 {
                     VetId = id,
-                    CommentId = comment.Id
+                    CommentId = comment.Id,
                 });
             }
 
@@ -125,7 +124,6 @@ namespace PetSanctuary.Services.Data.Comments
             return this.blogCommentRepository.All()
                .FirstOrDefault(blogComment => blogComment.CommentId == id)
                .BlogId;
-
         }
 
         public string GetVetIdByComment(int id)
@@ -135,6 +133,5 @@ namespace PetSanctuary.Services.Data.Comments
                 .FirstOrDefault(blogComment => blogComment.CommentId == id)
                 .VetId;
         }
-
     }
 }

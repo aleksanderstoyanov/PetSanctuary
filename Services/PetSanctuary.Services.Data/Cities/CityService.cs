@@ -1,15 +1,13 @@
-﻿using PetSanctuary.Data.Common.Models;
-using PetSanctuary.Data.Common.Repositories;
-using PetSanctuary.Data.Models;
-using PetSanctuary.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Cities
+﻿namespace PetSanctuary.Services.Data.Cities
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using PetSanctuary.Data.Common.Repositories;
+    using PetSanctuary.Data.Models;
+    using PetSanctuary.Services.Mapping;
+
     public class CityService : ICityService
     {
         private readonly IDeletableEntityRepository<City> citiesRepository;
@@ -24,8 +22,7 @@ namespace PetSanctuary.Services.Data.Cities
             await this.citiesRepository.AddAsync(new City
             {
                 Name = name,
-                CreatedOn = DateTime.UtcNow
-
+                CreatedOn = DateTime.UtcNow,
             });
 
             await this.citiesRepository.SaveChangesAsync();
@@ -48,6 +45,5 @@ namespace PetSanctuary.Services.Data.Cities
               .To<CityServiceModel>()
               .FirstOrDefault();
         }
-
     }
 }

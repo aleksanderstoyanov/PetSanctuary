@@ -1,13 +1,12 @@
-﻿using PetSanctuary.Data.Models;
-using PetSanctuary.Services.Data.Clinics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Data.Seeding
+﻿namespace PetSanctuary.Data.Seeding
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using PetSanctuary.Data.Models;
+    using PetSanctuary.Services.Data.Clinics;
+
     public class VetsSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)

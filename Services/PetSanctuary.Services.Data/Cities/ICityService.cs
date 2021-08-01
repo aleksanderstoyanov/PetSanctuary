@@ -1,11 +1,7 @@
-﻿using PetSanctuary.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Cities
+﻿namespace PetSanctuary.Services.Data.Cities
 {
+    using System.Threading.Tasks;
+
     public interface ICityService
     {
         CityServiceModel GetCityByName(string name);

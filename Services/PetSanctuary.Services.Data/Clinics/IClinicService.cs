@@ -1,10 +1,7 @@
-﻿using PetSanctuary.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PetSanctuary.Services.Data.Clinics
+﻿namespace PetSanctuary.Services.Data.Clinics
 {
+    using System.Collections.Generic;
+
     public interface IClinicService
     {
         IEnumerable<ClinicServiceModel> GetAllClinics();

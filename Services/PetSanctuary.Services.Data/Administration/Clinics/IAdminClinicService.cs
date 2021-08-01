@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Administration.Clinics
+﻿namespace PetSanctuary.Services.Data.Administration.Clinics
 {
+    using System.Threading.Tasks;
+
     public interface IAdminClinicService
     {
         Task CreateAsync(string name, string addressName, string cityName, string image);

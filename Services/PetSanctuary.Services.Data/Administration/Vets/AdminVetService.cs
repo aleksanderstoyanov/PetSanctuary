@@ -1,15 +1,12 @@
-﻿using PetSanctuary.Data.Common.Repositories;
-using PetSanctuary.Data.Models;
-using PetSanctuary.Services.Data.Clinics;
-using PetSanctuary.Services.Data.Vets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Administration.Vets
+﻿namespace PetSanctuary.Services.Data.Administration.Vets
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using PetSanctuary.Data.Common.Repositories;
+    using PetSanctuary.Data.Models;
+    using PetSanctuary.Services.Data.Clinics;
+
     public class AdminVetService : IAdminVetService
     {
         private readonly IDeletableEntityRepository<Vet> vetRepository;
@@ -29,7 +26,7 @@ namespace PetSanctuary.Services.Data.Administration.Vets
                 Surname = surname,
                 Description = description,
                 Qualification = qualification,
-                ClinicId = this.clinicService.GetClinicByName(clinic).Id
+                ClinicId = this.clinicService.GetClinicByName(clinic).Id,
             });
             await this.vetRepository.SaveChangesAsync();
         }

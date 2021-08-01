@@ -1,16 +1,13 @@
-﻿using PetSanctuary.Data.Common.Repositories;
-using PetSanctuary.Data.Models;
-using PetSanctuary.Services.Data.Addresses;
-using PetSanctuary.Services.Data.Cities;
-using PetSanctuary.Services.Data.Clinics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Administration.Clinics
+﻿namespace PetSanctuary.Services.Data.Administration.Clinics
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using PetSanctuary.Data.Common.Repositories;
+    using PetSanctuary.Data.Models;
+    using PetSanctuary.Services.Data.Addresses;
+    using PetSanctuary.Services.Data.Cities;
+
     public class AdminClinicService : IAdminClinicService
     {
         private readonly IDeletableEntityRepository<Clinic> clinicRepository;
@@ -43,7 +40,7 @@ namespace PetSanctuary.Services.Data.Administration.Clinics
                 Name = name,
                 AddressId = address.Id,
                 CityId = city.Id,
-                Image = image
+                Image = image,
             });
 
             await this.clinicRepository.SaveChangesAsync();

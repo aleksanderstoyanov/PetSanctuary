@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using PetSanctuary.Services.Data.Comments;
-using PetSanctuary.Services.Data.Counts;
-using PetSanctuary.Web.ViewModels.Comments;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Web.Controllers
+﻿namespace PetSanctuary.Web.Controllers
 {
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using PetSanctuary.Services.Data.Comments;
+    using PetSanctuary.Services.Data.Counts;
+    using PetSanctuary.Web.ViewModels.Comments;
+
     public class CommentsController : BaseController
     {
         private readonly ICommentService commentService;
@@ -75,7 +74,7 @@ namespace PetSanctuary.Web.Controllers
             var comment = this.commentService.GetCommentById(id);
             var model = new CommentInputModel
             {
-                Content = comment.Content
+                Content = comment.Content,
             };
 
             return this.View(model);

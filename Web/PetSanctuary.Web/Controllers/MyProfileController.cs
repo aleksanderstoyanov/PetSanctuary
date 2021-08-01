@@ -1,22 +1,19 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using PetSanctuary.Common;
-using PetSanctuary.Data.Models;
-using PetSanctuary.Services.Data.Addresses;
-using PetSanctuary.Services.Data.Blogs;
-using PetSanctuary.Services.Data.Catalogs;
-using PetSanctuary.Services.Data.Cities;
-using PetSanctuary.Services.Data.Counts;
-using PetSanctuary.Web.ViewModels.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Web.Controllers
+﻿namespace PetSanctuary.Web.Controllers
 {
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using PetSanctuary.Common;
+    using PetSanctuary.Data.Models;
+    using PetSanctuary.Services.Data.Blogs;
+    using PetSanctuary.Services.Data.Catalogs;
+    using PetSanctuary.Services.Data.Counts;
+    using PetSanctuary.Web.ViewModels.User;
+
     public class MyProfileController : BaseController
     {
         private readonly ICatalogService catalogService;
@@ -47,7 +44,7 @@ namespace PetSanctuary.Web.Controllers
                 Email = this.User.Identity.Name,
                 NumberOfPosts = this.countService.GetUserPostsCount(user.Id, this.User.IsInRole(GlobalConstants.AdministratorRoleName)),
                 PhoneNumber = userPhoneNumber,
-                NumberOfBlogs = this.countService.GetUserBlogsCount(user.Id, this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                NumberOfBlogs = this.countService.GetUserBlogsCount(user.Id, this.User.IsInRole(GlobalConstants.AdministratorRoleName)),
             };
             return this.View(model);
         }
@@ -158,8 +155,7 @@ namespace PetSanctuary.Web.Controllers
             {
                 Title = blog.Title,
                 Image = blog.Image,
-                Description = blog.Description
-
+                Description = blog.Description,
             };
             return this.View(model);
         }

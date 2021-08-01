@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PetSanctuary.Services.Data.Counts
+﻿namespace PetSanctuary.Services.Data.Counts
 {
     public interface ICountService
     {

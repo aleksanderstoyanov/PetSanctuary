@@ -1,11 +1,8 @@
-﻿using PetSanctuary.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Vets
+﻿namespace PetSanctuary.Services.Data.Vets
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IVetService
     {
         IEnumerable<VetServiceModel> GetVetsById(int clinicId);

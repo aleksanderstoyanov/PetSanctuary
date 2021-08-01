@@ -30,7 +30,7 @@
                               new CitiesSeeder(),
                               new AddressesSeeder(),
                               new ClinicsSeeder(),
-                              new VetsSeeder()
+                              new VetsSeeder(),
                           };
 
             foreach (var seeder in seeders)

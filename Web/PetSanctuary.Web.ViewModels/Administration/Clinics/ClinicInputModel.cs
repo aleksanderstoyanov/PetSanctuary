@@ -1,9 +1,6 @@
 ﻿namespace PetSanctuary.Web.ViewModels.Administration.Clinics
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
 
     using PetSanctuary.Common;
 

@@ -1,13 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PetSanctuary.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Data.Seeding
+﻿namespace PetSanctuary.Data.Seeding
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using PetSanctuary.Data.Models;
+
     public class CitiesSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
@@ -17,30 +15,29 @@ namespace PetSanctuary.Data.Seeding
                 return;
             }
 
-
             await dbContext.AddAsync(new City
             {
-                Name = "Sofia"
+                Name = "Sofia",
             });
             await dbContext.AddAsync(new City
             {
-                Name = "Plovdiv"
+                Name = "Plovdiv",
             });
             await dbContext.AddAsync(new City
             {
-                Name = "Varna"
+                Name = "Varna",
             });
             await dbContext.AddAsync(new City
             {
-                Name = "Burgas"
+                Name = "Burgas",
             });
             await dbContext.AddAsync(new City
             {
-                Name = "Stara Zagora"
+                Name = "Stara Zagora",
             });
             await dbContext.AddAsync(new City
             {
-                Name = "Gabrovo"
+                Name = "Gabrovo",
             });
 
         }

@@ -1,11 +1,7 @@
-﻿using PetSanctuary.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Addresses
+﻿namespace PetSanctuary.Services.Data.Addresses
 {
+    using System.Threading.Tasks;
+
     public interface IAddressService
     {
         AddressServiceModel GetAddressByName(string name);

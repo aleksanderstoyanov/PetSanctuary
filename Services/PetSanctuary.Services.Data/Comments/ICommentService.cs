@@ -1,11 +1,8 @@
-﻿using PetSanctuary.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Comments
+﻿namespace PetSanctuary.Services.Data.Comments
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface ICommentService
     {
         CommentServiceModel GetCommentById(int id);

@@ -1,10 +1,11 @@
 ﻿namespace PetSanctuary.Web.Controllers
 {
     using System.Diagnostics;
-    using PetSanctuary.Web.ViewModels;
+    using System.Linq;
+
     using Microsoft.AspNetCore.Mvc;
     using PetSanctuary.Services.Data.Catalogs;
-    using System.Linq;
+    using PetSanctuary.Web.ViewModels;
     using PetSanctuary.Web.ViewModels.Home;
 
     public class HomeController : BaseController
@@ -23,7 +24,7 @@
                 {
                     Id = x.Id,
                     Image = x.Image,
-                    Name = x.Name
+                    Name = x.Name,
                 }).ToList();
             return this.View(dogs);
         }

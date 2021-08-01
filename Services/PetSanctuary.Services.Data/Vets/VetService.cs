@@ -1,15 +1,13 @@
-﻿using PetSanctuary.Data.Common.Repositories;
-using PetSanctuary.Data.Models;
-using PetSanctuary.Services.Data.Clinics;
-using PetSanctuary.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Vets
+﻿namespace PetSanctuary.Services.Data.Vets
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using PetSanctuary.Data.Common.Repositories;
+    using PetSanctuary.Data.Models;
+    using PetSanctuary.Services.Mapping;
+
     public class VetService : IVetService
     {
         private readonly IDeletableEntityRepository<Vet> vetsRepository;

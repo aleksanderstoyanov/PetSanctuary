@@ -2,17 +2,6 @@
 {
     using System.Reflection;
 
-    using PetSanctuary.Data;
-    using PetSanctuary.Data.Common;
-    using PetSanctuary.Data.Common.Repositories;
-    using PetSanctuary.Data.Models;
-    using PetSanctuary.Data.Repositories;
-    using PetSanctuary.Data.Seeding;
-    using PetSanctuary.Services.Data;
-    using PetSanctuary.Services.Mapping;
-    using PetSanctuary.Services.Messaging;
-    using PetSanctuary.Web.ViewModels;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -21,16 +10,25 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using PetSanctuary.Data;
+    using PetSanctuary.Data.Common;
+    using PetSanctuary.Data.Common.Repositories;
+    using PetSanctuary.Data.Models;
+    using PetSanctuary.Data.Repositories;
+    using PetSanctuary.Data.Seeding;
+    using PetSanctuary.Services.Data.Addresses;
+    using PetSanctuary.Services.Data.Administration.Clinics;
+    using PetSanctuary.Services.Data.Administration.Vets;
+    using PetSanctuary.Services.Data.Blogs;
     using PetSanctuary.Services.Data.Catalogs;
     using PetSanctuary.Services.Data.Cities;
-    using PetSanctuary.Services.Data.Addresses;
-    using PetSanctuary.Services.Data.Blogs;
-    using PetSanctuary.Services.Data.Comments;
     using PetSanctuary.Services.Data.Clinics;
-    using PetSanctuary.Services.Data.Vets;
-    using PetSanctuary.Services.Data.Administration.Vets;
-    using PetSanctuary.Services.Data.Administration.Clinics;
+    using PetSanctuary.Services.Data.Comments;
     using PetSanctuary.Services.Data.Counts;
+    using PetSanctuary.Services.Data.Vets;
+    using PetSanctuary.Services.Mapping;
+    using PetSanctuary.Services.Messaging;
+    using PetSanctuary.Web.ViewModels;
 
     public class Startup
     {

@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PetSanctuary.Services.Data.Administration.Vets;
-using PetSanctuary.Services.Data.Clinics;
-using PetSanctuary.Services.Data.Vets;
-using PetSanctuary.Web.ViewModels.Administration.Vets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Web.Areas.Administration.Controllers
+﻿namespace PetSanctuary.Web.Areas.Administration.Controllers
 {
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using PetSanctuary.Services.Data.Administration.Vets;
+    using PetSanctuary.Services.Data.Clinics;
+    using PetSanctuary.Services.Data.Vets;
+    using PetSanctuary.Web.ViewModels.Administration.Vets;
+
     public class VetsController : AdministrationController
     {
         private readonly IAdminVetService adminVetService;
@@ -47,7 +45,7 @@ namespace PetSanctuary.Web.Areas.Administration.Controllers
                 Surname = vet.Surname,
                 Description = vet.Description,
                 Qualification = "Veterinary",
-                Clinic = vet.Clinic
+                Clinic = vet.Clinic,
             };
             return this.View(model);
         }

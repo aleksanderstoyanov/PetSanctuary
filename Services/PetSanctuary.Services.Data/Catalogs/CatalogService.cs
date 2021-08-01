@@ -1,17 +1,17 @@
-﻿using PetSanctuary.Data.Common.Repositories;
-using PetSanctuary.Data.Models;
-using PetSanctuary.Data.Models.Enums;
-using PetSanctuary.Services.Data.Addresses;
-using PetSanctuary.Services.Data.Cities;
-using PetSanctuary.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Catalogs
+﻿namespace PetSanctuary.Services.Data.Catalogs
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using PetSanctuary.Data.Common.Repositories;
+    using PetSanctuary.Data.Models;
+    using PetSanctuary.Data.Models.Enums;
+    using PetSanctuary.Services.Data.Addresses;
+    using PetSanctuary.Services.Data.Cities;
+    using PetSanctuary.Services.Mapping;
+
     public class CatalogService : ICatalogService
     {
         private readonly IDeletableEntityRepository<Pet> petsRepository;
@@ -56,7 +56,7 @@ namespace PetSanctuary.Services.Data.Catalogs
             pet.UserPets.Add(new UserPet
             {
                 UserId = ownerId,
-                PetId = pet.Id
+                PetId = pet.Id,
             });
             await this.petsRepository.AddAsync(pet);
 

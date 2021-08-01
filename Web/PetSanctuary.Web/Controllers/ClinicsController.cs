@@ -1,20 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using PetSanctuary.Services.Data.Addresses;
-using PetSanctuary.Services.Data.Cities;
-using PetSanctuary.Services.Data.Clinics;
-using PetSanctuary.Services.Data.Comments;
-using PetSanctuary.Services.Data.Vets;
-using PetSanctuary.Web.ViewModels.Comments;
-using PetSanctuary.Web.ViewModels.Vets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Web.Controllers
+﻿namespace PetSanctuary.Web.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using PetSanctuary.Services.Data.Clinics;
+    using PetSanctuary.Services.Data.Comments;
+    using PetSanctuary.Services.Data.Vets;
+    using PetSanctuary.Web.ViewModels.Vets;
+
     public class ClinicsController : BaseController
     {
         private readonly IClinicService clinicService;
@@ -43,7 +37,7 @@ namespace PetSanctuary.Web.Controllers
                     FirstName = x.FirstName,
                     Surname = x.Surname,
                     Likes = x.Likes == null ? 0 : x.Likes,
-                    Dislikes = x.Dislikes == null ? 0 : x.Dislikes
+                    Dislikes = x.Dislikes == null ? 0 : x.Dislikes,
                 }).ToList();
             return this.View(model);
         }
@@ -69,11 +63,10 @@ namespace PetSanctuary.Web.Controllers
             {
                 FirstName = vet.FirstName,
                 Surname = vet.Surname,
-                Description = vet.Description
+                Description = vet.Description,
             };
 
             return this.View(model);
         }
-
     }
 }

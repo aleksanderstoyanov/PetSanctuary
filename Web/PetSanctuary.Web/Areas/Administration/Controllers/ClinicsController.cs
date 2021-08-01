@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PetSanctuary.Services.Data.Administration.Clinics;
-using PetSanctuary.Services.Data.Clinics;
-using PetSanctuary.Web.ViewModels.Administration.Clinics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Web.Areas.Administration.Controllers
+﻿namespace PetSanctuary.Web.Areas.Administration.Controllers
 {
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using PetSanctuary.Services.Data.Administration.Clinics;
+    using PetSanctuary.Services.Data.Clinics;
+    using PetSanctuary.Web.ViewModels.Administration.Clinics;
+
     public class ClinicsController : AdministrationController
     {
         private readonly IAdminClinicService adminClinicService;
@@ -40,7 +38,7 @@ namespace PetSanctuary.Web.Areas.Administration.Controllers
                 Name = clinic.Name,
                 Address = clinic.Address,
                 City = clinic.City,
-                Image = clinic.Image
+                Image = clinic.Image,
             };
 
             return this.View(model);

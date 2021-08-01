@@ -1,17 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using PetSanctuary.Services.Data.Addresses;
-using PetSanctuary.Services.Data.Catalogs;
-using PetSanctuary.Services.Data.Cities;
-using PetSanctuary.Web.ViewModels.Catalog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Web.Controllers
+﻿namespace PetSanctuary.Web.Controllers
 {
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using PetSanctuary.Services.Data.Catalogs;
+    using PetSanctuary.Web.ViewModels.Catalog;
+
     public class CatalogController : BaseController
     {
         private readonly ICatalogService catalogService;
@@ -29,7 +26,7 @@ namespace PetSanctuary.Web.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Image = x.Image,
-                    CreatedOn=x.CreatedOn
+                    CreatedOn = x.CreatedOn,
                 }).ToList();
             return this.View(dogs);
         }
@@ -42,7 +39,7 @@ namespace PetSanctuary.Web.Controllers
                    Id = x.Id,
                    Name = x.Name,
                    Image = x.Image,
-                   CreatedOn=x.CreatedOn
+                   CreatedOn = x.CreatedOn,
                }).ToList();
             return this.View(cats);
         }
@@ -55,7 +52,7 @@ namespace PetSanctuary.Web.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Image = x.Image,
-                    CreatedOn=x.CreatedOn
+                    CreatedOn = x.CreatedOn,
                 }).ToList();
             return this.View(others);
         }

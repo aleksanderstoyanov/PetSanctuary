@@ -1,14 +1,10 @@
-﻿using PetSanctuary.Data.Common.Repositories;
-using PetSanctuary.Data.Models;
-using PetSanctuary.Services.Data.Blogs;
-using PetSanctuary.Services.Data.Catalogs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PetSanctuary.Services.Data.Counts
+﻿namespace PetSanctuary.Services.Data.Counts
 {
+    using System.Linq;
+
+    using PetSanctuary.Data.Common.Repositories;
+    using PetSanctuary.Data.Models;
+
     public class CountService : ICountService
     {
         private readonly IDeletableEntityRepository<Pet> catalogRepository;
@@ -73,7 +69,5 @@ namespace PetSanctuary.Services.Data.Counts
                 .Where(catalog => catalog.OwnerId == id)
                 .Count();
         }
-
-
     }
 }

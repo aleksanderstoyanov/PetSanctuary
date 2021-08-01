@@ -1,15 +1,14 @@
-﻿using PetSanctuary.Data.Common.Repositories;
-using PetSanctuary.Data.Models;
-using PetSanctuary.Services.Data.Comments;
-using PetSanctuary.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Blogs
+﻿namespace PetSanctuary.Services.Data.Blogs
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using PetSanctuary.Data.Common.Repositories;
+    using PetSanctuary.Data.Models;
+    using PetSanctuary.Services.Mapping;
+
     public class BlogService : IBlogService
     {
         private readonly IDeletableEntityRepository<Blog> blogRepository;
@@ -27,7 +26,7 @@ namespace PetSanctuary.Services.Data.Blogs
                 Image = image,
                 Description = description,
                 AuthorId = authorId,
-                CreatedOn = DateTime.UtcNow
+                CreatedOn = DateTime.UtcNow,
 
             });
             await this.blogRepository.SaveChangesAsync();
@@ -94,7 +93,5 @@ namespace PetSanctuary.Services.Data.Blogs
                 .To<BlogServiceModel>()
                 .FirstOrDefault(blog => blog.Title == title);
         }
-
-
     }
 }

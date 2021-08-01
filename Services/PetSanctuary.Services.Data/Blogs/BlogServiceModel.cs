@@ -1,12 +1,9 @@
-﻿using AutoMapper;
-using PetSanctuary.Data.Models;
-using PetSanctuary.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PetSanctuary.Services.Data.Blogs
+﻿namespace PetSanctuary.Services.Data.Blogs
 {
+    using AutoMapper;
+    using PetSanctuary.Data.Models;
+    using PetSanctuary.Services.Mapping;
+
     public class BlogServiceModel : IMapFrom<Blog>, IHaveCustomMappings
     {
         public string Id { get; set; }

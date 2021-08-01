@@ -1,15 +1,13 @@
-﻿using PetSanctuary.Data.Common.Repositories;
-using PetSanctuary.Data.Models;
-using PetSanctuary.Services.Data.Cities;
-using PetSanctuary.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Addresses
+﻿namespace PetSanctuary.Services.Data.Addresses
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using PetSanctuary.Data.Common.Repositories;
+    using PetSanctuary.Data.Models;
+    using PetSanctuary.Services.Mapping;
+
     public class AddressService : IAddressService
     {
         private readonly IDeletableEntityRepository<Address> addressRepository;
@@ -25,7 +23,7 @@ namespace PetSanctuary.Services.Data.Addresses
             {
                 Name = name,
                 CityId = cityId,
-                CreatedOn = DateTime.UtcNow
+                CreatedOn = DateTime.UtcNow,
 
             });
 

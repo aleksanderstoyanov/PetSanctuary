@@ -4,11 +4,10 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using PetSanctuary.Common;
-    using PetSanctuary.Data.Models;
-
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
+    using PetSanctuary.Common;
+    using PetSanctuary.Data.Models;
 
     internal class RolesSeeder : ISeeder
     {

@@ -3,9 +3,9 @@ namespace PetSanctuary.Data.Models
 {
     using System;
 
-    using PetSanctuary.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+
+    using PetSanctuary.Data.Common.Models;
 
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {

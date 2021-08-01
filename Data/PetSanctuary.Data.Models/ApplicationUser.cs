@@ -4,9 +4,9 @@ namespace PetSanctuary.Data.Models
     using System;
     using System.Collections.Generic;
 
-    using PetSanctuary.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+
+    using PetSanctuary.Data.Common.Models;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {

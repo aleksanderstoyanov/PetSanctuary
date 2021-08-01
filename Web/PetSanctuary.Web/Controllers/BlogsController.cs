@@ -1,17 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using PetSanctuary.Services.Data.Blogs;
-using PetSanctuary.Services.Data.Comments;
-using PetSanctuary.Web.ViewModels.Blogs;
-using PetSanctuary.Web.ViewModels.Comments;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Web.Controllers
+﻿namespace PetSanctuary.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using PetSanctuary.Services.Data.Blogs;
+    using PetSanctuary.Web.ViewModels.Blogs;
+
     public class BlogsController : BaseController
     {
         private readonly IBlogService blogService;

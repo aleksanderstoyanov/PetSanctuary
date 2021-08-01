@@ -1,8 +1,8 @@
 ﻿namespace PetSanctuary.Data.Configurations
 {
-    using PetSanctuary.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using PetSanctuary.Data.Models;
 
     public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {

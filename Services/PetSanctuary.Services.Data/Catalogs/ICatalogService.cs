@@ -1,11 +1,8 @@
-﻿using PetSanctuary.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetSanctuary.Services.Data.Catalogs
+﻿namespace PetSanctuary.Services.Data.Catalogs
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface ICatalogService
     {
         Task Create(string name, int age, string image, string type, string gender, string cityName, string addressName, string isVaccinated, string username);

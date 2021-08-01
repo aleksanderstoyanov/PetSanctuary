@@ -1,9 +1,7 @@
 ﻿namespace PetSanctuary.Web.ViewModels.Catalog
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
 
     using static PetSanctuary.Common.GlobalConstants.Pet;
 

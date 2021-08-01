@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PetSanctuary.Web.ViewModels.Vets
+﻿namespace PetSanctuary.Web.ViewModels.Vets
 {
     public class VetsByIdViewModel
     {
