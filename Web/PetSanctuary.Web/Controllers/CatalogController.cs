@@ -1,10 +1,12 @@
 ﻿namespace PetSanctuary.Web.Controllers
 {
+    using System.IO;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using PetSanctuary.Services.Data.Catalogs;
     using PetSanctuary.Web.ViewModels.Catalog;
@@ -12,10 +14,12 @@
     public class CatalogController : BaseController
     {
         private readonly ICatalogService catalogService;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public CatalogController(ICatalogService catalogService)
+        public CatalogController(ICatalogService catalogService, IWebHostEnvironment webHostEnvironment)
         {
             this.catalogService = catalogService;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Dogs()
@@ -83,12 +87,22 @@
                 this.ModelState.AddModelError(nameof(model.IsVaccinated), "Pet's vaccination is invalid");
             }
 
+            if (model.Image != null)
+            {
+                var extension = Path.GetExtension(model.Image.FileName);
+                if (extension != ".jpeg" && extension != ".jpg" && extension != ".gif" && extension != ".png")
+                {
+                    this.ModelState.AddModelError(nameof(model.Image), "Allowed file extensions are jpeg, jpg, gif and png");
+                }
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.View(model);
             }
 
-            await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.Gender, model.City, model.Address, model.IsVaccinated, userId);
+            var rootPath = this.webHostEnvironment.WebRootPath;
+            await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.Gender, model.City, model.Address, model.IsVaccinated, userId, rootPath);
             return this.RedirectToAction(nameof(this.Dogs), "Catalog");
         }
 

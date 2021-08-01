@@ -1,6 +1,6 @@
 ﻿@model PetPostViewModel 
     <h2 class="text-center">Edit Pet <i class="fas fa-paw"></i></h2>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 
     <div class="form-group">
         <label asp-for="Name" style="color:white;">Name</label>
@@ -14,7 +14,7 @@
     </div>
     <div class="form-group">
         <label asp-for="Image" style="color:white;">Image URL</label>
-        <input asp-for="Image" type="text" value="@Model.Image" class="form-control" placeholder="Url">
+        <input asp-for="Image" class="form-control">
         <span asp-validation-for="Image" style="color:red"></span>
     </div>
     <div class="form-group">

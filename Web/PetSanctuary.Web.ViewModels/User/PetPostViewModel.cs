@@ -1,5 +1,6 @@
 ﻿namespace PetSanctuary.Web.ViewModels.User
 {
+    using Microsoft.AspNetCore.Http;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -27,10 +28,7 @@
         [Required]
         public string Gender { get; set; }
 
-        [Required]
-        [Display(Name = "Image-Url")]
-        [Url]
-        public string Image { get; set; }
+        public IFormFile Image { get; set; }
 
         [Required]
         [StringLength(

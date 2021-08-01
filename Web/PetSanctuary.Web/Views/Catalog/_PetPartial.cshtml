@@ -2,7 +2,7 @@
 <div class="col-md-4" style="padding-top:20px">
     <div class="col-md-12">
         <div class="card bg-dark">
-            <img class="card-img-top" style="height:270px;width:318px" src="@Model.Image" alt="Card image cap">
+            <img class="card-img-top" style="height:270px;width:318px" src="~/img/@Model.Image" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title" style="color:white">@Model.Name</h5>
                 <a asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-id="@Model.Id" type="button" class="btn btn-success">Details <i class="fas fa-info-circle"></i></a>

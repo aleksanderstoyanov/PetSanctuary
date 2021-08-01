@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.Extensions.DependencyInjection;
     using PetSanctuary.Data.Models;
     using PetSanctuary.Services.Data.Cities;
 
@@ -16,7 +16,7 @@
                 return;
             }
 
-            var cityService = serviceProvider.GetService(typeof(ICityService)) as ICityService;
+            var cityService = serviceProvider.GetRequiredService<ICityService>();
             await dbContext.Addresses.AddAsync(new Address
             {
                 CityId = cityService.GetCityByName("Sofia").Id,

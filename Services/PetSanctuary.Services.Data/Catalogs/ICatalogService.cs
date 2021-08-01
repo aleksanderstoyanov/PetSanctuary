@@ -3,9 +3,11 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Http;
+
     public interface ICatalogService
     {
-        Task Create(string name, int age, string image, string type, string gender, string cityName, string addressName, string isVaccinated, string username);
+        Task Create(string name, int age, IFormFile image, string type, string gender, string cityName, string addressName, string isVaccinated, string username, string rootPath);
 
         IEnumerable<CatalogServiceModel> GetAllPets();
 
@@ -19,8 +21,8 @@
 
         CatalogServiceModel GetPetById(string id);
 
-        Task DeletePetById(string id);
+        Task DeletePetById(string id, string rootPath);
 
-        Task EditPetById(string id, string name, int age, string image, string type, string gender, string isVaccinated, string cityName, string addressName);
+        Task EditPetById(string id, string name, int age, IFormFile image, string type, string gender, string isVaccinated, string cityName, string addressName,string rootPath);
     }
 }

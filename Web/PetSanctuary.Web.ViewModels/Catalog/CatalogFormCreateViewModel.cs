@@ -1,5 +1,6 @@
 ﻿namespace PetSanctuary.Web.ViewModels.Catalog
 {
+    using Microsoft.AspNetCore.Http;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -19,9 +20,7 @@
         public int Age { get; set; }
 
         [Required]
-        [Display(Name = "Image-Url")]
-        [Url]
-        public string Image { get; set; }
+        public IFormFile Image { get; set; }
 
         [Required]
         public string Type { get; set; }

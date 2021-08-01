@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.Extensions.DependencyInjection;
     using PetSanctuary.Data.Models;
     using PetSanctuary.Services.Data.Addresses;
     using PetSanctuary.Services.Data.Cities;
@@ -17,8 +17,8 @@
                 return;
             }
 
-            var cityService = serviceProvider.GetService(typeof(ICityService)) as ICityService;
-            var addressService = serviceProvider.GetService(typeof(IAddressService)) as IAddressService;
+            var cityService = serviceProvider.GetRequiredService<ICityService>();
+            var addressService = serviceProvider.GetRequiredService<IAddressService>();
 
             await dbContext.Clinics.AddAsync(new Clinic
             {

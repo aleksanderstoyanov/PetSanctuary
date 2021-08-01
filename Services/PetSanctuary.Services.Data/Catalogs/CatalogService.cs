@@ -2,8 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Http;
 
     using PetSanctuary.Data.Common.Repositories;
     using PetSanctuary.Data.Models;
@@ -18,14 +21,17 @@
         private readonly ICityService cityService;
         private readonly IAddressService addressService;
 
-        public CatalogService(IDeletableEntityRepository<Pet> petsRepository, ICityService cityService, IAddressService addressService)
+        public CatalogService(
+            IDeletableEntityRepository<Pet> petsRepository,
+            ICityService cityService,
+            IAddressService addressService)
         {
             this.petsRepository = petsRepository;
             this.cityService = cityService;
             this.addressService = addressService;
         }
 
-        public async Task Create(string name, int age, string image, string type, string gender, string cityName, string addressName, string isVaccinated, string ownerId)
+        public async Task Create(string name, int age, IFormFile image, string type, string gender, string cityName, string addressName, string isVaccinated, string ownerId, string rootPath)
         {
             var city = this.cityService.GetCityByName(cityName);
             var address = this.addressService.GetAddressByName(addressName);
@@ -43,7 +49,7 @@
             {
                 Name = name,
                 Age = age,
-                Image = image,
+                Image = this.UploadFile(image, rootPath),
                 CityId = city.Id,
                 AddressId = address.Id,
                 OwnerId = ownerId,
@@ -63,14 +69,15 @@
             await this.petsRepository.SaveChangesAsync();
         }
 
-        public async Task DeletePetById(string id)
+        public async Task DeletePetById(string id, string rootPath)
         {
             var pet = this.petsRepository.All().FirstOrDefault(pet => pet.Id == id);
+            EnsureFileDeleted(rootPath, pet.Image);
             this.petsRepository.Delete(pet);
             await this.petsRepository.SaveChangesAsync();
         }
 
-        public async Task EditPetById(string id, string name, int age, string image, string type, string gender, string isVaccinated, string cityName, string addressName)
+        public async Task EditPetById(string id, string name, int age, IFormFile image, string type, string gender, string isVaccinated, string cityName, string addressName, string rootPath)
         {
             var city = this.cityService.GetCityByName(cityName);
             var address = this.addressService.GetAddressByName(addressName);
@@ -88,7 +95,13 @@
             pet.ModifiedOn = DateTime.UtcNow;
             pet.Name = name;
             pet.Age = age;
-            pet.Image = image;
+
+            if (image != null)
+            {
+                EnsureFileDeleted(rootPath, pet.Image);
+                pet.Image = this.UploadFile(image, rootPath);
+            }
+
             pet.Type = (PetType)Enum.Parse(typeof(PetType), type);
             pet.Gender = (GenderType)Enum.Parse(typeof(GenderType), gender);
             pet.IsVaccinated = isVaccinated == "No" ? false : true;
@@ -163,6 +176,17 @@
               .FirstOrDefault();
         }
 
+        private static void EnsureFileDeleted(string rootPath, string imageName)
+        {
+            string uploadDir = Path.Combine(rootPath, "img");
+            var fileName = Path.Combine(uploadDir, imageName);
+            var file = new FileInfo(fileName);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+        }
+
         private async Task<AddressServiceModel> EnsureAddressCreated(string addressName, int cityId)
         {
             await this.addressService.CreateAsync(addressName, cityId);
@@ -173,6 +197,23 @@
         {
             await this.cityService.CreateAsync(cityName);
             return this.cityService.GetCityByName(cityName);
+        }
+
+        private string UploadFile(IFormFile image, string rootPath)
+        {
+            string fileName = null;
+            if (image != null)
+            {
+                string uploadDir = Path.Combine(rootPath, "img");
+                fileName = Guid.NewGuid().ToString() + "-" + image.FileName;
+                string filePath = Path.Combine(uploadDir, fileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    image.CopyTo(fileStream);
+                }
+            }
+
+            return fileName;
         }
     }
 }

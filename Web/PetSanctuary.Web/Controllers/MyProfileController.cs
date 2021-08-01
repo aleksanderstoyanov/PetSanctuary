@@ -1,10 +1,12 @@
 ﻿namespace PetSanctuary.Web.Controllers
 {
+    using System.IO;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using PetSanctuary.Common;
@@ -20,17 +22,20 @@
         private readonly IBlogService blogService;
         private readonly ICountService countService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public MyProfileController(
             ICatalogService catalogService,
             IBlogService blogService,
             ICountService countService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IWebHostEnvironment webHostEnvironment)
         {
             this.catalogService = catalogService;
             this.blogService = blogService;
             this.countService = countService;
             this.userManager = userManager;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         [Authorize]
@@ -72,7 +77,6 @@
             {
                 Name = pet.Name,
                 Age = pet.Age,
-                Image = pet.Image,
                 Address = pet.Address,
                 City = pet.City,
                 Gender = pet.Gender.ToString(),
@@ -96,6 +100,16 @@
                 this.ModelState.AddModelError(nameof(model.Gender), "Pet gender is invalid");
             }
 
+            if (model.Image != null)
+            {
+                var extension = Path.GetExtension(model.Image.FileName);
+                if (extension != ".jpeg" && extension != ".jpg" && extension != ".gif" && extension != ".png")
+                {
+                    this.ModelState.AddModelError(nameof(model.Image), "Allowed file extensions are jpeg, jpg, gif and png");
+                }
+            }
+
+
             if (model.IsVaccinated != "Yes" && model.IsVaccinated != "No")
             {
                 this.ModelState.AddModelError(nameof(model.IsVaccinated), "Pet's vaccination type is invalid");
@@ -106,7 +120,8 @@
                 return this.View(model);
             }
 
-            await this.catalogService.EditPetById(id, model.Name, model.Age, model.Image, model.Type, model.Gender, model.IsVaccinated, model.City, model.Address);
+            var rootPath = this.webHostEnvironment.WebRootPath;
+            await this.catalogService.EditPetById(id, model.Name, model.Age, model.Image, model.Type, model.Gender, model.IsVaccinated, model.City, model.Address, rootPath);
             return this.RedirectToAction(nameof(this.Posts), "MyProfile");
         }
 
@@ -114,7 +129,8 @@
 
         public async Task<IActionResult> DeletePost(string id)
         {
-            await this.catalogService.DeletePetById(id);
+            var rootPath = this.webHostEnvironment.WebRootPath;
+            await this.catalogService.DeletePetById(id, rootPath);
             return this.RedirectToAction(nameof(this.Posts), "MyProfile");
         }
 
