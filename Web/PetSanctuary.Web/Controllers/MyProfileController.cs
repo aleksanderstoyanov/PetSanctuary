@@ -149,7 +149,6 @@
             return this.View(query);
         }
 
-
         [Authorize]
         public IActionResult EditBlog(string id)
         {

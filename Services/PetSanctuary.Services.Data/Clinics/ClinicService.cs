@@ -24,6 +24,23 @@
               .ToList();
         }
 
+        public IEnumerable<ClinicServiceModel> GetAllClinicsByCity(string city)
+        {
+            if (city == null)
+            {
+                return this.clinicsRepository
+                    .AllAsNoTracking()
+                    .To<ClinicServiceModel>()
+                    .ToList();
+            }
+
+            return this.clinicsRepository
+             .AllAsNoTracking()
+             .Where(clinic => clinic.City.Name == city)
+             .To<ClinicServiceModel>()
+             .ToList();
+        }
+
         public ClinicServiceModel GetClinicById(int id)
         {
             return this.clinicsRepository

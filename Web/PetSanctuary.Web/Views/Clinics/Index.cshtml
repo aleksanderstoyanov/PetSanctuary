@@ -1,10 +1,31 @@
-﻿@model IEnumerable<ClinicServiceModel>
-<div class="container mx-auto mt-4">
+﻿@model ClinicsQueryModel
+@inject ICityService cityService
 
-    <div class="row">
-        @foreach (var clinic in Model)
-        {
-            <partial name="_ClinicPartial" model="clinic"/>
-        }
+@{
+    ViewBag.Title = "Clinics";
+    var cities = this.cityService.GetAll().ToList();
+}
+<div class="container">
+    <h1 class="d-flex justify-content-center">@ViewBag.Title <i class="fas fa-clinic-medical ml-3"></i></h1>
+    <form class="row d-flex justify-content-center mt-5" method="get">
+        <div class="form-group col-md-3">
+            <label asp-for="City">Cities</label>
+            <select asp-for="City" class="form-control">
+                @foreach (var city in cities)
+                {
+                    <option value="@city.Name">@city.Name</option>
+                }
+            </select>
+        </div>
+        <button class="btn btn-primary h-100 mt-auto mb-3" type="submit"><i class="fas fa-search"></i></button>
+    </form>
+    <div class="row mx-auto mt-4">
+
+        <div class="row">
+            @foreach (var clinic in Model.Clinics)
+            {
+                <partial name="_ClinicPartial" model="clinic" />
+            }
+        </div>
     </div>
 </div>

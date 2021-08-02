@@ -6,6 +6,8 @@
     {
         IEnumerable<ClinicServiceModel> GetAllClinics();
 
+        IEnumerable<ClinicServiceModel> GetAllClinicsByCity(string city);
+
         ClinicServiceModel GetClinicById(int id);
 
         ClinicServiceModel GetClinicByName(string name);

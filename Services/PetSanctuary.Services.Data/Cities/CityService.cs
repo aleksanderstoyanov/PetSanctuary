@@ -1,6 +1,7 @@
 ﻿namespace PetSanctuary.Services.Data.Cities
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -26,6 +27,13 @@
             });
 
             await this.citiesRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<CityServiceModel> GetAll()
+        {
+            return this.citiesRepository
+                .AllAsNoTracking()
+                .To<CityServiceModel>();
         }
 
         public CityServiceModel GetCityById(int id)

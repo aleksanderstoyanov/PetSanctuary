@@ -61,11 +61,11 @@
             {
                 return this.View(model);
             }
+
             var publisherId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             await this.commentService.CreateAsync(id, model.Content, type, publisherId);
 
             return this.RedirectToAction(type, "Comments", new { id = id });
-
         }
 
         [Authorize]

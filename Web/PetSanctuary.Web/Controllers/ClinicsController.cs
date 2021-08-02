@@ -7,6 +7,7 @@
     using PetSanctuary.Services.Data.Clinics;
     using PetSanctuary.Services.Data.Comments;
     using PetSanctuary.Services.Data.Vets;
+    using PetSanctuary.Web.ViewModels.Clinics;
     using PetSanctuary.Web.ViewModels.Vets;
 
     public class ClinicsController : BaseController
@@ -22,10 +23,11 @@
             this.commentService = commentService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index([FromQuery]ClinicsQueryModel query)
         {
-            var model = this.clinicService.GetAllClinics().ToList();
-            return this.View(model);
+            var clinics = this.clinicService.GetAllClinicsByCity(query.City).ToList();
+            query.Clinics = clinics;
+            return this.View(query);
         }
 
         public IActionResult Vets(int id)
