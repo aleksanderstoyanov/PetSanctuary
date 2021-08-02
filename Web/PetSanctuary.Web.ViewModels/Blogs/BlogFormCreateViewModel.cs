@@ -2,6 +2,8 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.AspNetCore.Http;
+
     using static PetSanctuary.Common.GlobalConstants.Blog;
 
     public class BlogFormCreateViewModel
@@ -14,9 +16,7 @@
         public string Title { get; set; }
 
         [Required]
-        [Display(Name = "Image-Url")]
-        [Url]
-        public string Image { get; set; }
+        public IFormFile Image { get; set; }
 
         [Required]
         [StringLength(
@@ -24,6 +24,5 @@
          MinimumLength = MinBlogDescriptionLength,
          ErrorMessage = "Field description should be between 10 and 200")]
         public string Description { get; set; }
-
     }
 }

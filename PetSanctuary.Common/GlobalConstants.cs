@@ -15,7 +15,6 @@
             public const int MaxCityLength = 20;
             public const int MinPetNameLength = 3;
             public const int MaxPetNameLength = 15;
-
         }
 
         public class Blog
@@ -46,6 +45,5 @@
             public const int MaxQualificationLength = 20;
             public const int MinQualifactionLength = 4;
         }
-
     }
 }

@@ -16,6 +16,7 @@
     using PetSanctuary.Data.Models;
     using PetSanctuary.Data.Repositories;
     using PetSanctuary.Data.Seeding;
+    using PetSanctuary.Services.Data;
     using PetSanctuary.Services.Data.Addresses;
     using PetSanctuary.Services.Data.Administration.Clinics;
     using PetSanctuary.Services.Data.Administration.Vets;

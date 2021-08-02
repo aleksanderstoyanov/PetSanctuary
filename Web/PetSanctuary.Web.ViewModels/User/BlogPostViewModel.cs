@@ -2,17 +2,15 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.AspNetCore.Http;
+
     using static PetSanctuary.Common.GlobalConstants.Blog;
 
     public class BlogPostViewModel
     {
         public string Id { get; set; }
 
-        [Required]
-        [Url]
-        [Display(Name = "Image-Url")]
-
-        public string Image { get; set; }
+        public IFormFile Image { get; set; }
 
         [Required]
         [StringLength(

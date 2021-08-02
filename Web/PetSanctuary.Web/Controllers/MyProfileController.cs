@@ -109,7 +109,6 @@
                 }
             }
 
-
             if (model.IsVaccinated != "Yes" && model.IsVaccinated != "No")
             {
                 this.ModelState.AddModelError(nameof(model.IsVaccinated), "Pet's vaccination type is invalid");
@@ -150,18 +149,6 @@
             return this.View(query);
         }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Blogs(string id, BlogPostViewModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View(model);
-            }
-
-            await this.blogService.EditByIdAsync(id, model.Title, model.Image, model.Description);
-            return this.RedirectToAction(nameof(this.Blogs), "MyProfile");
-        }
 
         [Authorize]
         public IActionResult EditBlog(string id)
@@ -170,7 +157,6 @@
             var model = new BlogPostViewModel
             {
                 Title = blog.Title,
-                Image = blog.Image,
                 Description = blog.Description,
             };
             return this.View(model);
@@ -180,19 +166,30 @@
         [Authorize]
         public async Task<IActionResult> EditBlog(string id, BlogPostViewModel model)
         {
+            if (model.Image != null)
+            {
+                var extension = Path.GetExtension(model.Image.FileName);
+                if (extension != ".jpeg" && extension != ".jpg" && extension != ".gif" && extension != ".png")
+                {
+                    this.ModelState.AddModelError(nameof(model.Image), "Allowed file extensions are jpeg, jpg, gif and png");
+                }
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.View(model);
             }
 
-            await this.blogService.EditByIdAsync(id, model.Title, model.Image, model.Description);
+            string rootPath = this.webHostEnvironment.WebRootPath;
+            await this.blogService.EditByIdAsync(id, model.Title, model.Image, model.Description, rootPath);
             return this.RedirectToAction(nameof(this.Blogs), "MyProfile");
         }
 
         [Authorize]
         public async Task<IActionResult> DeleteBlog(string id)
         {
-            await this.blogService.DeleteByIdAsync(id);
+            var rootPath = this.webHostEnvironment.WebRootPath;
+            await this.blogService.DeleteByIdAsync(id, rootPath);
             return this.RedirectToAction(nameof(this.Blogs), "MyProfile");
         }
     }

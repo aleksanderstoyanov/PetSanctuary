@@ -1,8 +1,9 @@
 ﻿namespace PetSanctuary.Web.ViewModels.Catalog
 {
-    using Microsoft.AspNetCore.Http;
     using System;
     using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Http;
 
     using static PetSanctuary.Common.GlobalConstants.Pet;
 
