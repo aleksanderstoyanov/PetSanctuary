@@ -51,7 +51,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, VetInputModel model)
+        public async Task<IActionResult> Edit(int clinicId, string id, VetInputModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -59,13 +59,13 @@
             }
 
             await this.adminVetService.EditAsync(id, model.FirstName, model.Surname, model.Description, model.Qualification, model.Clinic);
-            return this.Redirect("/Clinics/Index");
+            return this.Redirect($"/Vets/Index/{clinicId}");
         }
 
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int clinicId, string id)
         {
             await this.adminVetService.DeleteAsync(id);
-            return this.Redirect("/Clinics/Index");
+            return this.Redirect($"/Vets/Index/{clinicId}");
         }
     }
 }
