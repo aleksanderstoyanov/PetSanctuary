@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
+
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -13,6 +13,7 @@
     using PetSanctuary.Data.Models.Enums;
     using PetSanctuary.Services.Data.Addresses;
     using PetSanctuary.Services.Data.Cities;
+    using PetSanctuary.Services.Data.Files;
     using PetSanctuary.Services.Mapping;
 
     public class CatalogService : ICatalogService
@@ -20,15 +21,18 @@
         private readonly IDeletableEntityRepository<Pet> petsRepository;
         private readonly ICityService cityService;
         private readonly IAddressService addressService;
+        private readonly IFileService fileService;
 
         public CatalogService(
             IDeletableEntityRepository<Pet> petsRepository,
             ICityService cityService,
-            IAddressService addressService)
+            IAddressService addressService,
+            IFileService fileService)
         {
             this.petsRepository = petsRepository;
             this.cityService = cityService;
             this.addressService = addressService;
+            this.fileService = fileService;
         }
 
         public async Task Create(string name, int age, IFormFile image, string type, string gender, string cityName, string addressName, string isVaccinated, string ownerId, string rootPath)
@@ -49,7 +53,7 @@
             {
                 Name = name,
                 Age = age,
-                Image = this.UploadFile(image, rootPath),
+                Image = this.fileService.UploadFile(image, rootPath),
                 CityId = city.Id,
                 AddressId = address.Id,
                 OwnerId = ownerId,
@@ -72,7 +76,7 @@
         public async Task DeletePetById(string id, string rootPath)
         {
             var pet = this.petsRepository.All().FirstOrDefault(pet => pet.Id == id);
-            EnsureFileDeleted(rootPath, pet.Image);
+            this.fileService.DeleteFile(rootPath, pet.Image);
             this.petsRepository.Delete(pet);
             await this.petsRepository.SaveChangesAsync();
         }
@@ -98,8 +102,8 @@
 
             if (image != null)
             {
-                EnsureFileDeleted(rootPath, pet.Image);
-                pet.Image = this.UploadFile(image, rootPath);
+                this.fileService.DeleteFile(rootPath, pet.Image);
+                pet.Image = this.fileService.UploadFile(image, rootPath);
             }
 
             pet.Type = (PetType)Enum.Parse(typeof(PetType), type);
@@ -176,17 +180,6 @@
               .FirstOrDefault();
         }
 
-        private static void EnsureFileDeleted(string rootPath, string imageName)
-        {
-            string uploadDir = Path.Combine(rootPath, "img");
-            var fileName = Path.Combine(uploadDir, imageName);
-            var file = new FileInfo(fileName);
-            if (file.Exists)
-            {
-                file.Delete();
-            }
-        }
-
         private async Task<AddressServiceModel> EnsureAddressCreated(string addressName, int cityId)
         {
             await this.addressService.CreateAsync(addressName, cityId);
@@ -199,21 +192,5 @@
             return this.cityService.GetCityByName(cityName);
         }
 
-        private string UploadFile(IFormFile image, string rootPath)
-        {
-            string fileName = null;
-            if (image != null)
-            {
-                string uploadDir = Path.Combine(rootPath, "img");
-                fileName = Guid.NewGuid().ToString() + "-" + image.FileName;
-                string filePath = Path.Combine(uploadDir, fileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    image.CopyTo(fileStream);
-                }
-            }
-
-            return fileName;
-        }
     }
 }
