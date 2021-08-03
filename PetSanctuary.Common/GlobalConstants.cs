@@ -19,7 +19,6 @@
 
         public class Blog
         {
-
             public const int MinCommentContentLength = 3;
             public const int MaxCommentContentLength = 90;
             public const int MinBlogTitleLength = 3;
@@ -40,7 +39,7 @@
             public const int MinVetFirstNameLength = 4;
             public const int MaxVetSurnameLength = 30;
             public const int MinVetSurnameLength = 5;
-            public const int MaxDescriptionLength = 250;
+            public const int MaxDescriptionLength = 400;
             public const int MinDecriptionLength = 5;
             public const int MaxQualificationLength = 20;
             public const int MinQualifactionLength = 4;

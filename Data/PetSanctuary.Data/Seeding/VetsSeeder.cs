@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Microsoft.Extensions.DependencyInjection;
     using PetSanctuary.Data.Models;
     using PetSanctuary.Services.Data.Clinics;
@@ -24,7 +25,6 @@
                 ClinicId = clinicService.GetClinicByName("SinKrust").Id,
                 Qualification = "Orthopedy",
                 Description = "In 2009 in Dortmund, Germany, graduated as an expert in the field of hip dysplasia, passing an exam before leading specialists from GRSK / German Association of Radiologists for Genetic Diseases of the Musculoskeletal System /.",
-
             });
             await dbContext.Vets.AddAsync(new Vet
             {
@@ -50,7 +50,6 @@ Cross",
                 Description = @"Dr. Gospodinova was born on August 23, 1984. town of Kardzhali.
 He graduated in veterinary medicine in 2009 at the University of Forestry in Sofia.
 He started his internship at the Blue Cross Veterinary Clinic in 2006.",
-
             });
             await dbContext.Vets.AddAsync(new Vet
             {
@@ -59,7 +58,6 @@ He started his internship at the Blue Cross Veterinary Clinic in 2006.",
                 ClinicId = clinicService.GetClinicByName("Izgrev").Id,
                 Qualification = "Surgeon",
                 Description = @"Dr. Dochev graduated in veterinary medicine in 2001 at the Thracian University in Stara Zagora.",
-
             });
             await dbContext.Vets.AddAsync(new Vet
             {
@@ -67,7 +65,6 @@ He started his internship at the Blue Cross Veterinary Clinic in 2006.",
                 ClinicId = clinicService.GetClinicByName("Izgrev").Id,
                 Qualification = "Dermathology",
                 Description = @"Dr. Docheva completed her education in veterinary medicine in 2012 at the University of Veterinary Medicine Vienna - Austria, module pets and exotic animals.",
-
             });
             await dbContext.Vets.AddAsync(new Vet
             {
@@ -75,7 +72,6 @@ He started his internship at the Blue Cross Veterinary Clinic in 2006.",
                 ClinicId = clinicService.GetClinicByName("Izgrev").Id,
                 Qualification = "Dermathology",
                 Description = @"Dr. Stefanov graduated in veterinary medicine in 2003 at the Thracian University in Stara Zagora.",
-
             });
             await dbContext.Vets.AddAsync(new Vet
             {
@@ -84,7 +80,6 @@ He started his internship at the Blue Cross Veterinary Clinic in 2006.",
                 ClinicId = clinicService.GetClinicByName("Diana").Id,
                 Qualification = "Dermathology",
                 Description = @"Born on January 6, 1967 in the village of Hadjidimitrovo, municipality. Svishtov. He graduated from the Technical School of Veterinary Medicine in Lovech in 1986. Higher education, specialty Veterinary Medicine received from the Thracian University",
-
             });
             await dbContext.Vets.AddAsync(new Vet
             {
@@ -93,7 +88,6 @@ He started his internship at the Blue Cross Veterinary Clinic in 2006.",
                 ClinicId = clinicService.GetClinicByName("Diana").Id,
                 Qualification = "Dermathology",
                 Description = @"Born on February 27, 1979 in the town of Shumen.Graduated from a language high school in 1998 in the town of Shumen. He received his higher veterinary medical education at the Thracian University in Stara Zagora in 2004. Since the same year he has been a veterinarian in Diana's office. He is interested in cat diseases and orthopedics.",
-
             });
             await dbContext.Vets.AddAsync(new Vet
             {
@@ -102,7 +96,6 @@ He started his internship at the Blue Cross Veterinary Clinic in 2006.",
                 ClinicId = clinicService.GetClinicByName("Diana").Id,
                 Qualification = "Dermathology",
                 Description = @"Born in 1985 in the town of Svishtov. In 2004 he graduated from the Technical School of Veterinary Medicine - Lovech. He received his higher education at the Faculty of Veterinary Medicine of the Thracian University - Stara Zagora in 2009.",
-
             });
             await dbContext.Vets.AddAsync(new Vet
             {
@@ -111,7 +104,6 @@ He started his internship at the Blue Cross Veterinary Clinic in 2006.",
                 ClinicId = clinicService.GetClinicByName("Provet Clinic").Id,
                 Qualification = "Stomach surgeon",
                 Description = "Dr. Simeon Pachev was born in Plovdiv where he completed his primary and secondary education. In 1986 he graduated as a veterinarian at VIZVM - Stara Zagora.",
-
             });
 
             await dbContext.Vets.AddAsync(new Vet
@@ -123,7 +115,6 @@ He started his internship at the Blue Cross Veterinary Clinic in 2006.",
                 Description = @"
 Dr.Nikolay Marinkov was born on March 31,
                 1971 in Plovdiv.He graduated from the Veterinary College in Stara Zagora and the Thracian University in Stara Zagora.He graduated in 1998 with a master's degree in veterinary medicine.",
-
             });
             await dbContext.Vets.AddAsync(new Vet
             {
@@ -180,6 +171,33 @@ Dr.Nikolay Marinkov was born on March 31,
                 ClinicId = clinicService.GetClinicByName("Central Veterinary Clinic").Id,
                 Qualification = "Surgeon",
                 Description = "For the period 2000 - 2015 Dr. Nikolov has been to numerous internships, specializations and seminars in the Czech Republic, USA and Italy with a main focus on Anesthesiology, Cardiology, Surgery and Internal Medicine in Dogs and Cats, Diseases and Therapy in Exotic Animals, Nutrition, Breeding, etc.",
+            });
+            await dbContext.Vets.AddAsync(new Vet
+            {
+                FirstName = "Elena",
+                Surname = "Sirakova",
+                ClinicId = clinicService.GetClinicByName("Vita Very").Id,
+                Qualification = "Veterinary",
+                Description = @"Dr. Elena Sirakova graduated from the Veterinary College in Stara Zagora Iv.P.Pavlov ,
+                then“ Higher Institute of Zootechnics and Veterinary Medicine ”specialty veterinary medicine in 1993.",
+            });
+            await dbContext.Vets.AddAsync(new Vet
+            {
+                FirstName = "Genadi",
+                Surname = "Ganchev",
+                ClinicId = clinicService.GetClinicByName("Vita Very").Id,
+                Qualification = "Veterinary",
+                Description = @"Dr. Genadi Ganchev graduated in veterinary medicine in Moscow, Russia.
+                He was an assistant professor of surgery and radiology at the Thracian University, Stara Zagora.",
+            });
+            await dbContext.Vets.AddAsync(new Vet
+            {
+                FirstName = "Rumen",
+                Surname = "Dimitrov",
+                ClinicId = clinicService.GetClinicByName("Vita Very").Id,
+                Qualification = "Veterinary",
+                Description = @"Dr. Rumen Dimitrov graduated in veterinary medicine at the Thracian University, Stara Zagora in 2003.
+                He started working in the clinic in 1996 after graduating from a veterinary college.",
             });
         }
     }

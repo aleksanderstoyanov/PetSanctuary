@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Microsoft.Extensions.DependencyInjection;
     using PetSanctuary.Data.Models;
     using PetSanctuary.Services.Data.Addresses;
@@ -26,7 +27,6 @@
                 CityId = cityService.GetCityByName("Sofia").Id,
                 AddressId = addressService.GetAddressByName("Pancharevo Chereshova gradina").Id,
                 Image = "https://static.framar.bg/filestore/191227095707screenshot_4.jpg",
-
             });
             await dbContext.Clinics.AddAsync(new Clinic
             {
@@ -34,7 +34,6 @@
                 CityId = cityService.GetCityByName("Burgas").Id,
                 AddressId = addressService.GetAddressByName("zh.k.Izgrev 94,8008").Id,
                 Image = "https://nacionalen-biznes.com/custom/domain_1/image_files/sitemgr_photo_129496.jpg",
-
             });
 
             await dbContext.Clinics.AddAsync(new Clinic
@@ -43,7 +42,6 @@
                 CityId = cityService.GetCityByName("Varna").Id,
                 AddressId = addressService.GetAddressByName("19 Moryashka Street, 9003").Id,
                 Image = "https://bgregistar.com/res/objects/14918/page/16_V%D0%B5t%D0%B5rinarna%20klinika%20DianaV%D0%B5t.jpg",
-
             });
 
             await dbContext.Clinics.AddAsync(new Clinic
@@ -52,7 +50,6 @@
                 CityId = cityService.GetCityByName("Sofia").Id,
                 AddressId = addressService.GetAddressByName("Simeonovsko Shosse Blvd.").Id,
                 Image = "http://www.bgmedicalcatalog.com/image/cache/data/sg10_3-500x500.JPG",
-
             });
 
             await dbContext.Clinics.AddAsync(new Clinic
@@ -68,6 +65,21 @@
                 CityId = cityService.GetCityByName("Plovdiv").Id,
                 AddressId = addressService.GetAddressByName("zhk Trakia.").Id,
                 Image = "https://businessregistar.com/wp-content/uploads/2019/11/1907809_583701001700034_1564485870_o.jpg",
+            });
+
+            await dbContext.Clinics.AddAsync(new Clinic
+            {
+                Name = "Vita Very",
+                CityId = cityService.GetCityByName("Stara Zagora").Id,
+                AddressId = addressService.GetAddressByName("ul.Stefan Karadja 101").Id,
+                Image = "https://infocall.bg/obekti/veterinarna-klinika-v-stara-zagora-2083-0.jpg",
+            });
+            await dbContext.Clinics.AddAsync(new Clinic
+            {
+                Name = "Vita Vet Gabrovo",
+                CityId = cityService.GetCityByName("Gabrovo").Id,
+                AddressId = addressService.GetAddressByName("ul.Raicho Karolev 15").Id,
+                Image = "https://comunicatorbg.com/vita_vet/head.jpg",
             });
         }
     }

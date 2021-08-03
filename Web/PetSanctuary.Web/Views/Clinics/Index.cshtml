@@ -6,16 +6,18 @@
     var cities = this.cityService.GetAll().ToList();
 }
 <div class="container">
-    <h1 class="d-flex justify-content-center">@ViewBag.Title <i class="fas fa-clinic-medical ml-3"></i></h1>
+    <h1 class="d-flex justify-content-center">@ViewBag.Title <i class="fas fa-clinic-medical ml-3" style="color:red"></i></h1>
     <form class="row d-flex justify-content-center mt-5" method="get">
         <div class="form-group col-md-3">
-            <label asp-for="City">Cities</label>
+            <label asp-for="City">Cities <i class="fas fa-city"></i></label>
             <select asp-for="City" class="form-control">
+                <option>All</option>
                 @foreach (var city in cities)
                 {
                     <option value="@city.Name">@city.Name</option>
                 }
             </select>
+            <span asp-validation-for="City" style="color:red"></span>
         </div>
         <button class="btn btn-primary h-100 mt-auto mb-3" type="submit"><i class="fas fa-search"></i></button>
     </form>
@@ -29,3 +31,25 @@
         </div>
     </div>
 </div>
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+    var maxPage = Math.Ceiling((double)Model.TotalPosts / Model.ElementsPerPage);
+}
+@{
+    var shouldPreviousButtonBeDisabled = Model.CurrentPage == 1 || !Model.Clinics.Any();
+    var shouldNextButtonBeDisabled = Model.CurrentPage == maxPage ||
+                             !Model.Clinics.Any();
+}
+<div class="row mt-4">
+    <div class="col-md-6">
+        <a class="btn btn-success float-left" style="display:@(shouldPreviousButtonBeDisabled?"none":"block")" asp-area="" asp-controller="Clinics" asp-action="Index" asp-route-currentPage="@previousPage"><i class="fas fa-angle-double-left"></i></a>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-success float-right" style="display:@(shouldNextButtonBeDisabled?"none":"block")" asp-area="" asp-controller="Clinics" asp-action="Index" asp-route-currentPage="@(Model.CurrentPage+1)"><i class="fas fa-angle-double-right"></i></a>
+    </div>
+</div>
+

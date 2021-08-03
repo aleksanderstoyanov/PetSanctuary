@@ -9,17 +9,20 @@
     {
         private readonly IDeletableEntityRepository<Pet> catalogRepository;
         private readonly IDeletableEntityRepository<Blog> blogRepository;
+        private readonly IDeletableEntityRepository<Clinic> clinicRepository;
         private readonly IRepository<BlogComment> blogCommentRepository;
         private readonly IRepository<VetComment> vetCommentRepository;
 
         public CountService(
             IDeletableEntityRepository<Pet> catalogRepository,
             IDeletableEntityRepository<Blog> blogRepository,
+            IDeletableEntityRepository<Clinic> clinicRepository,
             IRepository<BlogComment> blogCommentRepository,
             IRepository<VetComment> vetCommentRepository)
         {
             this.catalogRepository = catalogRepository;
             this.blogRepository = blogRepository;
+            this.clinicRepository = clinicRepository;
             this.blogCommentRepository = blogCommentRepository;
             this.vetCommentRepository = vetCommentRepository;
         }
@@ -67,6 +70,21 @@
             return this.catalogRepository
                 .AllAsNoTracking()
                 .Where(catalog => catalog.OwnerId == id)
+                .Count();
+        }
+
+        public int GetTotalClinicsCountByCity(string city)
+        {
+            if (city == "All")
+            {
+                return this.clinicRepository
+                 .AllAsNoTracking()
+                 .Count();
+            }
+
+            return this.clinicRepository
+                .AllAsNoTracking()
+                .Where(clinic => clinic.City.Name == city)
                 .Count();
         }
     }

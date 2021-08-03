@@ -9,5 +9,7 @@
         public int GetBlogCommentsCount(string id);
 
         public int GetVetCommentsCount(string id);
+
+        public int GetTotalClinicsCountByCity(string city);
     }
 }

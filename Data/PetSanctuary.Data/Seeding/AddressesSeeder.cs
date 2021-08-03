@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Microsoft.Extensions.DependencyInjection;
     using PetSanctuary.Data.Models;
     using PetSanctuary.Services.Data.Cities;
@@ -47,7 +48,16 @@
                 CityId = cityService.GetCityByName("Sofia").Id,
                 Name = "zhk Nadejda bl.172",
             });
-
+            await dbContext.Addresses.AddAsync(new Address
+            {
+                CityId = cityService.GetCityByName("Stara Zagora").Id,
+                Name = "ul.Stefan Karadja 101",
+            });
+            await dbContext.Addresses.AddAsync(new Address
+            {
+                CityId = cityService.GetCityByName("Gabrovo").Id,
+                Name = "ul.Raicho Karolev 15",
+            });
         }
     }
 }

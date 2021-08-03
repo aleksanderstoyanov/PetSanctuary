@@ -7,7 +7,7 @@
 
     public class ClinicsQueryModel : BaseQueryModel
     {
-        public string City { get; set; }
+        public string City { get; set; } = "All";
 
         public ICollection<ClinicServiceModel> Clinics { get; set; }
     }

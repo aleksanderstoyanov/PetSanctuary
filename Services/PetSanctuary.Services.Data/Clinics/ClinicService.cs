@@ -24,12 +24,14 @@
               .ToList();
         }
 
-        public IEnumerable<ClinicServiceModel> GetAllClinicsByCity(string city)
+        public IEnumerable<ClinicServiceModel> GetAllClinicsByCity(string city, int currentPage, int postsPerPage)
         {
-            if (city == null)
+            if (city == "All")
             {
                 return this.clinicsRepository
                     .AllAsNoTracking()
+                    .Skip((currentPage - 1) * postsPerPage)
+                    .Take(postsPerPage)
                     .To<ClinicServiceModel>()
                     .ToList();
             }
@@ -37,6 +39,8 @@
             return this.clinicsRepository
              .AllAsNoTracking()
              .Where(clinic => clinic.City.Name == city)
+             .Skip((currentPage - 1) * postsPerPage)
+             .Take(postsPerPage)
              .To<ClinicServiceModel>()
              .ToList();
         }
