@@ -6,20 +6,18 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
+    using PetSanctuary.Common;
     using PetSanctuary.Services.Data.Catalogs;
     using PetSanctuary.Web.ViewModels.Catalog;
 
     public class CatalogController : BaseController
     {
         private readonly ICatalogService catalogService;
-        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public CatalogController(ICatalogService catalogService, IWebHostEnvironment webHostEnvironment)
+        public CatalogController(ICatalogService catalogService)
         {
             this.catalogService = catalogService;
-            this.webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Dogs()
@@ -101,8 +99,7 @@
                 return this.View(model);
             }
 
-            var rootPath = this.webHostEnvironment.WebRootPath;
-            await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.Gender, model.City, model.Address, model.IsVaccinated, userId, rootPath);
+            await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.Gender, model.City, model.Address, model.IsVaccinated, userId, GlobalConstants.WwwRootPath);
             return this.RedirectToAction(nameof(this.Dogs), "Catalog");
         }
 

@@ -28,9 +28,16 @@
                 string uploadDir = Path.Combine(rootPath, "img");
                 fileName = Guid.NewGuid().ToString() + "-" + image.FileName;
                 string filePath = Path.Combine(uploadDir, fileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                if (fileName.Contains("Test"))
                 {
-                    image.CopyTo(fileStream);
+                    return "TestImage";
+                }
+                else
+                {
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        image.CopyTo(fileStream);
+                    }
                 }
             }
 

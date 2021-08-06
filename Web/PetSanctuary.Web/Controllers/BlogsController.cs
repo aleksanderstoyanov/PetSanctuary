@@ -5,20 +5,18 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
+    using PetSanctuary.Common;
     using PetSanctuary.Services.Data.Blogs;
     using PetSanctuary.Web.ViewModels.Blogs;
 
     public class BlogsController : BaseController
     {
         private readonly IBlogService blogService;
-        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public BlogsController(IBlogService blogService, IWebHostEnvironment webHostEnvironment)
+        public BlogsController(IBlogService blogService)
         {
             this.blogService = blogService;
-            this.webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -53,8 +51,7 @@
                 return this.View(model);
             }
 
-            var rootPath = this.webHostEnvironment.WebRootPath;
-            await this.blogService.CreateAsync(model.Title, model.Image, model.Description, userId, rootPath);
+            await this.blogService.CreateAsync(model.Title, model.Image, model.Description, userId, GlobalConstants.WwwRootPath);
 
             return this.Redirect($"/Blogs");
         }
