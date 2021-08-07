@@ -1,10 +1,8 @@
 ﻿namespace PetSanctuary.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using PetSanctuary.Services.Data.Vets;
     using PetSanctuary.Web.ViewModels.Vets;
@@ -32,17 +30,19 @@
             return this.View(model);
         }
 
-        public async Task<IActionResult> Like(string vetId)
+        [Authorize]
+        public async Task<IActionResult> Like(string id)
         {
-            var vet = this.vetService.GetVetById(vetId);
-            await this.vetService.UpdateLikesAsync(vetId);
+            var vet = this.vetService.GetVetById(id);
+            await this.vetService.UpdateLikesAsync(id);
             return this.RedirectToAction(nameof(this.Index), "Vets", new { id = vet.ClinicId });
         }
 
-        public async Task<IActionResult> Dislike(string vetId)
+        [Authorize]
+        public async Task<IActionResult> Dislike(string id)
         {
-            var vet = this.vetService.GetVetById(vetId);
-            await this.vetService.UpdateDislikesAsync(vetId);
+            var vet = this.vetService.GetVetById(id);
+            await this.vetService.UpdateDislikesAsync(id);
             return this.RedirectToAction(nameof(this.Index), "Vets", new { id = vet.ClinicId });
         }
 

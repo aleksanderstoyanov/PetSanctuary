@@ -12,7 +12,7 @@
                     <img class="card-img-top" src="https://www.lalithahospital.in/wp-content/uploads/2019/12/18562dummytt.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title" style="color:white">@vet.FirstName  @vet.Surname</h5>
-                        <h6 style="color:white"><i class="fas fa-stethoscope"></i> Veterinarian  <a asp-area="" asp-controller="Vets" asp-action="Like" asp-route-vetId="@vet.Id"><i class="far fa-thumbs-up" style="color:limegreen"></i></a> @vet.Likes  <a asp-area="" asp-controller="Vets" asp-action="Dislike" asp-route-vetId="@vet.Id"><i class="far fa-thumbs-down" style="color:red"></i></a> @vet.Dislikes</h6>
+                        <h6 style="color:white"><i class="fas fa-stethoscope"></i> Veterinarian  <a asp-area="" asp-controller="Vets" asp-action="Like" asp-route-id="@vet.Id"><i class="far fa-thumbs-up" style="color:limegreen"></i></a> @vet.Likes  <a asp-area="" asp-controller="Vets" asp-action="Dislike" asp-route-id="@vet.Id"><i class="far fa-thumbs-down" style="color:red"></i></a> @vet.Dislikes</h6>
                         <a asp-area="" asp-controller="Vets" asp-action="Description" asp-route-id="@vet.Id" class="btn btn-success">Details <i class="fas fa-info-circle mr-2"></i></a>
                         <a asp-area="" asp-controller="Comments" asp-action="Vet" asp-route-id="@vet.Id" class="btn btn-primary">Comments <i class="far fa-comment"></i></a>
                         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
