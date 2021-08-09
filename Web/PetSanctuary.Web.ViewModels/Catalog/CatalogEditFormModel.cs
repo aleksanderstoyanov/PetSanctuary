@@ -1,12 +1,13 @@
-﻿namespace PetSanctuary.Web.ViewModels.User
+﻿namespace PetSanctuary.Web.ViewModels.Catalog
 {
-    using Microsoft.AspNetCore.Http;
     using System;
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.AspNetCore.Http;
+
     using static PetSanctuary.Common.GlobalConstants.Pet;
 
-    public class PetPostViewModel
+    public class CatalogEditFormModel
     {
         public string Id { get; set; }
 

@@ -1,4 +1,4 @@
-﻿namespace PetSanctuary.Web.ViewModels.User
+﻿namespace PetSanctuary.Web.ViewModels.Blogs
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -6,7 +6,7 @@
 
     using static PetSanctuary.Common.GlobalConstants.Blog;
 
-    public class BlogPostViewModel
+    public class BlogEditFormModel
     {
         public string Id { get; set; }
 

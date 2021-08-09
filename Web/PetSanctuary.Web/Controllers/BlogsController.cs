@@ -55,5 +55,46 @@
 
             return this.Redirect($"/Blogs");
         }
+
+        [Authorize]
+        public IActionResult Edit(string id)
+        {
+            var blog = this.blogService.GetBlogById(id);
+            var model = new BlogEditFormModel
+            {
+                Title = blog.Title,
+                Description = blog.Description,
+            };
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(string id, BlogEditFormModel model)
+        {
+            if (model.Image != null)
+            {
+                var extension = Path.GetExtension(model.Image.FileName);
+                if (extension != ".jpeg" && extension != ".jpg" && extension != ".gif" && extension != ".png")
+                {
+                    this.ModelState.AddModelError(nameof(model.Image), "Allowed file extensions are jpeg, jpg, gif and png");
+                }
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            await this.blogService.EditByIdAsync(id, model.Title, model.Image, model.Description, GlobalConstants.WwwRootPath);
+            return this.RedirectToAction("Blogs", "MyProfile");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await this.blogService.DeleteByIdAsync(id, GlobalConstants.WwwRootPath);
+            return this.RedirectToAction("Blogs", "MyProfile");
+        }
     }
 }

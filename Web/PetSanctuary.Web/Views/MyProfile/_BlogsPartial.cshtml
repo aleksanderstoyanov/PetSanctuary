@@ -7,8 +7,8 @@
     @if (User.Identity.IsAuthenticated)
     {
         <td>
-            <a asp-area="" asp-controller="MyProfile" asp-action="EditBlog" asp-route-id="@Model.Id"><i class="fas fa-pencil-alt bg mr-3 " style="color:orange; cursor:pointer"></i></a>
-            <a method="delete" asp-area="" asp-controller="MyProfile" asp-action="DeleteBlog" asp-route-id="@Model.Id"><i class="fas fa-trash" style="color:red"></i></a>
+            <a asp-area="" asp-controller="Blogs" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-pencil-alt bg mr-3 " style="color:orange; cursor:pointer"></i></a>
+            <a method="delete" asp-area="" asp-controller="Blogs" asp-action="Delete" asp-route-id="@Model.Id"><i class="fas fa-trash" style="color:red"></i></a>
         </td>
     }
 

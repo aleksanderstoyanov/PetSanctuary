@@ -103,6 +103,78 @@
             return this.RedirectToAction(nameof(this.Dogs), "Catalog");
         }
 
+        [Authorize]
+        public IActionResult Edit(string id)
+        {
+            var pet = this.catalogService.GetPetById(id);
+            var model = new CatalogEditFormModel
+            {
+                Name = pet.Name,
+                Age = pet.Age,
+                Address = pet.Address,
+                City = pet.City,
+                Gender = pet.Gender.ToString(),
+                Type = pet.Type.ToString(),
+            };
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(string id, CatalogEditFormModel model)
+        {
+            if (model.Type != "Dog" && model.Type != "Cat" && model.Type != "Other")
+            {
+                this.ModelState.AddModelError(nameof(model.Type), "Pet type is invalid");
+            }
+
+            if (model.Gender != "Male" && model.Gender != "Female")
+            {
+                this.ModelState.AddModelError(nameof(model.Gender), "Pet gender is invalid");
+            }
+
+            if (model.Image != null)
+            {
+                var extension = Path.GetExtension(model.Image.FileName);
+                if (extension != ".jpeg" && extension != ".jpg" && extension != ".gif" && extension != ".png")
+                {
+                    this.ModelState.AddModelError(nameof(model.Image), "Allowed file extensions are jpeg, jpg, gif and png");
+                }
+            }
+
+            if (model.IsVaccinated != "Yes" && model.IsVaccinated != "No")
+            {
+                this.ModelState.AddModelError(nameof(model.IsVaccinated), "Pet's vaccination type is invalid");
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            await this.catalogService.EditPetById(id, model.Name, model.Age, model.Image, model.Type, model.Gender, model.IsVaccinated, model.City, model.Address, GlobalConstants.WwwRootPath);
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                return this.RedirectToAction(nameof(this.Dogs), "Catalog");
+            }
+
+            return this.RedirectToAction("Posts", "MyProfile");
+        }
+
+        [Authorize]
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            await this.catalogService.DeletePetById(id, GlobalConstants.WwwRootPath);
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                return this.RedirectToAction(nameof(this.Dogs), "Catalog");
+            }
+
+            return this.RedirectToAction("Posts", "MyProfile");
+        }
+
         public IActionResult Details(string id)
         {
             var model = this.catalogService.GetPetById(id);
