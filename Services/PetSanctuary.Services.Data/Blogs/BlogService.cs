@@ -94,7 +94,6 @@
         {
             return this.blogRepository
                 .AllAsNoTracking()
-                .Where(blog => blog.Id == id)
                 .To<BlogServiceModel>()
                 .FirstOrDefault(blog => blog.Id == id);
         }

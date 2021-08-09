@@ -95,6 +95,69 @@
             .ShouldReturn()
             .RedirectToAction("Dogs", "Catalog");
 
+
+        [Fact]
+        public void GetEditShouldBeForAuthorizedUsersAndShouldReturnView()
+             => MyController<CatalogController>
+               .Instance()
+                 .WithUser()
+                 .WithData(PetTestData.GetPets(1, PetType.Dog))
+            .Calling(c => c.Edit("PetId1"))
+              .ShouldHave()
+              .ActionAttributes(attributes => attributes
+                  .RestrictingForAuthorizedRequests())
+            .AndAlso()
+            .ShouldReturn()
+            .View();
+
+        [Fact]
+        public void PostEditShouldBeForAuthorizedUsersAndShouldRedirectToProperActionWithValidModel()
+            => MyController<CatalogController>
+             .Instance()
+               .WithUser()
+               .WithData(PetTestData.GetPets(1, PetType.Dog))
+            .Calling(c => c.Edit("PetId1", new CatalogEditFormModel
+            {
+                Name = "Sharo",
+                Type = "Dog",
+                City = "TestCity1",
+                Address = "TestAddress1",
+                Gender = "Male",
+                Age=2,
+                IsVaccinated="Yes"
+            }))
+            .ShouldHave()
+              .ActionAttributes(attributes => attributes
+                  .RestrictingForAuthorizedRequests()
+                  .RestrictingForHttpMethod(HttpMethod.Post))
+            .AndAlso()
+            .ShouldHave()
+             .Data(data => data.WithSet<Pet>(data => data
+                     .Any(pet => pet.Name == "Sharo")))
+            .AndAlso()
+            .ShouldReturn()
+            .RedirectToAction("Posts", "MyProfile");
+
+
+        [Fact]
+        public void DeleteShouldBeForAuthorizedAndShouldRedirectToProperAction()
+             => MyController<CatalogController>
+            .Instance()
+               .WithUser()
+               .WithData(PetTestData.GetPets(1, PetType.Dog))
+            .Calling(c => c.Delete("PetId1"))
+            .ShouldHave()
+              .ActionAttributes(attributes => attributes
+                  .RestrictingForAuthorizedRequests())
+            .AndAlso()
+            .ShouldHave()
+            .Data(data => data
+                 .WithSet<Pet>(data => data
+                    .Count() == 0))
+            .AndAlso()
+            .ShouldReturn()
+            .RedirectToAction("Posts", "MyProfile");
+
         [Fact]
         public void DetailsShouldReturnProperView()
           => MyController<CatalogController>

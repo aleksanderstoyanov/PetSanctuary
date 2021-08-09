@@ -47,7 +47,7 @@
                 Image = new FormFile(File.OpenRead(@"C:\Users\black\OneDrive\Desktop\PetSanctuary\Web\PetSanctuary.Web\wwwroot\img\Test.png"), 0, "Test.png".Length, null, "Test.png"),
             }))
             .ShouldHave()
-            .ActionAttributes(attributes=>attributes
+            .ActionAttributes(attributes => attributes
                     .RestrictingForAuthorizedRequests()
                     .RestrictingForHttpMethod(HttpMethod.Post))
             .AndAlso()
@@ -57,8 +57,103 @@
             .AndAlso()
             .ShouldReturn()
             .Redirect("/Blogs");
-            
-           
+
+
+        [Fact]
+        public void GetEditShouldBeForAuthorizedUsersAndShoudReturnView()
+             => MyController<BlogsController>
+             .Instance()
+               .WithUser()
+               .WithData(new Blog
+               {
+                   Id = "TestBlogId1",
+                   Title = "TestBlogTitle",
+                   Description = "Test description blog",
+                   Image = "TestImage",
+                   Author = new ApplicationUser
+                   {
+                       Id = TestUser.Identifier,
+                       UserName = TestUser.Username
+                   }
+
+
+               })
+            .Calling(c => c.Edit("TestBlogId1"))
+            .ShouldHave()
+              .ActionAttributes(attributes => attributes
+                   .RestrictingForAuthorizedRequests())
+            .AndAlso()
+            .ShouldReturn()
+            .View(result => result
+                   .WithModelOfType<BlogEditFormModel>());
+
+        [Fact]
+        public void PostEditShouldBeForAuthorizedUsersAndShouldReturnRedirectToActionWithProperModel()
+            => MyController<BlogsController>
+            .Instance()
+            .WithUser()
+            .WithData(new Blog
+            {
+                Id = "TestBlogId1",
+                Title = "TestBlogTitle",
+                Description = "Test description blog",
+                Image = "TestImage",
+                Author = new ApplicationUser
+                {
+                    Id = TestUser.Identifier,
+                    UserName = TestUser.Username
+                }
+
+
+            })
+            .Calling(c => c.Edit("TestBlogId1", new BlogEditFormModel
+            {
+                Title = "EditedBlogTitle",
+                Description = "Test description blog"
+            }))
+              .ShouldHave()
+            .ActionAttributes(attributes => attributes
+                  .RestrictingForHttpMethod(HttpMethod.Post)
+                  .RestrictingForAuthorizedRequests())
+            .AndAlso()
+            .ShouldHave()
+              .Data(data => data
+                    .WithSet<Blog>(data => data
+                         .Any(blog => blog.Title == "EditedBlogTitle")))
+            .AndAlso()
+             .ShouldReturn()
+            .RedirectToAction("Blogs", "MyProfile");
+
+        [Fact]
+        public void DeleteShouldBeForAuthorizedUsersAndShouldRedirectToProperControllerWithAction()
+            => MyController<BlogsController>
+               .Instance()
+            .WithUser()
+            .WithData(new Blog
+            {
+                Id = "TestBlogId1",
+                Title = "TestBlogTitle",
+                Description = "Test description blog",
+                Image = "TestImage",
+                Author = new ApplicationUser
+                {
+                    Id = TestUser.Identifier,
+                    UserName = TestUser.Username
+                }
+
+
+            })
+            .Calling(c => c.Delete("TestBlogId1"))
+              .ShouldHave()
+              .ActionAttributes(attributes => attributes
+                   .RestrictingForAuthorizedRequests())
+            .AndAlso()
+             .ShouldHave()
+               .Data(data => data
+                  .WithSet<Blog>(data => data.Count() == 0))
+            .AndAlso()
+            .ShouldReturn()
+            .RedirectToAction("Blogs", "MyProfile");
 
 
     }

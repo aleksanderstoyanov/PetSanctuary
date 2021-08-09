@@ -38,7 +38,8 @@ namespace PetSanctuary.Test.Data
                     },
                     Age = i,
                     Gender = GenderType.Male,
-                    Owner = user
+                    Owner = user,
+                    IsVaccinated=true
                 }).ToList();
 
             return pets;

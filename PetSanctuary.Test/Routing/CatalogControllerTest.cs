@@ -48,6 +48,35 @@
                   .Create(new CatalogFormCreateViewModel()));
 
         [Fact]
+        public void GetEditShouldBeMappedCorrectly()
+             => MyRouting
+            .Configuration()
+            .ShouldMap(request => request
+                   .WithPath("/Catalog/Edit/TestId")
+                   .WithMethod(HttpMethod.Get))
+            .To<CatalogController>(c => c
+                 .Edit("TestId"));
+
+        [Fact]
+        public void PostEditShouldBeMappedCorrectly()
+             => MyRouting
+            .Configuration()
+            .ShouldMap(request => request
+                  .WithPath("/Catalog/Edit/TestId")
+                  .WithMethod(HttpMethod.Post)
+                  .WithAntiForgeryToken())
+            .To<CatalogController>(c => c
+                 .Edit("TestId"));
+
+        [Fact]
+        public void DeleteShouldBeMappedCorrectly()
+               => MyRouting
+            .Configuration()
+            .ShouldMap("/Catalog/Delete/TestId")
+            .To<CatalogController>(c => c
+                 .Delete("TestId"));
+
+        [Fact]
         public void DetailsShouldBeMappedCorrectly()
             => MyRouting
             .Configuration()

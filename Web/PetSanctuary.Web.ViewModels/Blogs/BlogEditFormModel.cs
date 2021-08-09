@@ -8,8 +8,6 @@
 
     public class BlogEditFormModel
     {
-        public string Id { get; set; }
-
         public IFormFile Image { get; set; }
 
         [Required]
