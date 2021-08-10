@@ -1,12 +1,10 @@
 ﻿namespace PetSanctuary.Web.Controllers
 {
-    using System.IO;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using PetSanctuary.Common;
@@ -22,20 +20,17 @@
         private readonly IBlogService blogService;
         private readonly ICountService countService;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IWebHostEnvironment webHostEnvironment;
 
         public MyProfileController(
             ICatalogService catalogService,
             IBlogService blogService,
             ICountService countService,
-            UserManager<ApplicationUser> userManager,
-            IWebHostEnvironment webHostEnvironment)
+            UserManager<ApplicationUser> userManager)
         {
             this.catalogService = catalogService;
             this.blogService = blogService;
             this.countService = countService;
             this.userManager = userManager;
-            this.webHostEnvironment = webHostEnvironment;
         }
 
         [Authorize]
