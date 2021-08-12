@@ -1,5 +1,10 @@
-﻿
-@model BlogPostQueryModel
+﻿@model BlogPostQueryModel
+@if (this.TempData["message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @this.TempData["message"]
+    </div>
+}
 <div class="container">
     <div class="table-responsive">
         <div class="table-wrapper">

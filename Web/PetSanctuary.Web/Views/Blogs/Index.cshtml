@@ -1,5 +1,11 @@
 ﻿@model IEnumerable<BlogServiceModel>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+@if (this.TempData["message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @this.TempData["message"]
+    </div>
+}
 
 @if (!Model.Any())
 {

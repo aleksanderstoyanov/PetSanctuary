@@ -52,7 +52,7 @@
             }
 
             await this.blogService.CreateAsync(model.Title, model.Image, model.Description, userId, GlobalConstants.WwwRootPath);
-
+            this.TempData["message"] = "Succesfully added blog";
             return this.Redirect($"/Blogs");
         }
 
@@ -87,6 +87,7 @@
             }
 
             await this.blogService.EditByIdAsync(id, model.Title, model.Image, model.Description, GlobalConstants.WwwRootPath);
+            this.TempData["message"] = "Successfully edited blog";
             return this.RedirectToAction("Blogs", "MyProfile");
         }
 
@@ -94,6 +95,7 @@
         public async Task<IActionResult> Delete(string id)
         {
             await this.blogService.DeleteByIdAsync(id, GlobalConstants.WwwRootPath);
+            this.TempData["message"] = "Successfully deleted blog";
             return this.RedirectToAction("Blogs", "MyProfile");
         }
     }
