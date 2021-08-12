@@ -19,13 +19,14 @@
 
         public IActionResult Index()
         {
-            var dogs = this.catalogService.GetAllDogs()
-                .Select(x => new AllDogsHomeViewModel
+            var dogs = this.catalogService.GetAllPets()
+                .Select(pet => new AllDogsHomeViewModel
                 {
-                    Id = x.Id,
-                    Image = x.Image,
-                    Name = x.Name,
-                }).ToList();
+                    Id = pet.Id,
+                    Image = pet.Image,
+                    Name = pet.Name,
+                })
+                .ToList();
             return this.View(dogs);
         }
 

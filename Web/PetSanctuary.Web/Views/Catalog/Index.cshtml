@@ -1,0 +1,51 @@
+﻿@model CatalogQueryModel
+
+@{
+    ViewBag.Title = "Pets";
+}
+
+
+<div class="container">
+    <h1 class="d-flex justify-content-center">@ViewBag.Title <i class="fas fa-paw ml-3"></i></h1>
+    <form class="row d-flex justify-content-center mt-5" method="get">
+        <div class="form-group col-md-3">
+            <label asp-for="Type">Type</label>
+            <select asp-for="Type" class="form-control">
+                <option>Dog</option>
+                <option>Cat</option>
+                <option>Other</option>
+
+            </select>
+            <span asp-validation-for="Type" style="color:red"></span>
+        </div>
+        <button class="btn btn-primary h-100 mt-auto mb-3" type="submit"><i class="fas fa-search"></i></button>
+    </form>
+    <div class="row mx-auto mt-4">
+
+        @foreach (var pet in Model.Pets)
+        {
+            <partial name="_PetPartial" model="pet" />
+        }
+    </div>
+</div>
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+    var maxPage = Math.Ceiling((double)Model.TotalPosts / Model.ElementsPerPage);
+}
+@{
+    var shouldPreviousButtonBeDisabled = Model.CurrentPage == 1 || !Model.Pets.Any();
+    var shouldNextButtonBeDisabled = Model.CurrentPage == maxPage ||
+                             !Model.Pets.Any();
+}
+<div class="row mt-4">
+    <div class="col-md-6">
+        <a class="btn btn-success float-left" style="display:@(shouldPreviousButtonBeDisabled?"none":"block")" asp-area="" asp-controller="Catalog" asp-action="Index" asp-route-currentPage="@previousPage"><i class="fas fa-hand-point-left"></i> Previous</a>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-success float-right" style="display:@(shouldNextButtonBeDisabled?"none":"block")" asp-area="" asp-controller="Catalog" asp-action="Index" asp-route-currentPage="@(Model.CurrentPage+1)">Next <i class="fas fa-hand-point-right"></i></a>
+    </div>
+</div>

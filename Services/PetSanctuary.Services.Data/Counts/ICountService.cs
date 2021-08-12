@@ -11,5 +11,7 @@
         public int GetVetCommentsCount(string id);
 
         public int GetTotalClinicsCountByCity(string city);
+
+        public int GetTotalPetsByType(string type);
     }
 }

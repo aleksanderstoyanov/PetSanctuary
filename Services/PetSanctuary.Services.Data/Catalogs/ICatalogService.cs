@@ -9,13 +9,9 @@
     {
         Task Create(string name, int age, IFormFile image, string type, string gender, string cityName, string addressName, string isVaccinated, string username, string rootPath);
 
+        IEnumerable<CatalogServiceModel> GetPetsByType(int currentPage, int postsPerPage, string type);
+
         IEnumerable<CatalogServiceModel> GetAllPets();
-
-        IEnumerable<CatalogServiceModel> GetAllDogs();
-
-        IEnumerable<CatalogServiceModel> GetAllCats();
-
-        IEnumerable<CatalogServiceModel> GetAllOthers();
 
         IEnumerable<CatalogServiceModel> GetAllUserPets(string id, int currentPage, int postPerPage, bool isAdmin);
 
@@ -23,6 +19,6 @@
 
         Task DeletePetById(string id, string rootPath);
 
-        Task EditPetById(string id, string name, int age, IFormFile image, string type, string gender, string isVaccinated, string cityName, string addressName,string rootPath);
+        Task EditPetById(string id, string name, int age, IFormFile image, string type, string gender, string isVaccinated, string cityName, string addressName, string rootPath);
     }
 }

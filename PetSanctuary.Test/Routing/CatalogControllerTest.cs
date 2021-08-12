@@ -8,25 +8,13 @@
     public class CatalogControllerTest
     {
         [Fact]
-        public void DogsRouteShouldBeMappedCorrectly()
-           => MyRouting
-            .Configuration()
-            .ShouldMap("/Catalog/Dogs")
-            .To<CatalogController>(c => c.Dogs());
+        public void IndexShouldBeMappedCorrectly()
+             => MyRouting
+             .Configuration()
+               .ShouldMap("/Catalog")
+             .To<CatalogController>(c =>
+               c.Index(new CatalogQueryModel()));
 
-        [Fact]
-        public void CatsRouteShouldBeMappedCorrectly()
-            => MyRouting
-            .Configuration()
-            .ShouldMap("/Catalog/Cats")
-            .To<CatalogController>(c => c.Cats());
-
-        [Fact]
-        public void OthersRouteShouldBeMappedCorrectly()
-            => MyRouting
-            .Configuration()
-            .ShouldMap("/Catalog/Other")
-            .To<CatalogController>(c => c.Other());
 
         [Fact]
         public void GetCreateShouldBeMappedCorrectly()
@@ -82,6 +70,6 @@
             .Configuration()
             .ShouldMap("/Catalog/Details/Test")
             .To<CatalogController>(c => c.Details("Test"));
-            
+
     }
 }

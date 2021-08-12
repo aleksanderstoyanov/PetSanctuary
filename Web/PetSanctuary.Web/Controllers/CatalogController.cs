@@ -9,20 +9,33 @@
     using Microsoft.AspNetCore.Mvc;
     using PetSanctuary.Common;
     using PetSanctuary.Services.Data.Catalogs;
+    using PetSanctuary.Services.Data.Counts;
     using PetSanctuary.Web.ViewModels.Catalog;
 
     public class CatalogController : BaseController
     {
         private readonly ICatalogService catalogService;
+        private readonly ICountService countService;
 
-        public CatalogController(ICatalogService catalogService)
+        public CatalogController(ICatalogService catalogService, ICountService countService)
         {
             this.catalogService = catalogService;
+            this.countService = countService;
         }
 
-        public IActionResult Dogs()
+        public IActionResult Index([FromQuery] CatalogQueryModel query)
         {
-            var dogs = this.catalogService.GetAllDogs()
+            if (query.Type != "Dog" && query.Type != "Cat" && query.Type != "Other")
+            {
+                this.ModelState.AddModelError(nameof(query.Type), "Model is invalid !");
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                query.Type = "Dog";
+
+                query.Pets = this.catalogService
+                .GetPetsByType(query.CurrentPage, query.ElementsPerPage, query.Type)
                 .Select(x => new CatalogViewModel
                 {
                     Id = x.Id,
@@ -30,25 +43,14 @@
                     Image = x.Image,
                     CreatedOn = x.CreatedOn,
                 }).ToList();
-            return this.View(dogs);
-        }
 
-        public IActionResult Cats()
-        {
-            var cats = this.catalogService.GetAllCats()
-               .Select(x => new CatalogViewModel
-               {
-                   Id = x.Id,
-                   Name = x.Name,
-                   Image = x.Image,
-                   CreatedOn = x.CreatedOn,
-               }).ToList();
-            return this.View(cats);
-        }
+                query.TotalPosts = this.countService.GetTotalPetsByType(query.Type);
 
-        public IActionResult Other()
-        {
-            var others = this.catalogService.GetAllOthers()
+                return this.View(query);
+            }
+
+            query.Pets = this.catalogService
+                .GetPetsByType(query.CurrentPage, query.ElementsPerPage, query.Type)
                 .Select(x => new CatalogViewModel
                 {
                     Id = x.Id,
@@ -56,7 +58,10 @@
                     Image = x.Image,
                     CreatedOn = x.CreatedOn,
                 }).ToList();
-            return this.View(others);
+
+            query.TotalPosts = this.countService.GetTotalPetsByType(query.Type);
+
+            return this.View(query);
         }
 
         [Authorize]
@@ -100,7 +105,7 @@
             }
 
             await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.Gender, model.City, model.Address, model.IsVaccinated, userId, GlobalConstants.WwwRootPath);
-            return this.RedirectToAction(nameof(this.Dogs), "Catalog");
+            return this.RedirectToAction(nameof(this.Index), "Catalog");
         }
 
         [Authorize]
@@ -156,7 +161,7 @@
             await this.catalogService.EditPetById(id, model.Name, model.Age, model.Image, model.Type, model.Gender, model.IsVaccinated, model.City, model.Address, GlobalConstants.WwwRootPath);
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
-                return this.RedirectToAction(nameof(this.Dogs), "Catalog");
+                return this.RedirectToAction(nameof(this.Index), "Catalog");
             }
 
             return this.RedirectToAction("Posts", "MyProfile");
@@ -169,7 +174,7 @@
             await this.catalogService.DeletePetById(id, GlobalConstants.WwwRootPath);
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
-                return this.RedirectToAction(nameof(this.Dogs), "Catalog");
+                return this.RedirectToAction(nameof(this.Index), "Catalog");
             }
 
             return this.RedirectToAction("Posts", "MyProfile");

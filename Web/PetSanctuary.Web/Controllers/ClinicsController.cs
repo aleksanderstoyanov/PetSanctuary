@@ -1,17 +1,12 @@
 ﻿namespace PetSanctuary.Web.Controllers
 {
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using PetSanctuary.Services.Data.Cities;
     using PetSanctuary.Services.Data.Clinics;
-    using PetSanctuary.Services.Data.Comments;
     using PetSanctuary.Services.Data.Counts;
-    using PetSanctuary.Services.Data.Vets;
     using PetSanctuary.Web.ViewModels.Clinics;
-    using PetSanctuary.Web.ViewModels.Vets;
 
     public class ClinicsController : BaseController
     {

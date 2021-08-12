@@ -14,51 +14,26 @@
 
     public class CatalogControllerTest
     {
-        [Fact]
-        public void DogsShouldReturnProperView()
-          => MyController<CatalogController>
+        [Theory]
+        [InlineData(3, PetType.Dog)]
+        [InlineData(3, PetType.Cat)]
+        [InlineData(3, PetType.Other)]
+        public void IndexShouldReturnProperView(int count, PetType type)
+            => MyController<CatalogController>
             .Instance()
-            .WithData(PetTestData.GetPets(10, PetType.Dog))
-            .Calling(c => c.Dogs())
+            .WithData(PetTestData.GetPets(count, type))
+              .Calling(c => c
+                .Index(new CatalogQueryModel()))
             .ShouldReturn()
             .View(result => result
-            .WithModelOfType<List<CatalogViewModel>>()
-            .Passing(model => model.Count == 10));
+               .WithModelOfType<CatalogQueryModel>());
 
         [Fact]
-        public void CatsShouldReturnProperViewModel()
-        {
-            MyController<CatalogController>
+        public void GetCreateShouldReturnProperView()
+            => MyController<CatalogController>
             .Instance()
-            .WithData(PetTestData.GetPets(5, PetType.Cat))
-            .Calling(c => c.Cats())
-            .ShouldReturn()
-            .View(result => result
-            .WithModelOfType<List<CatalogViewModel>>()
-            .Passing(model => model.Count == 5));
-        }
-
-        [Fact]
-        public void OthersShouldReturnProperViewModel()
-         => MyController<CatalogController>
-            .Instance()
-            .WithData(PetTestData.GetPets(7, PetType.Other))
-            .Calling(c => c.Other())
-            .ShouldReturn()
-            .View(result => result
-            .WithModelOfType<List<CatalogViewModel>>()
-            .Passing(model => model.Count == 7));
-
-
-        [Fact]
-        public void CreateShouldReturnProperViewAndShouldBeForAuthorizedUsers()
-         => MyController<CatalogController>
-            .Instance()
-            .Calling(c => c.Create())
-            .ShouldHave()
-            .ActionAttributes(attributes => attributes
-            .RestrictingForAuthorizedRequests())
-            .AndAlso()
+             .Calling(c => c
+               .Create())
             .ShouldReturn()
             .View();
 
@@ -93,7 +68,7 @@
                   .Any(pet => pet.Name == name)))
             .AndAlso()
             .ShouldReturn()
-            .RedirectToAction("Dogs", "Catalog");
+            .RedirectToAction("Index", "Catalog");
 
 
         [Fact]
@@ -123,8 +98,8 @@
                 City = "TestCity1",
                 Address = "TestAddress1",
                 Gender = "Male",
-                Age=2,
-                IsVaccinated="Yes"
+                Age = 2,
+                IsVaccinated = "Yes"
             }))
             .ShouldHave()
               .ActionAttributes(attributes => attributes

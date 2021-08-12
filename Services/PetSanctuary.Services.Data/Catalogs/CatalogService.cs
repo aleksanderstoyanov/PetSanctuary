@@ -180,6 +180,19 @@
               .FirstOrDefault();
         }
 
+        public IEnumerable<CatalogServiceModel> GetPetsByType(int currentPage, int postsPerPage, string type)
+        {
+            var petType = Enum.Parse(typeof(PetType), type);
+
+            return this.petsRepository
+                .AllAsNoTracking()
+                .Where(pet => pet.Type.Equals(petType))
+                .Skip((currentPage - 1) * postsPerPage)
+                .Take(postsPerPage)
+                .To<CatalogServiceModel>()
+                .ToList();
+        }
+
         private async Task<AddressServiceModel> EnsureAddressCreated(string addressName, int cityId)
         {
             await this.addressService.CreateAsync(addressName, cityId);
