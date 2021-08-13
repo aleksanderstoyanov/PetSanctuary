@@ -7,9 +7,9 @@
     {
         IEnumerable<VetServiceModel> GetVetsById(int clinicId);
 
-        Task UpdateLikesAsync(string vetId);
+        Task UpdateLikesAsync(string vetId, string userId);
 
-        Task UpdateDislikesAsync(string vetId);
+        Task UpdateDislikesAsync(string vetId, string userId);
 
         VetServiceModel GetVetById(string id);
     }

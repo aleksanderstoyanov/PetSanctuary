@@ -21,7 +21,7 @@
         [MaxLength(MaxPetNameLength)]
         public string Name { get; set; }
 
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
         [Required]
         public GenderType Gender { get; set; }

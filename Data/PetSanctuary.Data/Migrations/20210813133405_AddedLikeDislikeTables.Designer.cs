@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetSanctuary.Data;
 
 namespace PetSanctuary.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210813133405_AddedLikeDislikeTables")]
+    partial class AddedLikeDislikeTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -475,16 +477,11 @@ namespace PetSanctuary.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("VetId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("VetId");
 
                     b.ToTable("Dislikes");
                 });
@@ -512,16 +509,11 @@ namespace PetSanctuary.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("VetId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("VetId");
 
                     b.ToTable("Likes");
                 });
@@ -618,12 +610,18 @@ namespace PetSanctuary.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Dislikes")
+                        .HasColumnType("int");
+
                     b.Property<string>("FirstName")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Likes")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -791,10 +789,6 @@ namespace PetSanctuary.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PetSanctuary.Data.Models.Vet", null)
-                        .WithMany("Dislikes")
-                        .HasForeignKey("VetId");
-
                     b.Navigation("User");
                 });
 
@@ -805,10 +799,6 @@ namespace PetSanctuary.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("PetSanctuary.Data.Models.Vet", null)
-                        .WithMany("Likes")
-                        .HasForeignKey("VetId");
 
                     b.Navigation("User");
                 });
@@ -929,10 +919,6 @@ namespace PetSanctuary.Data.Migrations
 
             modelBuilder.Entity("PetSanctuary.Data.Models.Vet", b =>
                 {
-                    b.Navigation("Dislikes");
-
-                    b.Navigation("Likes");
-
                     b.Navigation("VetComments");
                 });
 #pragma warning restore 612, 618

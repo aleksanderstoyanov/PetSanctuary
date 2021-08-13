@@ -13,6 +13,8 @@
         public Vet()
         {
             this.Id = Guid.NewGuid().ToString();
+            this.Likes = new HashSet<Like>();
+            this.Dislikes = new HashSet<Dislike>();
             this.VetComments = new HashSet<VetComment>();
         }
 
@@ -34,11 +36,10 @@
 
         public Clinic Clinic { get; set; }
 
-        public int Likes { get; set; }
+        public ICollection<Like> Likes { get; set; }
 
-        public int Dislikes { get; set; }
+        public ICollection<Dislike> Dislikes { get; set; }
 
         public ICollection<VetComment> VetComments { get; set; }
-
     }
 }

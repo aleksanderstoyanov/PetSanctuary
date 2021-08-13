@@ -24,48 +24,7 @@
               .WithModelOfType<List<VetsByIdViewModel>>()
             .Passing(model => model.Count == 3));
 
-        [Fact]
-        public void LikeShouldRedirectToProperActionAndShouldBeForAuthorizedUsers()
-            => MyController<VetsController>
-            .Instance()
-            .WithUser()
-            .WithData(VetsTestData
-                .GetVets(1))
-            .Calling(c => c.Like("TestId1"))
-            .ShouldHave()
-            .ActionAttributes(attributes => attributes
-                 .RestrictingForAuthorizedRequests())
-            .AndAlso()
-            .ShouldHave()
-            .Data(data => data
-                .WithSet<Vet>(data => data
-                  .FirstOrDefault(vet => vet.Id == "TestId1")
-                  .Likes == 1))
-            .AndAlso()
-            .ShouldReturn()
-            .RedirectToAction("Index", "Vets", new { id = 1 });
-
-
-        [Fact]
-        public void DislikeShouldRedirectToProperActionAndShouldBeForAuthorizedUsers()
-           => MyController<VetsController>
-           .Instance()
-           .WithUser()
-           .WithData(VetsTestData
-               .GetVets(1))
-           .Calling(c => c.Dislike("TestId1"))
-           .ShouldHave()
-           .ActionAttributes(attributes => attributes
-                .RestrictingForAuthorizedRequests())
-             .AndAlso()
-            .ShouldHave()
-            .Data(data => data
-                .WithSet<Vet>(data => data
-                  .FirstOrDefault(vet => vet.Id == "TestId1")
-                  .Dislikes == 1))
-           .AndAlso()
-           .ShouldReturn()
-           .RedirectToAction("Index", "Vets", new { id = 1 });
+        
 
         [Fact]
         public void DetailsShouldReturnProperView()

@@ -44,6 +44,10 @@
 
         public DbSet<VetComment> VetComments { get; set; }
 
+        public DbSet<Like> Likes { get; set; }
+
+        public DbSet<Dislike> Dislikes { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

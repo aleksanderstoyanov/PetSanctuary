@@ -25,7 +25,9 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Vet, VetServiceModel>()
-                .ForMember(vet => vet.Clinic, opt => opt.MapFrom(vet => vet.Clinic.Name));
+                .ForMember(vet => vet.Clinic, opt => opt.MapFrom(vet => vet.Clinic.Name))
+                .ForMember(vet => vet.Likes, opt => opt.MapFrom(vet => vet.Likes.Count))
+                .ForMember(vet => vet.Dislikes, opt => opt.MapFrom(vet => vet.Dislikes.Count));
         }
     }
 }
