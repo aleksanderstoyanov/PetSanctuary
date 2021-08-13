@@ -7,7 +7,7 @@
 
     public interface ICatalogService
     {
-        Task Create(string name, int age, IFormFile image, string type, string gender, string cityName, string addressName, string isVaccinated, string username, string rootPath);
+        Task Create(string name, int? age, IFormFile image, string type, string gender, string cityName, string addressName, string isVaccinated, string username, string rootPath);
 
         IEnumerable<CatalogServiceModel> GetPetsByType(int currentPage, int postsPerPage, string type);
 

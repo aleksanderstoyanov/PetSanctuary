@@ -19,7 +19,8 @@
                 {
                     <li><i class="fas fa-phone-alt"></i> - No phone number</li>
                 }
-                <li>Age - @Model.Age</li>
+
+                <li>Age -@(Model.Age==0?"No age":Model.Age)</li>
                 <li>Gender - @Model.Gender</li>
                 <li>Type - @Model.Type</li>
                 <li>Address <i class="fas fa-map-marker-alt mr-2"></i>- @Model.City @Model.Address</li>
@@ -30,7 +31,7 @@
             <div class="row d-flex justify-content-center">
                 <button type="button" class="btn btn-lg btn-outline-success">Save me <i class="fas fa-paw"></i></button>
             </div>
-            
+
         </div>
     </div>
 

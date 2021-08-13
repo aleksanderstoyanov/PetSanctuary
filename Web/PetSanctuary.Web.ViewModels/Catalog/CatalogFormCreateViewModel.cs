@@ -16,9 +16,8 @@
          ErrorMessage = "Field name should be between 3 and 15")]
         public string Name { get; set; }
 
-        [Required]
         [Range(1, 18, ErrorMessage = "Age should be between 1 and 18")]
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
         [Required]
         public IFormFile Image { get; set; }

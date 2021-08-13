@@ -18,8 +18,7 @@
          ErrorMessage = "The field name should be with minimum length 3 and maximum length 15")]
         public string Name { get; set; }
 
-        [Required]
-        [Range(1, 18, ErrorMessage = "Age should be between 1 and 18")]
+        [Range(0, 18, ErrorMessage = "Age should be between 1 and 18")]
         public int Age { get; set; }
 
         [Required]

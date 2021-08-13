@@ -35,7 +35,7 @@
             this.fileService = fileService;
         }
 
-        public async Task Create(string name, int age, IFormFile image, string type, string gender, string cityName, string addressName, string isVaccinated, string ownerId, string rootPath)
+        public async Task Create(string name, int? age, IFormFile image, string type, string gender, string cityName, string addressName, string isVaccinated, string ownerId, string rootPath)
         {
             var city = this.cityService.GetCityByName(cityName);
             var address = this.addressService.GetAddressByName(addressName);
