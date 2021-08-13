@@ -21,9 +21,11 @@
         public void IndexShouldReturnProperView(int count, PetType type)
             => MyController<CatalogController>
             .Instance()
+            .WithHttpRequest(request => request
+              .WithQuery("Type", type.ToString()))
             .WithData(PetTestData.GetPets(count, type))
               .Calling(c => c
-                .Index(new CatalogQueryModel()))
+                .Index(new CatalogQueryModel { Type = type.ToString() }))
             .ShouldReturn()
             .View(result => result
                .WithModelOfType<CatalogQueryModel>());

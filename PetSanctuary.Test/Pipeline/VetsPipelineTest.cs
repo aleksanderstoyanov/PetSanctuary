@@ -34,7 +34,6 @@
               .To<VetsController>(c => c.Like("TestId1"))
             .Which(controller => controller
                  .WithUser()
-
                  .WithData(VetsTestData.GetVets(1)))
             .ShouldHave()
               .ActionAttributes(attributes => attributes

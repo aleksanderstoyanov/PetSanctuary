@@ -10,6 +10,7 @@
     using System.IO;
     using PetSanctuary.Web.ViewModels.Blogs;
     using System.Linq;
+    using PetSanctuary.Test.Data;
 
     public class BlogsControllerTest
     {
@@ -64,20 +65,7 @@
              => MyController<BlogsController>
              .Instance()
                .WithUser()
-               .WithData(new Blog
-               {
-                   Id = "TestBlogId1",
-                   Title = "TestBlogTitle",
-                   Description = "Test description blog",
-                   Image = "TestImage",
-                   Author = new ApplicationUser
-                   {
-                       Id = TestUser.Identifier,
-                       UserName = TestUser.Username
-                   }
-
-
-               })
+               .WithData(BlogTestData.GetBlogs(1))
             .Calling(c => c.Edit("TestBlogId1"))
             .ShouldHave()
               .ActionAttributes(attributes => attributes
@@ -92,20 +80,7 @@
             => MyController<BlogsController>
             .Instance()
             .WithUser()
-            .WithData(new Blog
-            {
-                Id = "TestBlogId1",
-                Title = "TestBlogTitle",
-                Description = "Test description blog",
-                Image = "TestImage",
-                Author = new ApplicationUser
-                {
-                    Id = TestUser.Identifier,
-                    UserName = TestUser.Username
-                }
-
-
-            })
+            .WithData(BlogTestData.GetBlogs(1))
             .Calling(c => c.Edit("TestBlogId1", new BlogEditFormModel
             {
                 Title = "EditedBlogTitle",
@@ -129,20 +104,7 @@
             => MyController<BlogsController>
                .Instance()
             .WithUser()
-            .WithData(new Blog
-            {
-                Id = "TestBlogId1",
-                Title = "TestBlogTitle",
-                Description = "Test description blog",
-                Image = "TestImage",
-                Author = new ApplicationUser
-                {
-                    Id = TestUser.Identifier,
-                    UserName = TestUser.Username
-                }
-
-
-            })
+            .WithData(BlogTestData.GetBlogs(1))
             .Calling(c => c.Delete("TestBlogId1"))
               .ShouldHave()
               .ActionAttributes(attributes => attributes
