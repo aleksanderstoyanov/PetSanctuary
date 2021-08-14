@@ -4,7 +4,6 @@
     using MyTested.AspNetCore.Mvc;
     using Xunit;
     using PetSanctuary.Data.Models.Enums;
-    using System.Collections.Generic;
     using PetSanctuary.Web.ViewModels.Catalog;
     using PetSanctuary.Test.Data;
     using Microsoft.AspNetCore.Http;
@@ -65,6 +64,8 @@
             .AndAlso()
             .ShouldHave()
             .ValidModelState()
+            .TempData(tempData => tempData
+            .ContainingEntryWithKey("message"))
             .Data(data => data
                .WithSet<Pet>(pets => pets
                   .Any(pet => pet.Name == name)))
@@ -109,6 +110,8 @@
                   .RestrictingForHttpMethod(HttpMethod.Post))
             .AndAlso()
             .ShouldHave()
+             .TempData(tempData => tempData
+             .ContainingEntryWithKey("message"))
              .Data(data => data.WithSet<Pet>(data => data
                      .Any(pet => pet.Name == "Sharo")))
             .AndAlso()
@@ -128,6 +131,8 @@
                   .RestrictingForAuthorizedRequests())
             .AndAlso()
             .ShouldHave()
+            .TempData(tempData => tempData
+            .ContainingEntryWithKey("message"))
             .Data(data => data
                  .WithSet<Pet>(data => data
                     .Count() == 0))

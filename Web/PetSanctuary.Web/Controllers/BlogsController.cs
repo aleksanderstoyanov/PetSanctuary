@@ -12,6 +12,8 @@
     using PetSanctuary.Services.Data.Counts;
     using PetSanctuary.Web.ViewModels.Blogs;
 
+    using static PetSanctuary.Common.MessageConstants.Blog;
+
     public class BlogsController : BaseController
     {
         private readonly IBlogService blogService;
@@ -76,7 +78,7 @@
             }
 
             await this.blogService.CreateAsync(model.Title, model.Image, model.Description, userId, GlobalConstants.WwwRootPath);
-            this.TempData["message"] = "Succesfully added blog";
+            this.TempData["message"] = SuccessfullyCreated;
             return this.Redirect($"/Blogs");
         }
 
@@ -111,7 +113,7 @@
             }
 
             await this.blogService.EditByIdAsync(id, model.Title, model.Image, model.Description, GlobalConstants.WwwRootPath);
-            this.TempData["message"] = "Successfully edited blog";
+            this.TempData["message"] = SuccessfullyEdited;
             return this.RedirectToAction("Blogs", "MyProfile");
         }
 
@@ -119,7 +121,7 @@
         public async Task<IActionResult> Delete(string id)
         {
             await this.blogService.DeleteByIdAsync(id, GlobalConstants.WwwRootPath);
-            this.TempData["message"] = "Successfully deleted blog";
+            this.TempData["message"] = SuccessfullyDeleted;
             return this.RedirectToAction("Blogs", "MyProfile");
         }
     }

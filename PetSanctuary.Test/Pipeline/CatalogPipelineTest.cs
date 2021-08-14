@@ -116,7 +116,9 @@
               .RestrictingForAuthorizedRequests())
             .AndAlso()
             .ShouldHave()
-            .Data(data => data
+             .TempData(tempData => tempData
+             .ContainingEntryWithKey("message"))
+             .Data(data => data
                .WithSet<Pet>(model => model
                   .Any(pet => pet.Name == name)))
             .AndAlso()

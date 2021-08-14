@@ -10,6 +10,8 @@
     using PetSanctuary.Services.Data.Counts;
     using PetSanctuary.Web.ViewModels.Comments;
 
+    using static PetSanctuary.Common.MessageConstants.Comment;
+
     public class CommentsController : BaseController
     {
         private readonly ICommentService commentService;
@@ -64,7 +66,7 @@
 
             var publisherId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             await this.commentService.CreateAsync(id, model.Content, type, publisherId);
-            this.TempData["message"] = "Successfully created comment";
+            this.TempData["message"] = SuccessfullyCreated;
             return this.RedirectToAction(type, "Comments", new { id = id });
         }
 
@@ -91,7 +93,7 @@
 
             var typeId = this.commentService.GetIdByComment(id, type);
             await this.commentService.EditAsync(id, model.Content);
-            this.TempData["message"] = "Successfully edited comment";
+            this.TempData["message"] = SuccessfullyEdited;
             return this.RedirectToAction(type, "Comments", new { id = typeId });
         }
 
@@ -100,7 +102,7 @@
         {
             var typeId = this.commentService.GetIdByComment(id, type);
             await this.commentService.DeleteAsync(id);
-            this.TempData["message"] = "Successfully deleted commented";
+            this.TempData["message"] = SuccessfullyDeleted;
             return this.RedirectToAction(type, "Comments", new { id = typeId });
         }
     }

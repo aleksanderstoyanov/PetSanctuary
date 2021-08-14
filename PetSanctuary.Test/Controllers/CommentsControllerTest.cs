@@ -70,6 +70,8 @@
                    .RestrictingForAuthorizedRequests())
             .AndAlso()
             .ShouldHave()
+              .TempData(tempData => tempData
+              .ContainingEntryWithKey("message"))
               .Data(data => data
                    .WithSet<Comment>(data => data
                       .Any(comment => comment
@@ -95,6 +97,8 @@
                       .RestrictingForHttpMethod(HttpMethod.Post))
             .AndAlso()
             .ShouldHave()
+               .TempData(tempData => tempData
+               .ContainingEntryWithKey("message"))
                .Data(data => data
                     .WithSet<Comment>(data => data.
                        Any(comment => comment.Content == content)))
@@ -137,6 +141,8 @@
                    .RestrictingForAuthorizedRequests())
             .AndAlso()
             .ShouldHave()
+              .TempData(tempData => tempData
+              .ContainingEntryWithKey("message"))
               .Data(data => data
                   .WithSet<Comment>(data => data
                     .Any(comment => comment.Content == content)))
@@ -161,6 +167,8 @@
                     .RestrictingForAuthorizedRequests())
              .AndAlso()
             .ShouldHave()
+              .TempData(tempData => tempData
+              .ContainingEntryWithKey("message"))
               .Data(data => data
                   .WithSet<Comment>(data => data
                     .Any(comment => comment.Content == content)))
@@ -180,6 +188,8 @@
                     .RestrictingForAuthorizedRequests())
              .AndAlso()
             .ShouldHave()
+              .TempData(tempData => tempData
+              .ContainingEntryWithKey("message"))
               .Data(data => data
                   .WithSet<Comment>(data => data
                     .Count()==1))
@@ -199,6 +209,8 @@
                   .RestrictingForAuthorizedRequests())
            .AndAlso()
           .ShouldHave()
+            .TempData(tempData => tempData
+            .ContainingEntryWithKey("message"))
             .Data(data => data
                 .WithSet<Comment>(data => data
                   .Count() == 1))

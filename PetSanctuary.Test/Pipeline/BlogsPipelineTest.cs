@@ -107,8 +107,10 @@
                     .RestrictingForAuthorizedRequests())
             .AndAlso()
             .ShouldHave()
-            .ValidModelState()
-            .Data(data => data
+             .TempData(tempData => tempData
+             .ContainingEntryWithKey("message"))
+             .ValidModelState()
+             .Data(data => data
                .WithSet<Blog>(model => model
                   .Any(blog => blog
                       .Title == title)))
@@ -133,6 +135,8 @@
                .RestrictingForAuthorizedRequests())
             .AndAlso()
             .ShouldHave()
+              .TempData(tempData => tempData
+              .ContainingEntryWithKey("message"))
               .Data(data => data.WithSet<Blog>(data => !data.Any()))
             .AndAlso()
             .ShouldReturn()

@@ -12,6 +12,8 @@
     using PetSanctuary.Services.Data.Counts;
     using PetSanctuary.Web.ViewModels.Catalog;
 
+    using static PetSanctuary.Common.MessageConstants.Catalog;
+
     public class CatalogController : BaseController
     {
         private readonly ICatalogService catalogService;
@@ -105,7 +107,7 @@
             }
 
             await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.Gender, model.City, model.Address, model.IsVaccinated, userId, GlobalConstants.WwwRootPath);
-            this.TempData["message"] = "Successfully created a pet";
+            this.TempData["message"] = SuccessfullyCreated;
             return this.RedirectToAction(nameof(this.Index), "Catalog");
         }
 
@@ -165,7 +167,7 @@
                 return this.RedirectToAction(nameof(this.Index), "Catalog");
             }
 
-            this.TempData["message"] = "Successfully edited a pet";
+            this.TempData["message"] = SuccessfullyEdited;
 
             return this.RedirectToAction("Posts", "MyProfile");
         }
@@ -179,7 +181,8 @@
             {
                 return this.RedirectToAction(nameof(this.Index), "Catalog");
             }
-            this.TempData["message"] = "Successfully deleted a pet";
+
+            this.TempData["message"] = SuccessfullyDeleted;
             return this.RedirectToAction("Posts", "MyProfile");
         }
 

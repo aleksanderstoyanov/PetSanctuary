@@ -74,6 +74,8 @@
                     .RestrictingForHttpMethod(HttpMethod.Post))
             .AndAlso()
             .ShouldHave()
+            .TempData(tempData=>tempData
+               .ContainingEntryWithKey("message"))
             .ValidModelState()
               .Data(data => data.WithSet<Blog>(blogs => blogs.Any(blog => blog.Title == "TestTitle")))
             .AndAlso()
@@ -113,7 +115,9 @@
                   .RestrictingForAuthorizedRequests())
             .AndAlso()
             .ShouldHave()
-              .Data(data => data
+            .TempData(tempData => tempData
+               .ContainingEntryWithKey("message"))
+               .Data(data => data
                     .WithSet<Blog>(data => data
                          .Any(blog => blog.Title == "EditedBlogTitle")))
             .AndAlso()
@@ -132,6 +136,8 @@
                    .RestrictingForAuthorizedRequests())
             .AndAlso()
              .ShouldHave()
+               .TempData(tempData => tempData
+               .ContainingEntryWithKey("message"))
                .Data(data => data
                   .WithSet<Blog>(data => data.Count() == 0))
             .AndAlso()
