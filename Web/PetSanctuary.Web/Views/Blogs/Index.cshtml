@@ -1,39 +1,79 @@
-﻿@model IEnumerable<BlogServiceModel>
+﻿@model List<BlogServiceModel>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-@if (this.TempData["message"] != null)
-{
-    <div class="alert alert-success" role="alert">
-        @this.TempData["message"]
-    </div>
+@{
+    this.ViewBag.Title = "Blogs";
+    var firstModel = Model.Any() ? Model[0] : null;
+    var secondModel = Model.Count > 1 ? Model[1] : null;
+    var thirdModel = Model.Count > 2 ? Model[2] : null;
 }
-
 @if (!Model.Any())
 {
     <h2>No blogs yet...</h2>
 }
 else
 {
-    <div class="container mb80">
-        <div class="float-right card" style="width:300px">
-            <h4 class=display>Recent posts</h4>
-            @foreach (var post in Model.OrderByDescending(x => x.CreatedOn).Take(3))
-            {
-                <div class="media" style="padding-top:15px">
-                    <div class="media-left">
-                        <img src="~/img/@post.Image" ;class="media-object" alt="64x64" style="width: 64px; height: 64px; border-radius:50px" data-holder-rendered="true">
-                    </div>
-                    <div class="media-body">
-                        <p class="media-heading">@post.Title</p>
-                    </div>
-                </div>
-                <hr>
-            }
-
-
+    <div class="container">
+        <h1 class="d-flex justify-content-center mb-5">@this.ViewBag.Title <i class="far fa-newspaper ml-3 mt-2" style="color:dodgerblue"></i></h1>
+        <div class="row">
+            <div class="col-6 d-flex justify-content-center">
+                <a class="btn btn-outline-primary d-flex justify-content-center w-50" asp-area="" asp-controller="Blogs" asp-action="All">View All <i class="fas fa-globe-europe ml-3 mt-1"></i></a>
+            </div>
+            <div class="col-6 d-flex justify-content-center">
+                <a class="btn btn-outline-success d-flex justify-content-center w-50" asp-area="" asp-controller="Blogs" asp-action="Recent">View Recent <i class="far fa-calendar-alt ml-3 mt-1"></i></a>
+            </div>
         </div>
-        @foreach (var blog in Model)
-        {
-            <partial name="_BlogsPartial" model="blog" />
-        }
+        <hr />
+    </div>
+    <div class="container d-flex justify-content-center">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width:800px;">
+            <div class="carousel-inner">
+                @if (firstModel != null)
+                {
+                    <div class="carousel-item active">
+                        <img src="~/img/@firstModel.Image" class="d-block w-100" alt="..." style="height:450px;">
+                        <div class="carousel-caption d-none d-md-block">
+
+                            <p class="h3 font-weight-bold">@firstModel.Title</p>
+                            <h5>@(firstModel.Description.Substring(0,firstModel.Description.Length/2))...</h5>
+                            <a class="btn btn-primary" asp-area="" asp-controller="Comments" asp-action="Blog" asp-route-id="@firstModel.Id">See comments <i class="fas fa-comments ml-3"></i></a>
+                        </div>
+                    </div>
+                }
+                @if (secondModel != null)
+                {
+                    <div class="carousel-item">
+                        <img src="~/img/@secondModel.Image" class="d-block w-100" alt="..." style="height:450px;">
+                        <div class="carousel-caption d-none d-md-block">
+
+                            <p class="h3 font-weight-bold">@secondModel.Title</p>
+                            <h5>@(secondModel.Description.Substring(0,secondModel.Description.Length/2))...</h5>
+                            <a class="btn btn-primary" asp-area="" asp-controller="Comments" asp-action="Blog" asp-route-id="@secondModel.Id">See comments <i class="fas fa-comments ml-3"></i></a>
+                        </div>
+                    </div>
+                }
+                @if (thirdModel != null)
+                {
+                    <div class="carousel-item">
+                        <img src="~/img/@thirdModel.Image" class="d-block w-100" alt="..." style="height:450px;">
+                        <div class="carousel-caption d-none d-md-block">
+
+                            <p class="h3 font-weight-bold">@thirdModel.Title</p>
+                            <h5>@(thirdModel.Description.Substring(0,thirdModel.Description.Length/2))...</h5>
+                            <a class="btn btn-primary" asp-area="" asp-controller="Comments" asp-action="Blog" asp-route-id="@thirdModel.Id">See comments <i class="fas fa-comments ml-3"></i></a>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <i class="fas fa-hand-point-left carousel-next-icon" style="color:beige; font-size:30px"></i>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <i class="fas fa-hand-point-right carousel-next-icon" style="color:beige; font-size:30px"></i>
+                <span class="sr-only" style="color:black">Next</span>
+            </a>
+        </div>
+
     </div>
 }

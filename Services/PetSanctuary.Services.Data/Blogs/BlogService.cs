@@ -69,6 +69,16 @@
                 .ToList();
         }
 
+        public IEnumerable<BlogServiceModel> GetAllBlogs(int currentPage, int postsPerPage)
+        {
+            return this.blogRepository
+                   .AllAsNoTracking()
+                   .Skip((currentPage - 1) * postsPerPage)
+                   .Take(postsPerPage)
+                   .To<BlogServiceModel>()
+                   .ToList();
+        }
+
         public IEnumerable<BlogServiceModel> GetAllUserBlogs(string id, int currentPage, int postsPerPage, bool isAdmin)
         {
             if (isAdmin)

@@ -102,5 +102,12 @@
                 .Where(pet => pet.Type.Equals(petType))
                 .Count();
         }
+
+        public int GetAllBlogsCount()
+        {
+            return this.blogRepository
+                 .AllAsNoTracking()
+                 .Count();
+        }
     }
 }

@@ -9,6 +9,8 @@
     {
         IEnumerable<BlogServiceModel> GetAllBlogs();
 
+        IEnumerable<BlogServiceModel> GetAllBlogs(int currentPage, int postsPerPage);
+
         Task CreateAsync(string title, IFormFile image, string description, string authorName, string rootPath);
 
         IEnumerable<BlogServiceModel> GetAllUserBlogs(string id, int currentPage, int postsPerPage, bool isAdmin);

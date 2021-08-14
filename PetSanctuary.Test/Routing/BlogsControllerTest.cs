@@ -15,6 +15,20 @@
             .To<BlogsController>(c => c.Index());
 
         [Fact]
+        public void RecentShouldBeMappedCorrectly()
+            => MyRouting
+            .Configuration()
+            .ShouldMap("/Blogs/Recent")
+            .To<BlogsController>(c => c.Recent());
+
+        [Fact]
+        public void AllShouldBeMappedCorrectly()
+            => MyRouting
+            .Configuration()
+            .ShouldMap("/Blogs/All")
+            .To<BlogsController>(c => c.All(new BlogQueryModel()));
+
+        [Fact]
         public void GetCreateShouldBeMappedCorrectly()
              => MyRouting
             .Configuration()

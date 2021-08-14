@@ -2,6 +2,7 @@
 {
     public interface ICountService
     {
+        public int GetAllBlogsCount();
         public int GetUserPostsCount(string id, bool isAdmin);
 
         public int GetUserBlogsCount(string id, bool isAdmin);

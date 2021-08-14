@@ -1,27 +1,25 @@
 ﻿@model BlogServiceModel
-<div class="vtimeline-point col-6">
-    <div class="vtimeline-block">
 
-        <h2><img src="~/img/@Model.Image" alt="" class="img-fluid mb20"></h2>
-        <h3>@Model.Title</h3>
+    <div class="vtimeline-block">
+        <h2 class="d-flex justify-content-center"><img src="~/img/@Model.Image" alt="" class="img-fluid mb20 w-75"></h2>
+        <h3 class="d-flex justify-content-center">@Model.Title</h3>
         <ul class="post-meta list-inline">
-            <li class="list-inline-item">
-                <i class="fas fa-pencil-alt mr-2"></i>@Model.Author
+            <li class="list-item d-flex justify-content-center">
+                <i class="fas fa-pencil-alt mr-2 mt-1"></i>@Model.Author
             </li>
-            <li class="list-inline-item">
-                <i class="fa fa-calendar-o mr-2"></i>@Model.CreatedOn
+            <li class="list-item d-flex justify-content-center">
+                <i class="fa fa-calendar-o mr-2 mt-1"></i>@Model.CreatedOn
             </li>
-            <li class="list-inline-item">
+            <li class="list-item d-flex justify-content-center">
                 <a asp-area="" asp-controller="Comments" asp-action="Blog" asp-route-id="@Model.Id">
-                    <i class="fas fa-comment mr-2"></i>Comments
+                    <i class="fas fa-comment mr-2 mt-1"></i>Comments
                 </a>
             </li>
 
         </ul>
-        <p>
+        <p class="d-flex justify-content-center">
           @Model.Description
         </p>
 
     </div>
-</div>
 <hr style="color:black" />

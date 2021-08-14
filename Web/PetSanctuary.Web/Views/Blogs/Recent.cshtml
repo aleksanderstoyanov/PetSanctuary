@@ -1,0 +1,21 @@
+﻿@model List<BlogServiceModel>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+@if (!Model.Any())
+{
+    <h2>No blogs yet...</h2>
+}
+
+else
+{
+    <div class="container">
+        <h2 class="d-flex justify-content-center">Recent blogs <i class="far fa-calendar-alt ml-3 mt-1"></i></h2>
+        <hr/>
+        @foreach (var blog in Model)
+        {
+            <div class="row">
+                <partial name="_BlogsPartial" model="blog" />
+            </div>
+            <hr />
+        }
+    </div>
+}

@@ -21,6 +21,30 @@
             .View();
 
         [Fact]
+        public void GetRecentShouldReturnDefaultViewWithValidModel()
+            => MyPipeline
+            .Configuration()
+            .ShouldMap("/Blogs/Recent")
+              .To<BlogsController>(c => c.Recent())
+            .Which()
+              .ShouldReturn()
+            .View();
+
+        [Fact]
+        public void GetAllShouldReturnDefaultViewWithValidModel()
+            => MyPipeline
+            .Configuration()
+            .ShouldMap("/Blogs/All")
+              .To<BlogsController>(c => c.All(new BlogQueryModel()))
+            .Which(controller => controller
+              .WithData(BlogTestData.GetBlogs(1)))
+            .ShouldReturn()
+            .View(result => result
+              .WithModelOfType<BlogQueryModel>()
+              .Passing(model => model
+                 .Blogs.Count() == 1));
+
+        [Fact]
         public void GetCreateShouldReturnDefaultViewWithValidModel()
             => MyPipeline
             .Configuration()

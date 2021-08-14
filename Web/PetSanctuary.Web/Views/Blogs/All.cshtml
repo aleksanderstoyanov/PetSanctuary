@@ -1,0 +1,50 @@
+﻿@model BlogQueryModel
+@if (!Model.Blogs.Any())
+{
+    <h2>No current blogs...</h2>
+}
+else
+{
+<div class="container">
+    <div class="row">
+        @foreach (var blog in Model.Blogs)
+        {
+
+            <div class="col-sm-3 ml-5">
+                <div class="card mt-5" style="width: 18rem;">
+                    <img class="card-img-top" src="~/img/@blog.Image" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@blog.Title</h5>
+                        <p class="card-text">@blog.Description</p>
+                        <a asp-area="" asp-controller="Comments" asp-action="Blog" asp-route-id="@blog.Id" class="btn btn-primary">Comments <i class="far fa-comments"></i></a>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+</div>
+}
+
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+    var maxPage = Math.Ceiling((double)Model.TotalPosts / Model.ElementsPerPage);
+}
+@{
+    var shouldPreviousButtonBeDisabled = Model.CurrentPage == 1 || !Model.Blogs.Any();
+    var shouldNextButtonBeDisabled = Model.CurrentPage == maxPage ||
+                             !Model.Blogs.Any();
+}
+<div class="row mt-4">
+    <div class="col-md-6">
+        <a class="btn btn-success float-left" style="display:@(shouldPreviousButtonBeDisabled?"none":"block")" asp-area="" asp-controller="Blogs" asp-action="All" asp-route-currentPage="@previousPage"><i class="fas fa-hand-point-left"></i> Previous</a>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-success float-right" style="display:@(shouldNextButtonBeDisabled?"none":"block")" asp-area="" asp-controller="Blogs" asp-action="All" asp-route-currentPage="@(Model.CurrentPage+1)">Next <i class="fas fa-hand-point-right"></i></a>
+    </div>
+</div>

@@ -23,6 +23,27 @@
             .View(view => view
                 .WithModelOfType<List<BlogServiceModel>>());
 
+        [Fact]
+        public void RecentShouldReturnProperView()
+            => MyController<BlogsController>
+            .Instance()
+            .Calling(c => c.Recent())
+            .ShouldReturn()
+            .View(view => view
+            .WithModelOfType<List<BlogServiceModel>>());
+
+        [Fact]
+        public void AllShouldReturnProperView()
+            => MyController<BlogsController>
+            .Instance()
+            .WithData(BlogTestData.GetBlogs(1))
+            .Calling(c => c.All(new BlogQueryModel()))
+            .ShouldReturn()
+            .View(result => result
+              .WithModelOfType<BlogQueryModel>()
+              .Passing(model => model.Blogs.Count == 1));
+            
+            
 
         [Fact]
         public void GetCreateShouldReturnProperViewAndShouldBeWithAuthorizedUsers()

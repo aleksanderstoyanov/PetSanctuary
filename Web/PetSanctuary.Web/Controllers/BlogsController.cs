@@ -1,6 +1,7 @@
 ﻿namespace PetSanctuary.Web.Controllers
 {
     using System.IO;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -8,21 +9,44 @@
     using Microsoft.AspNetCore.Mvc;
     using PetSanctuary.Common;
     using PetSanctuary.Services.Data.Blogs;
+    using PetSanctuary.Services.Data.Counts;
     using PetSanctuary.Web.ViewModels.Blogs;
 
     public class BlogsController : BaseController
     {
         private readonly IBlogService blogService;
+        private readonly ICountService countService;
 
-        public BlogsController(IBlogService blogService)
+        public BlogsController(IBlogService blogService, ICountService countService)
         {
             this.blogService = blogService;
+            this.countService = countService;
         }
 
         public IActionResult Index()
         {
             var model = this.blogService.GetAllBlogs();
             return this.View(model);
+        }
+
+        public IActionResult Recent()
+        {
+            var model = this.blogService.GetAllBlogs()
+                .OrderByDescending(blog => blog.CreatedOn)
+                .Take(3)
+                .ToList();
+            return this.View(model);
+        }
+
+        public IActionResult All([FromQuery] BlogQueryModel query)
+        {
+            query.Blogs = this.blogService
+                 .GetAllBlogs(query.CurrentPage, query.ElementsPerPage)
+                 .ToList();
+
+            query.TotalPosts = this.countService.GetAllBlogsCount();
+
+            return this.View(query);
         }
 
         [Authorize]
