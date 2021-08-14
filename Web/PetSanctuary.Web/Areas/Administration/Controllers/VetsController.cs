@@ -4,7 +4,6 @@
 
     using Microsoft.AspNetCore.Mvc;
     using PetSanctuary.Services.Data.Administration.Vets;
-    using PetSanctuary.Services.Data.Clinics;
     using PetSanctuary.Services.Data.Vets;
     using PetSanctuary.Web.ViewModels.Administration.Vets;
 
@@ -13,7 +12,7 @@
         private readonly IAdminVetService adminVetService;
         private readonly IVetService vetService;
 
-        public VetsController(IAdminVetService adminVetService, IVetService vetService, IClinicService clinicService)
+        public VetsController(IAdminVetService adminVetService, IVetService vetService)
         {
             this.adminVetService = adminVetService;
             this.vetService = vetService;

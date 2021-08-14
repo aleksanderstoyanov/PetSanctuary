@@ -26,6 +26,11 @@
         [HttpPost]
         public async Task<IActionResult> Create(ClinicInputModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             await this.adminClinicService.CreateAsync(model.Name, model.Address, model.City, model.Image);
             return this.Redirect("/Clinics/Index");
         }
