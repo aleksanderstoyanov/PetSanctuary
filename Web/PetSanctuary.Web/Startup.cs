@@ -16,7 +16,6 @@
     using PetSanctuary.Data.Models;
     using PetSanctuary.Data.Repositories;
     using PetSanctuary.Data.Seeding;
-    using PetSanctuary.Services.Data;
     using PetSanctuary.Services.Data.Addresses;
     using PetSanctuary.Services.Data.Administration.Clinics;
     using PetSanctuary.Services.Data.Administration.Vets;
@@ -26,6 +25,7 @@
     using PetSanctuary.Services.Data.Clinics;
     using PetSanctuary.Services.Data.Comments;
     using PetSanctuary.Services.Data.Counts;
+    using PetSanctuary.Services.Data.EmailSender;
     using PetSanctuary.Services.Data.Files;
     using PetSanctuary.Services.Data.Vets;
     using PetSanctuary.Services.Mapping;
@@ -87,6 +87,7 @@
             services.AddTransient<IAdminClinicService, AdminClinicService>();
             services.AddTransient<ICountService, CountService>();
             services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IEmailSenderService, EmailSenderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

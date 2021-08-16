@@ -28,6 +28,8 @@
 
         public string PhoneNumber { get; set; }
 
+        public string OwnerId { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Pet, CatalogServiceModel>()

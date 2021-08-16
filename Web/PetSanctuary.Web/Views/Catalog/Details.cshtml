@@ -30,10 +30,33 @@
 
             </ul>
             <div class="row d-flex justify-content-center">
-                <button type="button" class="btn btn-lg btn-outline-success">Save me <i class="fas fa-paw"></i></button>
+                <button type="button" class="btn btn-lg btn-outline-success" data-toggle="modal" data-target="#exampleModal">Save me <i class="fas fa-paw"></i></button>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <h2 style="color:black"> Are you sure that want to save @Model.Name ?</h2>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                            <form method="post">
+                                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">No</button>
+                                <button type="submit" formmethod="post" class="btn btn-outline-success">Yes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
     </div>
 
 </div>
+

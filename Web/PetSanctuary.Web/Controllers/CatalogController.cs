@@ -6,10 +6,13 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using PetSanctuary.Common;
+    using PetSanctuary.Data.Models;
     using PetSanctuary.Services.Data.Catalogs;
     using PetSanctuary.Services.Data.Counts;
+    using PetSanctuary.Services.Data.EmailSender;
     using PetSanctuary.Web.ViewModels.Catalog;
 
     using static PetSanctuary.Common.MessageConstants.Catalog;
@@ -18,11 +21,19 @@
     {
         private readonly ICatalogService catalogService;
         private readonly ICountService countService;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IEmailSenderService emailSender;
 
-        public CatalogController(ICatalogService catalogService, ICountService countService)
+        public CatalogController(
+            ICatalogService catalogService,
+            ICountService countService,
+            UserManager<ApplicationUser> userManager,
+            IEmailSenderService emailSender)
         {
             this.catalogService = catalogService;
             this.countService = countService;
+            this.userManager = userManager;
+            this.emailSender = emailSender;
         }
 
         public IActionResult Index([FromQuery] CatalogQueryModel query)
@@ -190,6 +201,17 @@
         {
             var model = this.catalogService.GetPetById(id);
             return this.View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Details(string id, string subject = null)
+        {
+            var pet = this.catalogService.GetPetById(id);
+            var owner = await this.userManager.FindByIdAsync(pet.OwnerId);
+            var user = this.User.Identity.Name;
+            await this.emailSender.SendEmailAsync(user, owner.UserName, $"Saving pet", $"Saving pet {pet.Name}");
+            return this.RedirectToAction(nameof(this.Index), "Catalog");
         }
     }
 }
