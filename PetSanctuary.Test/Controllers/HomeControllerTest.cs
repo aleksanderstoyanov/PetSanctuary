@@ -53,7 +53,7 @@
             .Calling(c => c.Index())
             .ShouldReturn()
             .View(result => result
-             .WithModelOfType<List<AllDogsHomeViewModel>>()
+             .WithModelOfType<List<PetsHomeViewModel>>()
             .Passing(model => model.Count == 1));
 
         [Fact]

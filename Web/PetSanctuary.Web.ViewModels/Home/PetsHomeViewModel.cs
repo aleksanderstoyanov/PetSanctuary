@@ -1,6 +1,6 @@
 ﻿namespace PetSanctuary.Web.ViewModels.Home
 {
-    public class AllDogsHomeViewModel
+    public class PetsHomeViewModel
     {
         public string Id { get; set; }
 

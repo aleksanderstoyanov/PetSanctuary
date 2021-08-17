@@ -4,17 +4,23 @@
 
     using Microsoft.AspNetCore.Mvc;
     using PetSanctuary.Services.Data.Administration.Vets;
+    using PetSanctuary.Services.Data.Clinics;
     using PetSanctuary.Services.Data.Vets;
     using PetSanctuary.Web.ViewModels.Administration.Vets;
 
     public class VetsController : AdministrationController
     {
         private readonly IAdminVetService adminVetService;
+        private readonly IClinicService clinicService;
         private readonly IVetService vetService;
 
-        public VetsController(IAdminVetService adminVetService, IVetService vetService)
+        public VetsController(
+            IAdminVetService adminVetService,
+            IClinicService clinicService,
+            IVetService vetService)
         {
             this.adminVetService = adminVetService;
+            this.clinicService = clinicService;
             this.vetService = vetService;
         }
 
@@ -26,6 +32,12 @@
         [HttpPost]
         public async Task<IActionResult> Create(VetInputModel model)
         {
+            var clinic = this.clinicService.GetClinicByName(model.Clinic);
+            if (clinic == null)
+            {
+                this.ModelState.AddModelError(nameof(model.Clinic), "Clinic in non existing");
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.View(model);

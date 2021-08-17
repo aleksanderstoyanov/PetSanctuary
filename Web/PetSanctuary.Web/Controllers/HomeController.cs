@@ -4,6 +4,7 @@
     using System.Linq;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
     using PetSanctuary.Services.Data.Catalogs;
     using PetSanctuary.Web.ViewModels;
     using PetSanctuary.Web.ViewModels.Home;
@@ -19,15 +20,14 @@
 
         public IActionResult Index()
         {
-            var dogs = this.catalogService.GetAllPets()
-                .Select(pet => new AllDogsHomeViewModel
+            var pets = this.catalogService.GetPetsByCount(3)
+                .Select(pet => new PetsHomeViewModel
                 {
                     Id = pet.Id,
-                    Image = pet.Image,
                     Name = pet.Name,
-                })
-                .ToList();
-            return this.View(dogs);
+                    Image = pet.Image,
+                }).ToList();
+            return this.View(pets);
         }
 
         public IActionResult Privacy()

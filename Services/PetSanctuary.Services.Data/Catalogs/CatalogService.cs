@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Http;
-
+    using Microsoft.Extensions.Caching.Memory;
     using PetSanctuary.Data.Common.Repositories;
     using PetSanctuary.Data.Models;
     using PetSanctuary.Data.Models.Enums;
@@ -22,17 +22,20 @@
         private readonly ICityService cityService;
         private readonly IAddressService addressService;
         private readonly IFileService fileService;
+        private readonly IMemoryCache memoryCache;
 
         public CatalogService(
             IDeletableEntityRepository<Pet> petsRepository,
             ICityService cityService,
             IAddressService addressService,
-            IFileService fileService)
+            IFileService fileService,
+            IMemoryCache memoryCache)
         {
             this.petsRepository = petsRepository;
             this.cityService = cityService;
             this.addressService = addressService;
             this.fileService = fileService;
+            this.memoryCache = memoryCache;
         }
 
         public async Task Create(string name, int? age, IFormFile image, string type, string gender, string cityName, string addressName, string isVaccinated, string ownerId, string rootPath)
@@ -178,6 +181,28 @@
               .Where(pet => pet.Id == id)
               .To<CatalogServiceModel>()
               .FirstOrDefault();
+        }
+
+        public IEnumerable<CatalogServiceModel> GetPetsByCount(int count)
+        {
+            string key = "PetsByCountKey";
+            var pets = this.memoryCache.Get<List<CatalogServiceModel>>(key);
+            if (pets == null)
+            {
+                pets = this.petsRepository
+                  .AllAsNoTracking()
+                  .To<CatalogServiceModel>()
+                  .Take(count)
+                  .ToList();
+
+                if (pets.Count >= count)
+                {
+                    this.memoryCache.Set(key, pets, new MemoryCacheEntryOptions()
+                           .SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
+                }
+            }
+
+            return pets;
         }
 
         public IEnumerable<CatalogServiceModel> GetPetsByType(int currentPage, int postsPerPage, string type)

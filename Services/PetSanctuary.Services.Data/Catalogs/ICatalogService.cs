@@ -11,6 +11,8 @@
 
         IEnumerable<CatalogServiceModel> GetPetsByType(int currentPage, int postsPerPage, string type);
 
+        IEnumerable<CatalogServiceModel> GetPetsByCount(int count);
+
         IEnumerable<CatalogServiceModel> GetAllPets();
 
         IEnumerable<CatalogServiceModel> GetAllUserPets(string id, int currentPage, int postPerPage, bool isAdmin);
