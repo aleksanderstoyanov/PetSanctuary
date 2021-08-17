@@ -210,7 +210,8 @@
             var pet = this.catalogService.GetPetById(id);
             var owner = await this.userManager.FindByIdAsync(pet.OwnerId);
             var user = this.User.Identity.Name;
-            await this.emailSender.SendEmailAsync(user, owner.UserName, $"Saving pet", $"Saving pet {pet.Name}");
+            await this.emailSender.SendEmailAsync(user, owner.UserName, $"Saving pet",
+                $@"Hello,I am interested in aquiring the pet you have listed named Name:{pet.Name} Type:{pet.Type} Address:{pet.City}-{pet.Address}");
             return this.RedirectToAction(nameof(this.Index), "Catalog");
         }
     }

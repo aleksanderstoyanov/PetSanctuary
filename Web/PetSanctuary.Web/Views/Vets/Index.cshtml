@@ -1,30 +1,39 @@
 ﻿@model List<VetsByIdViewModel>
+@inject IClinicService service
+@{
+    var id = ViewContext.RouteData.Values["id"];
+    var clinic = service.GetClinicById(int.Parse(id.ToString()));
+    this.ViewBag.Title = $"{clinic.Name}'s vets";
+}
 
 @if (Model.Count > 0)
 {
-    <div class="row">
-        @foreach (var vet in Model)
-        {
-            <div class="col-md-4">
+    <div class="container">
+            <h2 class="text-center">@ViewBag.Title <i class="fas fa-hospital-user ml-3 mb-3"></i></h2>
+        <div class="row">
+            @foreach (var vet in Model)
+            {
+                <div class="col-sm-4">
 
 
-                <div class="card bg-dark" style="width: 18rem;">
-                    <img class="card-img-top" src="https://www.lalithahospital.in/wp-content/uploads/2019/12/18562dummytt.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title" style="color:white">@vet.FirstName  @vet.Surname</h5>
-                        <h6 style="color:white"><i class="fas fa-stethoscope"></i> Veterinarian  <a asp-area="" asp-controller="Vets" asp-action="Like" asp-route-id="@vet.Id"><i class="far fa-thumbs-up" style="color:limegreen"></i></a> @vet.Likes  <a asp-area="" asp-controller="Vets" asp-action="Dislike" asp-route-id="@vet.Id"><i class="far fa-thumbs-down" style="color:red"></i></a> @vet.Dislikes</h6>
-                        <a asp-area="" asp-controller="Vets" asp-action="Description" asp-route-id="@vet.Id" class="btn btn-success">Details <i class="fas fa-info-circle mr-2"></i></a>
-                        <a asp-area="" asp-controller="Comments" asp-action="Vet" asp-route-id="@vet.Id" class="btn btn-primary">Comments <i class="far fa-comment"></i></a>
-                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-                        {
+                    <div class="card bg-dark m-3" style="width: 18rem;">
+                        <img class="card-img-top bg-white" src="https://img.icons8.com/color/452/veterinary-examination.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color:white">@vet.FirstName  @vet.Surname</h5>
+                            <h6 style="color:white"><i class="fas fa-stethoscope"></i> Veterinarian  <a asp-area="" asp-controller="Vets" asp-action="Like" asp-route-id="@vet.Id"><i class="far fa-thumbs-up" style="color:limegreen"></i></a> @vet.Likes  <a asp-area="" asp-controller="Vets" asp-action="Dislike" asp-route-id="@vet.Id"><i class="far fa-thumbs-down" style="color:red"></i></a> @vet.Dislikes</h6>
+                            <a asp-area="" asp-controller="Vets" asp-action="Description" asp-route-id="@vet.Id" class="btn btn-success">Details <i class="fas fa-info-circle mr-2"></i></a>
+                            <a asp-area="" asp-controller="Comments" asp-action="Vet" asp-route-id="@vet.Id" class="btn btn-primary">Comments <i class="far fa-comment"></i></a>
+                            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                            {
 
-                            <a asp-area="Administration" asp-controller="Vets" asp-action="Edit" asp-route-id="@vet.Id" asp-route-clinicId="@ViewContext.RouteData.Values["id"]"  type="button" class="btn btn-warning">Edit <i class="fas fa-pencil-alt"></i></a>
-                            <a asp-area="Administration" asp-controller="Vets" asp-action="Delete" asp-route-id="@vet.Id" asp-route-clinicId="@ViewContext.RouteData.Values["id"]" type="button" class="btn btn-danger">Delete <i class="fas fa-trash-alt"></i></a>
-                        }
+                                <a asp-area="Administration" asp-controller="Vets" asp-action="Edit" asp-route-id="@vet.Id" asp-route-clinicId="@ViewContext.RouteData.Values["id"]" type="button" class="btn btn-warning">Edit <i class="fas fa-pencil-alt"></i></a>
+                                <a asp-area="Administration" asp-controller="Vets" asp-action="Delete" asp-route-id="@vet.Id" asp-route-clinicId="@ViewContext.RouteData.Values["id"]" type="button" class="btn btn-danger">Delete <i class="fas fa-trash-alt"></i></a>
+                            }
 
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
 }

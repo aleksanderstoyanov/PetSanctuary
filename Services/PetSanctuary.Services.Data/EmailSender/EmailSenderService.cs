@@ -24,8 +24,8 @@
             var to = new EmailAddress(toEmail);
             var htmlContent = new StringBuilder();
 
-            htmlContent.AppendLine("<h1>Saving pet</h1>");
-            htmlContent.AppendLine("<p>User is interested in aquiring the pet, if interested contact him</p>");
+            htmlContent.AppendLine($"<h1>{subject} 🐾</h1>");
+            htmlContent.AppendLine($"<p>{content}</p>");
             var msg = MailHelper.CreateSingleEmail(from, to, subject, content, htmlContent.ToString());
             await client.SendEmailAsync(msg);
         }
