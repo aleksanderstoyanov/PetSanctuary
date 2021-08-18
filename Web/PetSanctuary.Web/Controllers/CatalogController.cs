@@ -93,7 +93,7 @@
                 this.ModelState.AddModelError(nameof(model.Type), "Pet type is invalid");
             }
 
-            if (model.Gender != "Male" && model.Type != "Female")
+            if (model.Gender != "Male" && model.Gender != "Female")
             {
                 this.ModelState.AddModelError(nameof(model.Gender), "Pet gender is invalid");
             }
