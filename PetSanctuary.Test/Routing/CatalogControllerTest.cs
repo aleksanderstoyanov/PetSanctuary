@@ -71,5 +71,12 @@
             .ShouldMap("/Catalog/Details/Test")
             .To<CatalogController>(c => c.Details("Test"));
 
+        [Fact]
+        public void PostDetailsShouldBeMappedCorrectly()
+            => MyRouting
+            .Configuration()
+            .ShouldMap("/Catalog/Details/Test")
+            .To<CatalogController>(c => c.Details("Test", null));
+
     }
 }

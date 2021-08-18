@@ -4,7 +4,6 @@
     using System.Linq;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Caching.Memory;
     using PetSanctuary.Services.Data.Catalogs;
     using PetSanctuary.Web.ViewModels;
     using PetSanctuary.Web.ViewModels.Home;
