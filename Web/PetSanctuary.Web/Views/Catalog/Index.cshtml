@@ -15,6 +15,8 @@
 }
 
 <div class="container">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <h1 class="d-flex justify-content-center">@ViewBag.Title <i class="fas fa-paw ml-3" style="color:lawngreen"></i></h1>
     <form class="row d-flex justify-content-center mt-5" method="get">
         <div class="form-group col-md-3">
@@ -36,15 +38,22 @@
             <h3 class="text-center">No current pets listed...</h3>
             <a class="ml-3 btn btn-primary d-flex justify-content-center" asp-area="" asp-controller="Catalog" asp-action="Create">Create pet</a>
         </div>
+
     }
     else
     {
-        <div class="row mx-auto mt-4">
+        <div id="pets" class="row mx-auto mt-4">
             @foreach (var pet in Model.Pets)
             {
                 <partial name="_PetPartial" model="pet" />
             }
         </div>
+
+        <script>
+            $(document).ready(function () {
+                $('div#pets').hide().slideDown(1000);
+            });
+        </script>
     }
 
 </div>
