@@ -6,7 +6,6 @@
     var secondModel = Model.Count > 1 ? Model[1] : null;
     var thirdModel = Model.Count > 2 ? Model[2] : null;
 }
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName <i class="fas fa-paw" style="color:red"></i></h1>
     <p style="font-weight:bold">Adopt a pet save a pet</p>
@@ -67,10 +66,14 @@ else
 
     </div>
 
+
+}
+@section Scripts
+{
     <script>
         $(document).ready(function () {
-            $('.container').hide().slideDown(1500);
-        })
+            $('.container').hide().slideDown(500);
+        });
     </script>
 }
 

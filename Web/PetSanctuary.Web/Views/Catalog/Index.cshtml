@@ -11,12 +11,11 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
+
     </div>
 }
 
 <div class="container">
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
     <h1 class="d-flex justify-content-center">@ViewBag.Title <i class="fas fa-paw ml-3" style="color:lawngreen"></i></h1>
     <form class="row d-flex justify-content-center mt-5" method="get">
         <div class="form-group col-md-3">
@@ -29,19 +28,44 @@
             </select>
             <span asp-validation-for="Type" style="color:red"></span>
         </div>
-        <button class="btn btn-primary h-100 mt-auto mb-3" type="submit"><i class="fas fa-search"></i></button>
+        <button class="btn btn-outline-primary h-100 mt-auto mb-3" type="submit"><i class="fas fa-search"></i></button>
     </form>
+    <button class="btn btn-outline-info offset-3 w-50 mb-3" id="statButton">Show statistics <i class="fas fa-signal ml-2 mt-1"></i></button>
+
+    <div class="row d-flex justify-content-center">
+        <div class="jumbotron w-75 d-none" id="statistics">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-3" id="totalDogs">
+                    <i class="fas fa-dog" style="font-size:30px;"></i>
+                </div>
+                <hr />
+                <div class="col-md-3" id="totalCats">
+                    <i class="fas fa-cat" style="font-size:30px;"></i>
+                </div>
+                <hr />
+                <div class="col-md-3" id="totalOthers">
+                    <i class="fas fa-otter" style="font-size:30px;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @if (!Model.Pets.Any())
     {
+
         <div class="row mx-auto mt-4 d-flex justify-content-center">
             <h3 class="text-center">No current pets listed...</h3>
             <a class="ml-3 btn btn-primary d-flex justify-content-center" asp-area="" asp-controller="Catalog" asp-action="Create">Create pet</a>
         </div>
 
+
     }
     else
     {
+
         <div id="pets" class="row mx-auto mt-4">
             @foreach (var pet in Model.Pets)
             {
@@ -49,11 +73,6 @@
             }
         </div>
 
-        <script>
-            $(document).ready(function () {
-                $('div#pets').hide().slideDown(1000);
-            });
-        </script>
     }
 
 </div>
@@ -79,3 +98,36 @@
         <a class="btn btn-success float-right" style="display:@(shouldNextButtonBeDisabled?"none":"block")" asp-area="" asp-controller="Catalog" asp-action="Index" asp-route-type="@Model.Type" asp-route-currentPage="@(Model.CurrentPage+1)">Next <i class="fas fa-hand-point-right"></i></a>
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('div#pets').hide().slideDown(500);
+
+            $.get("/api/statistics", (data) => {
+                const totalDogs = data["totalDogs"];
+                const totalCats = data["totalCats"];
+                const totalOthers = data["totalOthers"];
+
+
+                $("#totalDogs").append(`<h2>Dogs ${totalDogs}</h2>`);
+                $("#totalCats").append(`<h2>Cats ${totalCats}</h2>`);
+                $("#totalOthers").append(`<h2>Others ${totalOthers}</h2>`);
+            })
+
+            $('#statButton').click( function () {
+                
+                $('#statistics').removeClass('d-none').hide().slideDown(500);
+
+            });
+
+            $('#statistics button').click(function () {
+                $('#statistics').addClass('d-none');
+
+            })
+
+
+        });
+    </script>
+}
