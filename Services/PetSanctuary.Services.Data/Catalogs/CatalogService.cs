@@ -229,6 +229,5 @@
             await this.cityService.CreateAsync(cityName);
             return this.cityService.GetCityByName(cityName);
         }
-
     }
 }

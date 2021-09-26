@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using PetSanctuary.Common;
     using PetSanctuary.Services.Data.Blogs;
@@ -18,11 +19,16 @@
     {
         private readonly IBlogService blogService;
         private readonly ICountService countService;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public BlogsController(IBlogService blogService, ICountService countService)
+        public BlogsController(
+            IBlogService blogService,
+            ICountService countService,
+            IWebHostEnvironment webHostEnvironment)
         {
             this.blogService = blogService;
             this.countService = countService;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -77,7 +83,7 @@
                 return this.View(model);
             }
 
-            await this.blogService.CreateAsync(model.Title, model.Image, model.Description, userId, GlobalConstants.WwwRootPath);
+            await this.blogService.CreateAsync(model.Title, model.Image, model.Description, userId, this.webHostEnvironment.WebRootPath);
             this.TempData["message"] = SuccessfullyCreated;
             return this.Redirect($"/Blogs");
         }
@@ -112,7 +118,7 @@
                 return this.View(model);
             }
 
-            await this.blogService.EditByIdAsync(id, model.Title, model.Image, model.Description, GlobalConstants.WwwRootPath);
+            await this.blogService.EditByIdAsync(id, model.Title, model.Image, model.Description, this.webHostEnvironment.WebRootPath);
             this.TempData["message"] = SuccessfullyEdited;
             return this.RedirectToAction("Blogs", "MyProfile");
         }
@@ -120,7 +126,7 @@
         [Authorize]
         public async Task<IActionResult> Delete(string id)
         {
-            await this.blogService.DeleteByIdAsync(id, GlobalConstants.WwwRootPath);
+            await this.blogService.DeleteByIdAsync(id, this.webHostEnvironment.WebRootPath);
             this.TempData["message"] = SuccessfullyDeleted;
             return this.RedirectToAction("Blogs", "MyProfile");
         }

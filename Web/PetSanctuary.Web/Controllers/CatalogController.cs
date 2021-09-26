@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using PetSanctuary.Common;
@@ -21,19 +22,22 @@
     {
         private readonly ICatalogService catalogService;
         private readonly ICountService countService;
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly IEmailSenderService emailSender;
+        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public CatalogController(
             ICatalogService catalogService,
             ICountService countService,
-            UserManager<ApplicationUser> userManager,
-            IEmailSenderService emailSender)
+            IEmailSenderService emailSender,
+            IWebHostEnvironment webHostEnvironment,
+            UserManager<ApplicationUser> userManager)
         {
             this.catalogService = catalogService;
             this.countService = countService;
-            this.userManager = userManager;
             this.emailSender = emailSender;
+            this.webHostEnvironment = webHostEnvironment;
+            this.userManager = userManager;
         }
 
         public IActionResult Index([FromQuery] CatalogQueryModel query)
@@ -117,7 +121,7 @@
                 return this.View(model);
             }
 
-            await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.Gender, model.City, model.Address, model.IsVaccinated, userId, GlobalConstants.WwwRootPath);
+            await this.catalogService.Create(model.Name, model.Age, model.Image, model.Type, model.Gender, model.City, model.Address, model.IsVaccinated, userId, this.webHostEnvironment.WebRootPath);
             this.TempData["message"] = SuccessfullyCreated;
             return this.RedirectToAction(nameof(this.Index), "Catalog");
         }
@@ -172,7 +176,7 @@
                 return this.View(model);
             }
 
-            await this.catalogService.EditPetById(id, model.Name, model.Age, model.Image, model.Type, model.Gender, model.IsVaccinated, model.City, model.Address, GlobalConstants.WwwRootPath);
+            await this.catalogService.EditPetById(id, model.Name, model.Age, model.Image, model.Type, model.Gender, model.IsVaccinated, model.City, model.Address, this.webHostEnvironment.WebRootPath);
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
                 return this.RedirectToAction(nameof(this.Index), "Catalog");
@@ -187,7 +191,7 @@
 
         public async Task<IActionResult> Delete(string id)
         {
-            await this.catalogService.DeletePetById(id, GlobalConstants.WwwRootPath);
+            await this.catalogService.DeletePetById(id, this.webHostEnvironment.WebRootPath);
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
                 return this.RedirectToAction(nameof(this.Index), "Catalog");
@@ -210,7 +214,10 @@
             var pet = this.catalogService.GetPetById(id);
             var owner = await this.userManager.FindByIdAsync(pet.OwnerId);
             var user = this.User.Identity.Name;
-            await this.emailSender.SendEmailAsync(user, owner.UserName, $"Saving pet",
+            await this.emailSender.SendEmailAsync(
+                user,
+                owner.UserName,
+                $"Saving pet",
                 $@"Hello,I am interested in aquiring the pet you have listed named Name:{pet.Name} Type:{pet.Type} Address:{pet.City}-{pet.Address}");
             return this.RedirectToAction(nameof(this.Index), "Catalog");
         }
