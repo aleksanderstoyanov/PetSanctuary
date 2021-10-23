@@ -1,2 +1,2 @@
 # PetSanctuary
-ASP.Net Core Mvc project for SoftUni WebModule-2021-May
+ASP.NET Core Mvc project for SoftUni WebModule-2021-May
