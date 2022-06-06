@@ -9,6 +9,6 @@ Pet Sanctuary is a basic web app which's main purpose is to find listed homeless
 * [Entity Framework Core]
 * [Newtonsoft.Json]
 * [Microsoft SQL Server Management Studio]
-* [SQL] Server
+* [SQL Server]
 * [Bootstrap]
 * [jQuery]
